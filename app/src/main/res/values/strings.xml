@@ -18,4 +18,7 @@
     <string name="sign_out_toast_message">Signed out</string>
     <string name="authentication_fail_toast_message">Authentication failed.\u0020</string>
     <string name="required">Required</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
