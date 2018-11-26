@@ -17,13 +17,20 @@
         <activity
             android:name=".view.ui.LoginActivity"
             android:label="@string/app_name">
+            <!-- TODO: Set LoginActivity as MAIN and LAUNCHER -->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".view.ui.MenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.ui.MenuActivity"></activity>
     </application>
 
 </manifest>
