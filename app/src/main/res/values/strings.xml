@@ -20,6 +20,8 @@
     <string name="required">Required</string>
     <string name="check_internet_connection_toast">Please, check your internet connection</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name">Name:</string>
+    <string name="house_number">House Number:</string>
+    <string name="phone">Phone:</string>
+    <string name="email">Email:</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.community.hmunguba.condominium.view.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -46,5 +47,14 @@ public class MenuFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Toast.makeText(mContext, "Clicked item : " + i, Toast.LENGTH_SHORT).show();
+
+        switch (i) {
+            case 0:
+                Intent profileIntent = new Intent(mContext, ProfileActivity.class);
+                startActivity(profileIntent);
+                break;
+            default:
+                break;
+        }
     }
 }
