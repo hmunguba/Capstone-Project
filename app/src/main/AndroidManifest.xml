@@ -31,7 +31,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.ui.ProfileActivity" />
+        <activity android:name=".view.ui.profile.ProfileActivity" />
+        <activity android:name=".view.ui.event.EventActivity" />
+        <activity android:name=".view.ui.notifications.NotificationsActivity" />
     </application>
 
 </manifest>

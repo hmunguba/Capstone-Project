@@ -24,4 +24,66 @@
     <string name="house_number">House Number:</string>
     <string name="phone">Phone:</string>
     <string name="email">Email:</string>
+
+    <string name="condominium_name">Name: </string>
+    <string name="condominium_location">Location:</string>
+    <string name="condominium_number">Number:</string>
+    <string name="condominium_zip_code">Zip code:</string>
+    <string name="condominium_state">State:</string>
+    <string name="condominium_city">City:</string>
+    <string name="cond_common_areas">Common areas</string>
+    <string name="gourmet_area">Gourmet area</string>
+    <string name="pool_area">Pool area</string>
+    <string name="barbecue_area">Barbecue area</string>
+    <string name="movies_area">Movies area</string>
+    <string name="party_room_area">Party room area</string>
+    <string name="sports_court_area">Sports court area</string>
+
+    <string-array name="brazilian_states">
+        <item>-</item>
+        <item>Acre</item>
+        <item>Alagoas</item>
+        <item>Amapá</item>
+        <item>Amazonas</item>
+        <item>Bahia</item>
+        <item>Ceará</item>
+        <item>Distrito Federal</item>
+        <item>Espírito Santo</item>
+        <item>Goiás</item>
+        <item>Maranhão</item>
+        <item>Mato Grosso</item>
+        <item>Mato Grosso do Sul</item>
+        <item>Minas Gerais</item>
+        <item>Pará</item>
+        <item>Paraíba</item>
+        <item>Pernambuco</item>
+        <item>Piauí</item>
+        <item>Rio de Janeiro</item>
+        <item>Rio Grande do Norte</item>
+        <item>Rio Grande do Sul</item>
+        <item>Rondônia</item>
+        <item>Roraima</item>
+        <item>Santa Catarina</item>
+        <item>São Paulo</item>
+        <item>Sergipe</item>
+        <item>Tocantins</item>
+    </string-array>
+
+    <string name="user">User</string>
+    <string name="cond">Cond</string>
+
+    <string name="no_scheduled_events">No scheduled events</string>
+    <string name="scheduled_events">Scheduled events</string>
+    <string name="add_event">Add event</string>
+    <string name="general_info">General Info</string>
+    <string name="time">Time</string>
+    <string name="event_name">Event Name:</string>
+    <string name="event_day">Event Day:</string>
+    <string name="event_reserved_area">Reserved area</string>
+    <string name="event_amount_of_people">Amount of people</string>
+    <string name="event_begin_time">Begin: </string>
+    <string name="event_end_time">Until:</string>
+
+    <!-- Bundle Keys -->
+    <string name="bundle_event_date_key">DATE EVENT KEY</string>
 </resources>

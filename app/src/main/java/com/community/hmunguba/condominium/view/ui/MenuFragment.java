@@ -13,6 +13,9 @@ import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.view.adapter.GridMenuAdapter;
+import com.community.hmunguba.condominium.view.ui.event.EventActivity;
+import com.community.hmunguba.condominium.view.ui.notifications.NotificationsActivity;
+import com.community.hmunguba.condominium.view.ui.profile.ProfileActivity;
 
 
 /// https://www.viralandroid.com/2016/04/android-gridview-with-image-and-text.html
@@ -52,6 +55,20 @@ public class MenuFragment extends Fragment implements AdapterView.OnItemClickLis
             case 0:
                 Intent profileIntent = new Intent(mContext, ProfileActivity.class);
                 startActivity(profileIntent);
+                break;
+            case 1:
+                Intent eventsIntent = new Intent(mContext, EventActivity.class);
+                startActivity(eventsIntent);
+                break;
+            case 2:
+                Intent notificationsIntent = new Intent(mContext, NotificationsActivity.class);
+                startActivity(notificationsIntent);
+                break;
+            case 3:
+                Toast.makeText(mContext, "Not implemented yet", Toast.LENGTH_SHORT).show();
+                break;
+            case 4:
+                Toast.makeText(mContext, "Not implemented yet", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;

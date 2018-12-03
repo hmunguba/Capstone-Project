@@ -1,4 +1,4 @@
-package com.community.hmunguba.condominium.view.ui;
+package com.community.hmunguba.condominium.view.ui.profile;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,13 +10,13 @@ import android.view.ViewGroup;
 
 import com.community.hmunguba.condominium.R;
 
-public class UserProfileFragment extends Fragment {
+public class CondominiumProfileFragment extends Fragment {
 
-    public UserProfileFragment() {}
+    public CondominiumProfileFragment() {}
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_user_profile, container, false);
+        return inflater.inflate(R.layout.fragment_cond_profile, container, false);
     }
 }
