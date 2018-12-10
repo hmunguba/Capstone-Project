@@ -2,17 +2,17 @@ package com.community.hmunguba.condominium.service.model;
 
 public class Condominium {
 
-    private String condId;
-    private String name;
-    private String profilePic;
-    private String location;
-    private int number;
-    private String zipCode;
-    private String state;
-    private String city;
-    private CommonAreas commonAreas;
-    private String syndicName;
-    private String conciergePhoneNumber;
+    public String condId;
+    public String name;
+    public String profilePic;
+    public String location;
+    public int number;
+    public String zipCode;
+    public String state;
+    public String city;
+    public CommonAreas commonAreas;
+    public String syndicName;
+    public String conciergePhoneNumber;
 
     public Condominium(String condId, String name, String profilePic, String location, int number,
                        String zipCode, String state, String city, CommonAreas commonAreas) {
