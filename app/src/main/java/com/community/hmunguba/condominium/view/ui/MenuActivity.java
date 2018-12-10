@@ -44,7 +44,7 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w(TAG, "Failed to read value.", error.toException());
+                Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
     }

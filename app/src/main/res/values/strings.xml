@@ -20,7 +20,8 @@
     <string name="required">Required</string>
     <string name="check_internet_connection_toast">Please, check your internet connection</string>
 
-    <string name="name">Name:</string>
+    <string name="first_name">First Name:</string>
+    <string name="last_name">Last Name:</string>
     <string name="house_number">House Number:</string>
     <string name="phone">Phone:</string>
     <string name="email">Email:</string>

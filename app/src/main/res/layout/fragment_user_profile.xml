@@ -19,14 +19,14 @@
         app:srcCompat="@drawable/ic_user_profile_placeholder" />
 
     <TextView
-        android:id="@+id/resident_name_tv"
+        android:id="@+id/resident_first_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/name"
-        app:layout_constraintBaseline_toBaselineOf="@+id/resident_name_et" />
+        android:text="@string/first_name"
+        app:layout_constraintBaseline_toBaselineOf="@+id/resident_first_name_et" />
 
     <EditText
-        android:id="@+id/resident_name_et"
+        android:id="@+id/resident_first_name_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -34,6 +34,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/barrier"
         app:layout_constraintTop_toBottomOf="@+id/user_profile_image" />
+
+    <TextView
+        android:id="@+id/resident_last_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/last_name"
+        app:layout_constraintBaseline_toBaselineOf="@+id/resident_last_name_et" />
+
+    <EditText
+        android:id="@+id/resident_last_name_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/barrier"
+        app:layout_constraintTop_toBottomOf="@+id/resident_first_name_et" />
 
     <TextView
         android:id="@+id/resident_house_number_tv"
@@ -50,7 +68,7 @@
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/barrier"
-        app:layout_constraintTop_toBottomOf="@+id/resident_name_et" />
+        app:layout_constraintTop_toBottomOf="@+id/resident_last_name_et" />
 
     <TextView
         android:id="@+id/resident_phone_tv"
@@ -91,6 +109,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="right"
-        app:constraint_referenced_ids="resident_email_tv,resident_name_tv,resident_phone_tv,resident_house_number_tv" />
+        app:constraint_referenced_ids="resident_first_name_tv,resident_email_tv,resident_phone_tv,
+        resident_last_name_tv,resident_house_number_tv" />
 
 </android.support.constraint.ConstraintLayout>
