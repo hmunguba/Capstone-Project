@@ -6,7 +6,7 @@ public class Condominium {
     public String name;
     public String profilePic;
     public String location;
-    public int number;
+    public String number;
     public String zipCode;
     public String state;
     public String city;
@@ -14,7 +14,9 @@ public class Condominium {
     public String syndicName;
     public String conciergePhoneNumber;
 
-    public Condominium(String condId, String name, String profilePic, String location, int number,
+    public Condominium() {}
+
+    public Condominium(String condId, String name, String profilePic, String location, String number,
                        String zipCode, String state, String city, CommonAreas commonAreas) {
         this.condId = condId;
         this.name = name;
@@ -59,11 +61,11 @@ public class Condominium {
         this.location = location;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 

@@ -25,6 +25,7 @@
     <string name="house_number">House Number:</string>
     <string name="phone">Phone:</string>
     <string name="email">Email:</string>
+    <string name="condominium">Condominium:</string>
 
     <string name="condominium_name">Name: </string>
     <string name="condominium_location">Location:</string>
@@ -39,6 +40,8 @@
     <string name="movies_area">Movies area</string>
     <string name="party_room_area">Party room area</string>
     <string name="sports_court_area">Sports court area</string>
+    <string name="ok">OK</string>
+    <string name="insert_all_required_fiels_toast">Please insert all required fields</string>
 
     <string-array name="brazilian_states">
         <item>-</item>

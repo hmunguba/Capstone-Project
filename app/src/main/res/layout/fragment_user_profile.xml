@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/user_profile_image"
+            android:id="@+id/resident_profile_image"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginEnd="8dp"
@@ -41,7 +41,7 @@
             android:text="@{user.firstName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toBottomOf="@+id/user_profile_image" />
+            app:layout_constraintTop_toBottomOf="@+id/resident_profile_image" />
 
         <TextView
             android:id="@+id/resident_last_name_tv"
@@ -116,13 +116,38 @@
             app:layout_constraintStart_toEndOf="@+id/barrier"
             app:layout_constraintTop_toBottomOf="@+id/resident_phone_et" />
 
+        <TextView
+            android:id="@+id/resident_cond_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/condominium"
+            app:layout_constraintBottom_toBottomOf="@+id/resident_cond_options"
+            app:layout_constraintTop_toTopOf="@+id/resident_cond_options" />
+
+        <Spinner
+            android:id="@+id/resident_cond_options"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/barrier"
+            app:layout_constraintTop_toBottomOf="@+id/resident_email_et" />
+
+        <Button
+            android:id="@+id/resident_ok_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ok"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/resident_cond_options"/>
+
         <android.support.constraint.Barrier
             android:id="@+id/barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="right"
             app:constraint_referenced_ids="resident_first_name_tv,resident_email_tv,resident_phone_tv,
-        resident_last_name_tv,resident_house_number_tv" />
+        resident_last_name_tv,resident_house_number_tv, resident_cond_tv" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>
