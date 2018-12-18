@@ -1,5 +1,7 @@
 package com.community.hmunguba.condominium.view.ui.profile;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,14 +19,10 @@ import android.widget.Spinner;
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.Condominium;
 import com.community.hmunguba.condominium.service.model.User;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserProfileFragment extends Fragment {
@@ -42,6 +40,8 @@ public class UserProfileFragment extends Fragment {
     private Spinner condOptionsSp;
     private Button saveBtn;
 
+    private CondominiumViewModel condViewModel;
+
     public UserProfileFragment() {}
 
     @Override
@@ -52,7 +52,27 @@ public class UserProfileFragment extends Fragment {
         mRef = mDatabase.getReference();
         mContext = getActivity();
 
-        populateCondSpinner();
+        condViewModel = ViewModelProviders.of(this).get(CondominiumViewModel.class);
+        condViewModel.getConds().observe(this, new Observer<List<Condominium>>() {
+            @Override
+            public void onChanged(@Nullable List<Condominium> condominiums) {
+                if (condominiums != null || condominiums.size() < 1) {
+                    Log.d(TAG, "condominiuns is NOT null");
+                    List<String> condNames = null;
+
+                    for (Condominium c : condominiums) {
+                        Log.d(TAG, "name is " + c.getName());
+                        condNames.add(c.getName());
+                    }
+                    //populateCondSpinner(condNames);
+                } else {
+                    Log.d(TAG, "condominiuns is null or empty");
+                }
+            }
+
+
+        });
+
     }
 
     @Nullable
@@ -79,31 +99,12 @@ public class UserProfileFragment extends Fragment {
         return rootView;
     }
 
-    public void populateCondSpinner() {
-        Log.e(TAG, "getting condominiums from database");
-        Query query = mRef.child("condominiums").orderByChild("name");
-        final List<String> condsAvailable = new ArrayList<>();
+    public void populateCondSpinner(List<String> condsNames) {
+        Log.e(TAG, "populateCondSpinner");
 
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for(DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                    Log.d(TAG, "-->" + childDataSnapshot.child("name").getValue());
-                    String cond = childDataSnapshot.child("name").getValue().toString();
-                    condsAvailable.add(cond);
-                }
-
-                ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mContext,
-                        android.R.layout.simple_spinner_item, condsAvailable);
-                condOptionsSp.setAdapter(spinnerAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, databaseError.getMessage());
-            }
-        });
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mContext,
+                android.R.layout.simple_spinner_item, condsNames);
+        condOptionsSp.setAdapter(spinnerAdapter);
     }
 
     private void writeNewUser(String userId, String firstName, String lastName,

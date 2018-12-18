@@ -2,14 +2,14 @@ package com.community.hmunguba.condominium.service.model;
 
 public class User {
 
-    public String userId;
-    public String firstName;
-    public String lastName;
-    public Condominium condominium;
-    public String profilePic;
-    public int houseNumber;
-    public String phone;
-    public String email;
+    private String userId;
+    private String firstName;
+    private String lastName;
+    private Condominium condominium;
+    private String profilePic;
+    private int houseNumber;
+    private String phone;
+    private String email;
 
     public User(String userId, String firstName, String lastName, Condominium condominium,
                 String profilePic, int houseNumber, String phone, String email) {
