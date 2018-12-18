@@ -19,11 +19,17 @@ public class FirebaseRepository<Model> {
     private final FirebaseDatabase mDatabase;
     private final DatabaseReference mRef;
 
+    protected FirebaseRepositoryCallback<Model> firebaseRepositoryCallback;
+
     public FirebaseRepository() {
         Log.d(TAG, "constructor of FirebaseRepository");
 
         mDatabase = FirebaseDatabase.getInstance();
         mRef = mDatabase.getReference();
+    }
+
+    public void addListener(FirebaseRepositoryCallback<Model> firebaseCallback) {
+        this.firebaseRepositoryCallback = firebaseCallback;
     }
 
     public List<Condominium> queryConds() {
@@ -71,6 +77,12 @@ public class FirebaseRepository<Model> {
             }
         });
         return list;
+    }
+
+    public interface FirebaseRepositoryCallback<Model> {
+        void onSuccess(List<Model> result);
+
+        void onError(Exception e);
     }
 
 }

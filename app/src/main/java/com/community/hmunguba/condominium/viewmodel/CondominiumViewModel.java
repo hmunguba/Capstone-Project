@@ -41,6 +41,17 @@ public class CondominiumViewModel extends ViewModel {
 
     public LiveData<List<Condominium>> loadConds() {
         mRepository = new FirebaseRepository();
+        mRepository.addListener(new FirebaseRepository.FirebaseRepositoryCallback() {
+            @Override
+            public void onSuccess(List result) {
+                conds.setValue(result);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                conds.setValue(null);
+            }
+        });
         Log.d(TAG, "getting condominiums from database");
         List<Condominium> list = mRepository.queryConds();
 
