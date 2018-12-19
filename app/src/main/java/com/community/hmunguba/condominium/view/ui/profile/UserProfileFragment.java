@@ -52,26 +52,7 @@ public class UserProfileFragment extends Fragment {
         mRef = mDatabase.getReference();
         mContext = getActivity();
 
-        condViewModel = ViewModelProviders.of(this).get(CondominiumViewModel.class);
-        condViewModel.getConds().observe(this, new Observer<List<Condominium>>() {
-            @Override
-            public void onChanged(@Nullable List<Condominium> condominiums) {
-                if (condominiums != null || condominiums.size() < 1) {
-                    Log.d(TAG, "condominiuns is NOT null");
-                    List<String> condNames = null;
-
-                    for (Condominium c : condominiums) {
-                        Log.d(TAG, "name is " + c.getName());
-                        condNames.add(c.getName());
-                    }
-                    //populateCondSpinner(condNames);
-                } else {
-                    Log.d(TAG, "condominiuns is null or empty");
-                }
-            }
-
-
-        });
+        setupCondsNamesViewModel();
 
     }
 
@@ -99,8 +80,24 @@ public class UserProfileFragment extends Fragment {
         return rootView;
     }
 
+    public void setupCondsNamesViewModel() {
+        condViewModel = ViewModelProviders.of(this).get(CondominiumViewModel.class);
+        condViewModel.getCondsNameList().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(@Nullable List<String> condNames) {
+                if (condNames != null && condNames.size() > 0) {
+                    populateCondSpinner(condNames);
+                }
+            }
+        });
+    }
+
     public void populateCondSpinner(List<String> condsNames) {
         Log.e(TAG, "populateCondSpinner");
+
+        for (String names : condsNames) {
+            Log.d(TAG, "Condominiums names = " + names);
+        }
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mContext,
                 android.R.layout.simple_spinner_item, condsNames);
