@@ -1,8 +1,11 @@
 package com.community.hmunguba.condominium.service.model;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,34 +21,47 @@ public class FirebaseRepository<Model> {
 
     private final FirebaseDatabase mDatabase;
     private final DatabaseReference mRef;
+    private static FirebaseRepository firebaseRepository;
 
-    protected FirebaseRepositoryCallback<Model> firebaseRepositoryCallback;
 
     public FirebaseRepository() {
-        Log.d(TAG, "constructor of FirebaseRepository");
-
         mDatabase = FirebaseDatabase.getInstance();
         mRef = mDatabase.getReference();
     }
 
-    public void addListener(FirebaseRepositoryCallback<Model> firebaseCallback) {
-        this.firebaseRepositoryCallback = firebaseCallback;
+    public synchronized static FirebaseRepository getInstance() {
+        if (firebaseRepository == null) {
+            firebaseRepository = new FirebaseRepository();
+        }
+        return firebaseRepository;
     }
 
-    public List<Condominium> queryConds() {
-        Log.d(TAG, "queryConds");
-        final List<Condominium> list = new ArrayList<>();
+    public void createNewCond(Condominium cond) {
+        mRef.child("condominiums").child(cond.getCondId()).setValue(cond).addOnSuccessListener(
+                new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Add condominium to database with success!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                        Log.e(TAG, "Error adding condominium to database.");
+                    }
+                });
+    }
 
-        Query query = mRef.child("condominiums").orderByChild("name");
+    public MutableLiveData<Condominium> queryCond(String condId) {
+        final MutableLiveData<Condominium> cond = new MutableLiveData<>();
+        Query query = mRef.child("condominiums").child(condId);
+
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d(TAG, "datasnaposhot = " + dataSnapshot);
-                for(DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                    Log.d(TAG, "childDataSnapshot = " + childDataSnapshot);
-                    Condominium cond = childDataSnapshot.getValue(Condominium.class);
-                    list.add(cond);
-                }
+                cond.setValue(dataSnapshot.getValue(Condominium.class));
             }
 
             @Override
@@ -53,22 +69,44 @@ public class FirebaseRepository<Model> {
                 Log.e(TAG, databaseError.getMessage());
             }
         });
-        return list;
+        return cond;
     }
 
-    public List<String> makeQueryByChild(String child, final String param) {
-        final List<String> list = new ArrayList<>();
-        Query query = mRef.child(child).orderByChild(param);
+    public MutableLiveData<List<String>> queryCondsNames() {
+        final MutableLiveData<List<String>> data = new MutableLiveData<>();
+        Query query = mRef.child("condominiums").orderByChild("name");
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<String> names = new ArrayList<>();
 
                 for(DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                    Log.d(TAG, "-->" + childDataSnapshot.child(param).getValue());
-                    String data = childDataSnapshot.child(param).getValue().toString();
-                    list.add(data);
+                    String name = childDataSnapshot.child("name").getValue(String.class);
+                    names.add(name);
                 }
+                data.setValue(names);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, databaseError.getMessage());
+                data.setValue(null);
+            }
+        });
+        return data;
+    }
+
+    public MutableLiveData<Boolean> checkIfCondExists(final String id) {
+        Log.d(TAG, "checkIfCondExists");
+        final MutableLiveData<Boolean> hasCondInDatabase = new MutableLiveData<>();
+
+        Query query = mRef.child("condominiums").orderByChild("condId").equalTo(id);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                hasCondInDatabase.setValue(dataSnapshot.exists());
             }
 
             @Override
@@ -76,13 +114,7 @@ public class FirebaseRepository<Model> {
                 Log.e(TAG, databaseError.getMessage());
             }
         });
-        return list;
-    }
-
-    public interface FirebaseRepositoryCallback<Model> {
-        void onSuccess(List<Model> result);
-
-        void onError(Exception e);
+        return hasCondInDatabase;
     }
 
 }

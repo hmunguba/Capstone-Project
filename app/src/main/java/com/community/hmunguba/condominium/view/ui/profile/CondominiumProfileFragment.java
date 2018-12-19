@@ -1,5 +1,7 @@
 package com.community.hmunguba.condominium.view.ui.profile;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,14 +20,9 @@ import android.widget.Toast;
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.CommonAreas;
 import com.community.hmunguba.condominium.service.model.Condominium;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 public class CondominiumProfileFragment extends Fragment implements View.OnClickListener {
 
@@ -55,6 +52,8 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
     private String condState;
     private String condCity;
 
+    private CondominiumViewModel condViewModel;
+
     public CondominiumProfileFragment() {}
 
     @Override
@@ -63,6 +62,8 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
         mDatabase = FirebaseDatabase.getInstance();
         mRef = mDatabase.getReference();
         mContext = getActivity();
+
+        condViewModel = ViewModelProviders.of(this).get(CondominiumViewModel.class);
     }
 
     @Nullable
@@ -89,12 +90,26 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
         return rootView;
     }
 
+    //TODO: normalize cond name before add its Id to database
+
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.ok_btn) {
             if (hasAllRequiredFields()) {
-                String id = "id_" + condName + "_" + condZipCode;
-                condAlreadyExistsInDatabase(id);
+                final String id = "id_" + condName + "_" + condZipCode;
+                condViewModel.hasCondInDatabase(id).observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        Log.d(TAG, "boolean value is" + aBoolean);
+                        if (aBoolean) {
+                            Log.d(TAG, "cond already exists");
+                        } else {
+                            writeNewCondominium(id, condName, null, condLocation, condNumber,
+                                    condZipCode, condState, condCity, getCondCommonAreas());
+                        }
+                    }
+                });
+
             } else {
                 Toast.makeText(mContext, "Not all required fields are filled",
                         Toast.LENGTH_SHORT).show();
@@ -132,53 +147,20 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
     }
 
     //TODO: Verify if all fields are filled
-    private void writeNewCondominium(String condId, String name, String profilePic, String location,
+    private void writeNewCondominium(final String condId, String name, String profilePic, String location,
                                      String number, String zipCode, String state, String city,
                                      CommonAreas commonAreas) {
 
-        Condominium cond = new Condominium(condId, name, profilePic, location, number, zipCode,
+        final Condominium cond = new Condominium(condId, name, profilePic, location, number, zipCode,
                 state, city, commonAreas);
-
-        mRef.child("condominiums").child(condId).setValue(cond).addOnSuccessListener(
-                new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Add condominium to database with success!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        e.printStackTrace();
-                        Log.e(TAG, "Error adding condominium to database.");
-                    }
-                });
-
-    }
-
-    private void condAlreadyExistsInDatabase(final String id) {
-        Log.d(TAG, "check condAlreadyExistsInDatabase");
-
-        final DatabaseReference condRef = mDatabase.getReference("condominiums");
-        Query query = condRef.orderByChild("condId").equalTo(id);
-        query.addValueEventListener(new ValueEventListener() {
+        condViewModel.createNewCond(cond).observe(this, new Observer<Condominium>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    Log.e(TAG, "Database already exists");
-                    Toast.makeText(mContext, "Condominium already exists",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.d(TAG, "Is a new condominium");
-                    writeNewCondominium(id, condName, null, condLocation, condNumber,
-                            condZipCode, condState, condCity, getCondCommonAreas());
+            public void onChanged(@Nullable Condominium condominium) {
+                if (condominium != null) {
+                    Log.d(TAG, "cond created named " + condominium.getName());
                 }
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, databaseError.getMessage());
-            }
         });
+
     }
 }

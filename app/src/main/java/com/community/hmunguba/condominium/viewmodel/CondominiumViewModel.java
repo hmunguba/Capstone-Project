@@ -13,55 +13,50 @@ import java.util.List;
 public class CondominiumViewModel extends ViewModel {
     public static final String TAG = CondominiumViewModel.class.getSimpleName();
 
-    //private final FirebaseRepository mRepository = new FirebaseRepository();
-    private FirebaseRepository mRepository;
-
     private MutableLiveData<Condominium> cond;
-    private MutableLiveData<List<Condominium>> conds;
+    private MutableLiveData<List<String>> condsNameList;
 
-    public LiveData<Condominium> getCond() {
+    public LiveData<Condominium> getCondById(String id) {
         if (cond == null) {
             cond = new MutableLiveData<>();
-            loadCond();
+            loadCond(id);
         }
         return cond;
     }
 
-    public LiveData<List<Condominium>> getConds() {
-        if (conds == null) {
-            conds = new MutableLiveData<>();
-            loadConds();
+    public LiveData<List<String>> getCondsNameList() {
+        if (condsNameList == null) {
+            condsNameList = new MutableLiveData<>();
+            loadCondsNameList();
         }
-        return conds;
+        return condsNameList;
     }
 
-    public void loadCond() {
+    public LiveData<Condominium> createNewCond(Condominium condominium) {
+        Log.d(TAG, "createNewCond");
+        FirebaseRepository.getInstance().createNewCond(condominium);
+        getCondById(condominium.getCondId());
 
+        return cond;
     }
 
-    public LiveData<List<Condominium>> loadConds() {
-        mRepository = new FirebaseRepository();
-        mRepository.addListener(new FirebaseRepository.FirebaseRepositoryCallback() {
-            @Override
-            public void onSuccess(List result) {
-                conds.setValue(result);
-            }
+    public LiveData<Condominium> loadCond(String condId) {
+        Log.d(TAG, "loadCond");
+        cond = FirebaseRepository.getInstance().queryCond(condId);
 
-            @Override
-            public void onError(Exception e) {
-                conds.setValue(null);
-            }
-        });
-        Log.d(TAG, "getting condominiums from database");
-        List<Condominium> list = mRepository.queryConds();
+        return cond;
+    }
 
-        Log.d(TAG, "list is " + list);
+    public LiveData<Boolean> hasCondInDatabase(String condId) {
+        LiveData<Boolean> exists = FirebaseRepository.getInstance().checkIfCondExists(condId);
+        Log.d(TAG, "does cond exists? " + exists.getValue());
+        return exists;
+    }
 
-        for (Condominium c : list) {
-            Log.d(TAG, "cond is " + c.getName());
-        }
-        //List<String> list = mRepository.makeQueryByChild("condominiums", "name");
-        conds.setValue(list);
-        return conds;
+    public LiveData<List<String>> loadCondsNameList() {
+        Log.d(TAG, "loadCondsNameList");
+        condsNameList = FirebaseRepository.getInstance().queryCondsNames();
+
+        return condsNameList;
     }
 }
