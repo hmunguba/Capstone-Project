@@ -97,7 +97,6 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
         if (view.getId() == R.id.ok_btn) {
             if (hasAllRequiredFields()) {
                 final String id = "id_" + condName + "_" + condZipCode;
-
                 condViewModel.checkCondExist(id).observe(this, new Observer<Boolean>() {
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
