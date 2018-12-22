@@ -90,4 +90,7 @@
 
     <!-- Bundle Keys -->
     <string name="bundle_event_date_key">DATE EVENT KEY</string>
+
+    <!-- Menu -->
+    <string name="action_delete_profile">Delete Profile</string>
 </resources>
