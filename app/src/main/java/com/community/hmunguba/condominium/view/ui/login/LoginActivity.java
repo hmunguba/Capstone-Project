@@ -1,11 +1,14 @@
-package com.community.hmunguba.condominium.view.ui;
+package com.community.hmunguba.condominium.view.ui.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 
@@ -19,6 +22,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
+import com.community.hmunguba.condominium.service.model.AuthAnswer;
+import com.community.hmunguba.condominium.service.model.repo.FirebaseUserAuthentication;
+import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
+import com.community.hmunguba.condominium.viewmodel.LoginViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -42,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private View mProgressView;
     private View mLoginFormView;
 
-    private FirebaseAuth mAuth;
+    private LoginViewModel loginViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.email_create_account_button).setOnClickListener(this);
         findViewById(R.id.email_sign_out_button).setOnClickListener(this);
 
-        mAuth = FirebaseAuth.getInstance();
+        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
 
     }
 
@@ -110,7 +117,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (loginViewModel.hasCurrentUser()) {
+            startMenuActivity();
+        }
     }
 
     // Create new user
@@ -123,24 +132,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         showProgress(true);
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            startMenuActivity();
-                        } else {
-                            // If sign in fails, display a message to the user
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, getString(R.string.authentication_fail_toast_message)
-                                            + task.getException(), Toast.LENGTH_SHORT).show();
-                        }
-                        showProgress(false);
-                    }
-                });
+        loginViewModel.registerUser(email, password).observe(this, new Observer<AuthAnswer>() {
+            @Override
+            public void onChanged(@Nullable AuthAnswer authAnswer) {
+                if (authAnswer.isSuccessful()) {
+                    startMenuActivity();
+                } else {
+                    Toast.makeText(LoginActivity.this,
+//                            getString(R.string.authentication_fail_toast_message) + " " +
+                                    authAnswer.getMessage(), Toast.LENGTH_LONG).show();
+                }
+                showProgress(false);
+            }
+        });
     }
 
     // Sign in existing users
@@ -152,35 +156,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         showProgress(true);
+        Log.d(TAG, "showind Progress");
 
-        // validate email and password
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user information
-                            Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            startMenuActivity();
-                        } else {
-                            // If sign in fails, display a mesage to the user
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, getString(R.string.authentication_fail_toast_message)
-                                    + task.getException(), Toast.LENGTH_SHORT).show();
-                        }
-                        if (!task.isSuccessful()) {
+        loginViewModel.signInUser(email, password).observe(this, new Observer<AuthAnswer>() {
+            @Override
+            public void onChanged(@Nullable AuthAnswer authAnswer) {
+                if (authAnswer.isSuccessful()) {
+                    startMenuActivity();
+                } else {
+                    Toast.makeText(LoginActivity.this, authAnswer.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                }
+                showProgress(false);
+            }
+        });
 
-                        }
-                        showProgress(false);
-                    }
-                });
     }
 
     private void signOut() {
-        mAuth.signOut();
+        loginViewModel.signOutUser();
         Toast.makeText(LoginActivity.this, R.string.sign_out_toast_message,
-                Toast.LENGTH_SHORT).show();
+                Toast.LENGTH_LONG).show();
     }
 
     private boolean validateForm() {

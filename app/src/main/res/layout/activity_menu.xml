@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.ui.MenuActivity">
+    tools:context=".view.ui.menu.MenuActivity">
 
     <FrameLayout
         android:id="@+id/menu_container"

@@ -1,4 +1,4 @@
-package com.community.hmunguba.condominium.view.ui;
+package com.community.hmunguba.condominium.view.ui.menu;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
