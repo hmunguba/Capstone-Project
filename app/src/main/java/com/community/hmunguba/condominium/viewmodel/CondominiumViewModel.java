@@ -41,7 +41,7 @@ public class CondominiumViewModel extends ViewModel {
     }
 
     public LiveData<Condominium> loadCond(String condId) {
-        Log.d(TAG, "loadCond + " + condId);
+        Log.d(TAG, "loadCond " + condId);
         cond = FirebaseCondRepository.getInstance().queryCond(condId);
 
         return cond;
@@ -57,6 +57,7 @@ public class CondominiumViewModel extends ViewModel {
     public LiveData<Boolean> checkCondExist(String condId) {
         Log.d(TAG, "does cond exists? " + condId);
         LiveData<Boolean> exists = FirebaseCondRepository.getInstance().checkIfCondExists(condId);
+        Log.d(TAG, "Does cond already existed? " + exists.getValue());
         return exists;
     }
 

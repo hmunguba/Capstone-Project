@@ -172,7 +172,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void signOut() {
         loginViewModel.signOutUser();
         Toast.makeText(LoginActivity.this, R.string.sign_out_toast_message,
-                Toast.LENGTH_LONG).show();
+                Toast.LENGTH_SHORT).show();
     }
 
     private boolean validateForm() {

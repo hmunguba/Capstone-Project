@@ -5,7 +5,6 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in</string>
-    <string name="action_sign_out">Sign out</string>
     <string name="action_create_account">Register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -20,6 +19,7 @@
     <string name="required">Required</string>
     <string name="check_internet_connection_toast">Please, check your internet connection</string>
 
+    <!-- Related with resident profile -->
     <string name="first_name">First Name:</string>
     <string name="last_name">Last Name:</string>
     <string name="house_number">House Number:</string>
@@ -27,6 +27,7 @@
     <string name="email">Email:</string>
     <string name="condominium">Condominium:</string>
 
+    <!-- Related with condominium profile -->
     <string name="condominium_name">Name: </string>
     <string name="condominium_location">Location:</string>
     <string name="condominium_number">Number:</string>
@@ -41,7 +42,10 @@
     <string name="party_room_area">Party room area</string>
     <string name="sports_court_area">Sports court area</string>
     <string name="ok">OK</string>
-    <string name="insert_all_required_fiels_toast">Please insert all required fields</string>
+    <string name="insert_all_required_fiels_toast">Please insert all required fields.</string>
+    <string name="cond_created_success">Condominium added with success!</string>
+    <string name="cond_created_fail">Failed to add Condominium.</string>
+    <string name="cond_already_exists">Condominium already exists!</string>
 
     <string-array name="brazilian_states">
         <item>-</item>
@@ -76,6 +80,7 @@
     <string name="user">User</string>
     <string name="cond">Cond</string>
 
+    <!-- Related with events -->
     <string name="no_scheduled_events">No scheduled events</string>
     <string name="scheduled_events">Scheduled events</string>
     <string name="add_event">Add event</string>
@@ -88,7 +93,7 @@
     <string name="event_begin_time">Begin: </string>
     <string name="event_end_time">Until:</string>
 
-    <!-- Chose a profile Activity -->
+    <!-- related profile Activity -->
     <string name="chose_a_profile_title">Chose a Profile</string>
     <string name="profile_type_resident">Resident</string>
     <string name="profile_type_condominium">Condominium</string>
@@ -102,6 +107,7 @@
     <string name="profile_type_pref">profile_type</string>
     <string name="no_profile_type_set">no profile type set</string>
 
-    <!-- Menu -->
+    <!-- Menu actions -->
     <string name="action_delete_profile">Delete Profile</string>
+    <string name="action_sign_out">Sign out</string>
 </resources>

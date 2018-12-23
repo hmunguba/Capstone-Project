@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -41,6 +45,8 @@ public class ChoseProfileType extends AppCompatActivity implements View.OnClickL
     }
 
     public void saveProfileTypeSelection(String profileType) {
+        Log.d(TAG, "Saving profile preference as " + profileType);
+
         String userEmail = FirebaseUserAuthentication.getInstance().getUserEmail();
         String prefFileName = getString(R.string.file_key_pref) + userEmail;
 
@@ -53,6 +59,30 @@ public class ChoseProfileType extends AppCompatActivity implements View.OnClickL
     public void startProfileActivity(String profileType) {
         Intent intent = new Intent(ChoseProfileType.this, ProfileActivity.class);
         intent.putExtra("profile_type", profileType);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.chose_profile_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_sign_out:
+                FirebaseUserAuthentication.getInstance().signOut();
+                startLoginActivity();
+                return true;
+            default :
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void startLoginActivity() {
+        Intent intent = new Intent(ChoseProfileType.this, LoginActivity.class);
         startActivity(intent);
     }
 }

@@ -22,18 +22,17 @@ public class ProfileActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         String profileType = bundle.getString("profile_type");
-        Log.d(TAG, "profile type is " + profileType);
 
         FragmentManager fm = getSupportFragmentManager();
-        final FragmentTransaction ft = fm.beginTransaction();
+        FragmentTransaction ft = fm.beginTransaction();
 
-        if (profileType == "condominium") {
+        if (profileType.equals("condominium")) {
             CondominiumProfileFragment condominiumProfileFragment = new CondominiumProfileFragment();
-            ft.add(R.id.profile_container, condominiumProfileFragment);
+            ft.replace(R.id.profile_container, condominiumProfileFragment);
             ft.commit();
         } else {
             UserProfileFragment userProfileFragment = new UserProfileFragment();
-            ft.add(R.id.profile_container, userProfileFragment);
+            ft.replace(R.id.profile_container, userProfileFragment);
             ft.commit();
         }
 

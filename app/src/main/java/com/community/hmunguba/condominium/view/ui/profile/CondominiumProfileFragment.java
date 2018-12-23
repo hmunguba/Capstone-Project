@@ -3,11 +3,11 @@ package com.community.hmunguba.condominium.view.ui.profile;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.CommonAreas;
 import com.community.hmunguba.condominium.service.model.Condominium;
+import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
 import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -53,6 +54,7 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
     private String condCity;
 
     private CondominiumViewModel condViewModel;
+    private boolean isAlreadyChecked = false;
 
     public CondominiumProfileFragment() {}
 
@@ -100,17 +102,19 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
                 condViewModel.checkCondExist(id).observe(this, new Observer<Boolean>() {
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
-                        if (aBoolean) {
-                            Log.d(TAG, "cond already exists");
-                        } else {
+                        if (aBoolean && !isAlreadyChecked) {
+                            Toast.makeText(getContext(), getString(R.string.cond_already_exists),
+                                    Toast.LENGTH_SHORT).show();
+                        } if(!aBoolean) {
                             writeNewCondominium(id, condName, null, condLocation, condNumber,
                                     condZipCode, condState, condCity, getCondCommonAreas());
                         }
+                        isAlreadyChecked = true;
                     }
                 });
 
             } else {
-                Toast.makeText(mContext, "Not all required fields are filled",
+                Toast.makeText(mContext, getString(R.string.insert_all_required_fiels_toast),
                         Toast.LENGTH_SHORT).show();
             }
         }
@@ -124,8 +128,8 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
         condState = stateSp.getSelectedItem().toString();
         condCity = cityEt.getText().toString();
 
-        if (condName != null && condLocation != null && condNumber != null
-                && condZipCode != null && condState != null && condCity != null) {
+        if (!condName.isEmpty() && !condLocation.isEmpty() && !condNumber.isEmpty() &&
+                !condZipCode.isEmpty() && condState != null && !condCity.isEmpty()) {
             return true;
         } else {
             Toast.makeText(mContext, R.string.insert_all_required_fiels_toast, Toast.LENGTH_SHORT).show();
@@ -156,11 +160,20 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
              @Override
              public void onChanged(@Nullable Boolean aBoolean) {
                  if (aBoolean) {
-                     Log.d(TAG, "cond created with success");
+                     Toast.makeText(getContext(), getString(R.string.cond_created_success),
+                             Toast.LENGTH_SHORT).show();
+                     startMenuActivity();
+
                  } else {
-                     Log.e(TAG, "failed to create cond");
+                     Toast.makeText(getContext(), getString(R.string.cond_created_fail),
+                             Toast.LENGTH_LONG).show();
                  }
              }
          });
+    }
+
+    private void startMenuActivity() {
+        Intent intent = new Intent(getActivity(), MenuActivity.class);
+        startActivity(intent);
     }
 }
