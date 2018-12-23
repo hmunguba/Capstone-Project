@@ -5,7 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,14 +25,8 @@ import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.AuthAnswer;
-import com.community.hmunguba.condominium.service.model.repo.FirebaseUserAuthentication;
 import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
 import com.community.hmunguba.condominium.viewmodel.LoginViewModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -118,7 +114,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         if (loginViewModel.hasCurrentUser()) {
-            startMenuActivity();
+            Log.d(TAG, "user is already signed in");
+            checkProfileTypeIsChoosen();
         }
     }
 
@@ -136,10 +133,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onChanged(@Nullable AuthAnswer authAnswer) {
                 if (authAnswer.isSuccessful()) {
-                    startMenuActivity();
+                    checkProfileTypeIsChoosen();
                 } else {
                     Toast.makeText(LoginActivity.this,
-//                            getString(R.string.authentication_fail_toast_message) + " " +
                                     authAnswer.getMessage(), Toast.LENGTH_LONG).show();
                 }
                 showProgress(false);
@@ -162,7 +158,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onChanged(@Nullable AuthAnswer authAnswer) {
                 if (authAnswer.isSuccessful()) {
-                    startMenuActivity();
+                    checkProfileTypeIsChoosen();
                 } else {
                     Toast.makeText(LoginActivity.this, authAnswer.getMessage(),
                             Toast.LENGTH_LONG).show();
@@ -204,6 +200,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void startMenuActivity() {
         Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
         startActivity(intent);
+    }
+
+    public void startChoseProfileTypeActivity() {
+        Intent intent = new Intent(LoginActivity.this, ChoseProfileType.class);
+        startActivity(intent);
+    }
+
+    public void checkProfileTypeIsChoosen() {
+        String prefFileName = getString(R.string.file_key_pref) + mEmailView.getText().toString();
+        SharedPreferences prefs = this.getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
+        Boolean hasProfileType = prefs.getBoolean(getString(R.string.has_profile_type_pref), false);
+        if (hasProfileType) {
+            startMenuActivity();
+        } else {
+            startChoseProfileTypeActivity();
+        }
     }
 
     @Override

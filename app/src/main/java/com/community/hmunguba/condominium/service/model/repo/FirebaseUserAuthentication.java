@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.community.hmunguba.condominium.service.model.AuthAnswer;
-import com.community.hmunguba.condominium.view.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -60,6 +59,11 @@ public class FirebaseUserAuthentication {
             Log.d(TAG, "Get current user uid = " + uid);
             Log.d(TAG, "Get current user emailVerified = " + emailVerified);
         }
+    }
+
+    public String getUserEmail() {
+        currentUser = mAuth.getCurrentUser();
+        return currentUser.getEmail();
     }
 
     public MutableLiveData<AuthAnswer> createAccount(String email, String password) {

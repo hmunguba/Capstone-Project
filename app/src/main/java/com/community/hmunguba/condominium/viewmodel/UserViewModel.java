@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
 import com.community.hmunguba.condominium.service.model.User;
-import com.community.hmunguba.condominium.service.model.repo.FirebaseUserRepository;
+import com.community.hmunguba.condominium.service.model.repo.FirebaseResidentRepository;
 
 public class UserViewModel extends ViewModel {
     private static final String TAG = UserViewModel.class.getSimpleName();
@@ -23,14 +23,14 @@ public class UserViewModel extends ViewModel {
 
     public MutableLiveData<User> loadUser(String userId) {
         Log.d(TAG, "loadUser");
-        user = FirebaseUserRepository.getInstance().queryUser(userId);
+        user = FirebaseResidentRepository.getInstance().queryUser(userId);
 
         return user;
     }
 
     public LiveData<Boolean> createUser(User user) {
         Log.d(TAG, "createNewUser " + user.getFirstName());
-        LiveData<Boolean> isUserCreated = FirebaseUserRepository.getInstance().createNewUser(user);
+        LiveData<Boolean> isUserCreated = FirebaseResidentRepository.getInstance().createNewUser(user);
         getUserById(user.getUserId());
 
         return isUserCreated;
@@ -38,7 +38,7 @@ public class UserViewModel extends ViewModel {
 
     public LiveData<Boolean> deleteUser(String id) {
         Log.d(TAG, "deleteUser " + id);
-        LiveData<Boolean> isUserDeleted = FirebaseUserRepository.getInstance().deleteUser(id);
+        LiveData<Boolean> isUserDeleted = FirebaseResidentRepository.getInstance().deleteUser(id);
         return isUserDeleted;
     }
 }

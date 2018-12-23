@@ -14,23 +14,23 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class FirebaseUserRepository<Model> {
+public class FirebaseResidentRepository<Model> {
     private static final String TAG = FirebaseCondRepository.class.getSimpleName();
 
     private final FirebaseDatabase mDatabase;
     private final DatabaseReference mRef;
-    private static FirebaseUserRepository firebaseUserRepository;
+    private static FirebaseResidentRepository firebaseResidentRepository;
 
-    public FirebaseUserRepository() {
+    public FirebaseResidentRepository() {
         mDatabase = FirebaseDatabase.getInstance();
         mRef = mDatabase.getReference();
     }
 
-    public synchronized static FirebaseUserRepository getInstance() {
-        if (firebaseUserRepository == null) {
-            firebaseUserRepository = new FirebaseUserRepository();
+    public synchronized static FirebaseResidentRepository getInstance() {
+        if (firebaseResidentRepository == null) {
+            firebaseResidentRepository = new FirebaseResidentRepository();
         }
-        return firebaseUserRepository;
+        return firebaseResidentRepository;
     }
 
     public MutableLiveData<Boolean> createNewUser(User user) {
