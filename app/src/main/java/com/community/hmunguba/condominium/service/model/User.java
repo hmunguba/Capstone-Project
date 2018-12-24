@@ -5,18 +5,18 @@ public class User {
     private String userId;
     private String firstName;
     private String lastName;
-    private Condominium condominium;
+    private String condominiumName;
     private String profilePic;
     private int houseNumber;
     private String phone;
     private String email;
 
-    public User(String userId, String firstName, String lastName, Condominium condominium,
+    public User(String userId, String firstName, String lastName, String condominiumName,
                 String profilePic, int houseNumber, String phone, String email) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.condominium = condominium;
+        this.condominiumName = condominiumName;
         this.profilePic = profilePic;
         this.houseNumber = houseNumber;
         this.phone = phone;
@@ -47,12 +47,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Condominium getCondominium() {
-        return condominium;
+    public String getCondominium() {
+        return condominiumName;
     }
 
-    public void setCondominium(Condominium condominium) {
-        this.condominium = condominium;
+    public void setCondominium(String condominiumName) {
+        this.condominiumName = condominiumName;
     }
 
     public String getProfilePic() {

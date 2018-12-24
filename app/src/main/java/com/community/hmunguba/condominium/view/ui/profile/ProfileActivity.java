@@ -5,12 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.community.hmunguba.condominium.R;
+import com.community.hmunguba.condominium.service.utils.Utils;
 
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = ProfileActivity.class.getSimpleName();
@@ -20,8 +20,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        Bundle bundle = getIntent().getExtras();
-        String profileType = bundle.getString("profile_type");
+        String profileType = Utils.getProfileType(getApplicationContext());
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -31,8 +30,8 @@ public class ProfileActivity extends AppCompatActivity {
             ft.replace(R.id.profile_container, condominiumProfileFragment);
             ft.commit();
         } else {
-            UserProfileFragment userProfileFragment = new UserProfileFragment();
-            ft.replace(R.id.profile_container, userProfileFragment);
+            ResidentProfileFragment residentProfileFragment = new ResidentProfileFragment();
+            ft.replace(R.id.profile_container, residentProfileFragment);
             ft.commit();
         }
 

@@ -33,10 +33,10 @@ public class FirebaseResidentRepository<Model> {
         return firebaseResidentRepository;
     }
 
-    public MutableLiveData<Boolean> createNewUser(User user) {
+    public MutableLiveData<Boolean> createNewResident(User user) {
         final MutableLiveData<Boolean> isUserCreated = new MutableLiveData<>();
 
-        mRef.child("users").child(user.getUserId()).setValue(user).addOnSuccessListener(
+        mRef.child("residents").child(user.getUserId()).setValue(user).addOnSuccessListener(
                 new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -56,9 +56,9 @@ public class FirebaseResidentRepository<Model> {
         return isUserCreated;
     }
 
-    public MutableLiveData<User> queryUser(String userId) {
+    public MutableLiveData<User> queryResident(String userId) {
         final MutableLiveData<User> user = new MutableLiveData<>();
-        Query query = mRef.child("users").child(userId);
+        Query query = mRef.child("residents").child(userId);
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -76,10 +76,10 @@ public class FirebaseResidentRepository<Model> {
         return user;
     }
 
-    public MutableLiveData<Boolean> deleteUser(String id) {
+    public MutableLiveData<Boolean> deleteResident(String id) {
         final MutableLiveData<Boolean> isDeleted = new MutableLiveData<>();
 
-        Query query = mRef.child("users").orderByChild("userId").equalTo(id);
+        Query query = mRef.child("residents").orderByChild("userId").equalTo(id);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

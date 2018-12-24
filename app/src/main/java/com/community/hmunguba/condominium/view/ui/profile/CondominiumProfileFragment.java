@@ -112,9 +112,8 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
                         isAlreadyChecked = true;
                     }
                 });
-
             } else {
-                Toast.makeText(mContext, getString(R.string.insert_all_required_fiels_toast),
+                Toast.makeText(mContext, R.string.insert_all_required_fiels_toast,
                         Toast.LENGTH_SHORT).show();
             }
         }
@@ -131,10 +130,8 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
         if (!condName.isEmpty() && !condLocation.isEmpty() && !condNumber.isEmpty() &&
                 !condZipCode.isEmpty() && condState != null && !condCity.isEmpty()) {
             return true;
-        } else {
-            Toast.makeText(mContext, R.string.insert_all_required_fiels_toast, Toast.LENGTH_SHORT).show();
-            return false;
         }
+        return false;
     }
 
     private CommonAreas getCondCommonAreas() {

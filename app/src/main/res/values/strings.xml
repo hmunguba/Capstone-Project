@@ -46,6 +46,8 @@
     <string name="cond_created_success">Condominium added with success!</string>
     <string name="cond_created_fail">Failed to add Condominium.</string>
     <string name="cond_already_exists">Condominium already exists!</string>
+    <string name="resident_created_success">Resident created with success!</string>
+    <string name="resident_created_fail">Failed create resident.</string>
 
     <string-array name="brazilian_states">
         <item>-</item>

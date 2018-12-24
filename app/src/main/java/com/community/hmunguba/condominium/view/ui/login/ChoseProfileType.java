@@ -33,15 +33,13 @@ public class ChoseProfileType extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         int container = view.getId();
-        String profileType = "";
 
         if (container == R.id.cond_profile_type_container) {
-            profileType = "condominium";
+            saveProfileTypeSelection("condominium");
         } else if (container == R.id.resident_profile_type_container) {
-            profileType = "resident";
+            saveProfileTypeSelection("resident");
         }
-        saveProfileTypeSelection(profileType);
-        startProfileActivity(profileType);
+        startProfileActivity();
     }
 
     public void saveProfileTypeSelection(String profileType) {
@@ -56,9 +54,8 @@ public class ChoseProfileType extends AppCompatActivity implements View.OnClickL
         editor.commit();
     }
 
-    public void startProfileActivity(String profileType) {
+    public void startProfileActivity() {
         Intent intent = new Intent(ChoseProfileType.this, ProfileActivity.class);
-        intent.putExtra("profile_type", profileType);
         startActivity(intent);
     }
 
