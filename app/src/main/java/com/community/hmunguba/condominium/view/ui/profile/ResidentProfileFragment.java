@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,19 +21,17 @@ import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.User;
+import com.community.hmunguba.condominium.service.model.repo.FirebaseUserAuthentication;
+import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
 import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;
 import com.community.hmunguba.condominium.viewmodel.ResidentViewModel;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
 public class ResidentProfileFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = ResidentProfileFragment.class.getSimpleName();
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference mRef;
     private Context mContext;
 
     private EditText firstNameEt;
@@ -60,10 +59,7 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mDatabase = FirebaseDatabase.getInstance();
-        mRef = mDatabase.getReference();
         mContext = getActivity();
-
         setupCondsNamesViewModel();
         residentViewModel = ViewModelProviders.of(this).get(ResidentViewModel.class);
     }
@@ -80,6 +76,10 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         emailEt = rootView.findViewById(R.id.resident_email_et);
         condOptionsSp = rootView.findViewById(R.id.resident_cond_options);
         saveBtn = rootView.findViewById(R.id.resident_ok_btn);
+
+        emailEt.setHint(FirebaseUserAuthentication.getInstance().getUserEmail());
+        emailEt.setInputType(InputType.TYPE_NULL);
+        emailEt.setKeyListener(null);
 
         saveBtn.setOnClickListener(this);
 
@@ -118,7 +118,7 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     }
 
     private boolean hasAllRequiredFields() {
-        residentId = emailEt.getText().toString();
+        residentId = Utils.removeSpecialCharacters(emailEt.getText().toString());
         firstName = firstNameEt.getText().toString();
         lastName = lastNameEt.getText().toString();
         houseNumber = houseNumberEt.getText().toString();

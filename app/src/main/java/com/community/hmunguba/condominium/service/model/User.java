@@ -11,6 +11,10 @@ public class User {
     private String phone;
     private String email;
 
+    public User() {
+
+    }
+
     public User(String userId, String firstName, String lastName, String condominiumName,
                 String profilePic, int houseNumber, String phone, String email) {
         this.userId = userId;

@@ -34,4 +34,9 @@ public class Utils {
 
         return profileType;
     }
+
+    public static String removeSpecialCharacters(String input) {
+        String text = input.replaceAll("[^a-zA-Z0-9]+", "");
+        return text;
+    }
 }
