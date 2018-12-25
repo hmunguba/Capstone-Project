@@ -118,12 +118,12 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     }
 
     private boolean hasAllRequiredFields() {
-        residentId = Utils.removeSpecialCharacters(emailEt.getText().toString());
+        email = FirebaseUserAuthentication.getInstance().getUserEmail();
+        residentId = Utils.removeSpecialCharacters(email);
         firstName = firstNameEt.getText().toString();
         lastName = lastNameEt.getText().toString();
         houseNumber = houseNumberEt.getText().toString();
         phoneNumber = phoneNumberEt.getText().toString();
-        email = emailEt.getText().toString();
         selectedCond = condOptionsSp.getSelectedItem().toString();
 
         if (!firstName.isEmpty() && !lastName.isEmpty() && !houseNumber.isEmpty() &&
