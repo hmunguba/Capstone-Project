@@ -9,6 +9,8 @@ import android.widget.Toast;
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.repo.FirebaseUserAuthentication;
 
+import java.text.Normalizer;
+
 public class Utils {
 
     public static boolean hasConnection(Context context) {
@@ -38,5 +40,11 @@ public class Utils {
     public static String removeSpecialCharacters(String input) {
         String text = input.replaceAll("[^a-zA-Z0-9]+", "");
         return text;
+    }
+
+    public static String normalizeAndLowcaseName(String input) {
+        String name = Normalizer.normalize(input, Normalizer.Form.NFD);
+        name = name.replaceAll("[^\\p{ASCII}]", "");
+        return name.toLowerCase();
     }
 }

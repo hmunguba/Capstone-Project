@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.CommonAreas;
 import com.community.hmunguba.condominium.service.model.Condominium;
+import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
 import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;
 import com.google.firebase.database.DatabaseReference;
@@ -98,7 +99,8 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
     public void onClick(View view) {
         if (view.getId() == R.id.ok_btn) {
             if (hasAllRequiredFields()) {
-                final String id = "id_" + condName + "_" + condZipCode;
+                String normalizedCondName = Utils.normalizeAndLowcaseName(condName);
+                final String id = "id_" + normalizedCondName + "_" + condZipCode;
                 condViewModel.checkCondExist(id).observe(this, new Observer<Boolean>() {
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
