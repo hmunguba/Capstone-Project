@@ -10,6 +10,9 @@ import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.repo.FirebaseUserAuthentication;
 
 import java.text.Normalizer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Utils {
 
@@ -46,5 +49,60 @@ public class Utils {
         String name = Normalizer.normalize(input, Normalizer.Form.NFD);
         name = name.replaceAll("[^\\p{ASCII}]", "");
         return name.toLowerCase();
+    }
+
+    public static Date getDateFromString(String fullDate) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String simpleDate = getSimpleDateAsString(fullDate);
+        Date date = new Date();
+
+        try {
+            date = formatter.parse(simpleDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date;
+    }
+
+    public static String getSimpleDateAsString(String fullDate) {
+        String monthName = fullDate.substring(4,7);
+        String day = fullDate.substring(8, 10);
+        String year = fullDate.substring(fullDate.length()-4, fullDate.length());
+
+        String month = getMonthNumberCorrepondant(monthName);
+        String simpleDate = day + "-" + month + "-" + year;
+        return simpleDate;
+    }
+
+    public static String getMonthNumberCorrepondant(String monthText) {
+        switch (monthText) {
+            case "Jan":
+                return "01";
+            case "Feb":
+                return "02";
+            case "Mar":
+                return "03";
+            case "Apr":
+                return "04";
+            case "May":
+                return "05";
+            case "Jun":
+                return "06";
+            case "Jul":
+                return "07";
+            case "Aug":
+                return "08";
+            case "Sep":
+                return "09";
+            case "Oct":
+                return "10";
+            case "Nov":
+                return "11";
+            case "Dec":
+                return "12";
+            default:
+                return "00";
+        }
     }
 }

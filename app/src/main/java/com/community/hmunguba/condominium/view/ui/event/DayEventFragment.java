@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.community.hmunguba.condominium.R;
 
 public class DayEventFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG = DayEventFragment.class.getSimpleName();
 
     private TextView dateTv;
     private String date;
@@ -25,12 +26,10 @@ public class DayEventFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
 
         Bundle arguments = getArguments();
-        date = "teste";
+        date = "";
         if (arguments.containsKey(getString(R.string.bundle_event_date_key))) {
             date = arguments.getString(getString(R.string.bundle_event_date_key));
         }
-
-
     }
 
     @Nullable
@@ -49,18 +48,18 @@ public class DayEventFragment extends Fragment implements View.OnClickListener {
     }
 
     private void updateResources(String text) {
-        Log.d("hadassa", "text is = " + text);
+        Log.d(TAG, "text is = " + text);
         dateTv.setText(text);
     }
 
     @Override
     public void onClick(View view) {
-        Log.d("hadassa", "view clicked is: " + view);
-        Log.d("hadassa", "view clicked is resources: " + view.getResources());
-        Log.d("hadassa", "view clicked is id: " + view.getId());
-
         if (view.getId() == R.id.add_event_btn) {
+            Bundle args = new Bundle();
+            args.putString(getString(R.string.bundle_event_date_key), date.toString());
+
             DayEventDetailFragment dayEventDetailFragment = new DayEventDetailFragment();
+            dayEventDetailFragment.setArguments(args);
 
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();

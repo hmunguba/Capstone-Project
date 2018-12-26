@@ -94,6 +94,8 @@
     <string name="event_amount_of_people">Amount of people</string>
     <string name="event_begin_time">Begin: </string>
     <string name="event_end_time">Until:</string>
+    <string name="event_created_success">Event created with success!</string>
+    <string name="event_created_fail">Failed create event.</string>
 
     <!-- related profile Activity -->
     <string name="chose_a_profile_title">Chose a Profile</string>
