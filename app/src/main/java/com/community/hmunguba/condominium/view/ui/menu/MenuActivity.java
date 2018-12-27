@@ -12,7 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.community.hmunguba.condominium.R;
-import com.community.hmunguba.condominium.service.model.repo.FirebaseUserAuthentication;
+import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
 import com.community.hmunguba.condominium.view.ui.login.LoginActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

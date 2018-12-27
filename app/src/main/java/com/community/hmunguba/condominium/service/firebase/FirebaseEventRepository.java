@@ -1,4 +1,4 @@
-package com.community.hmunguba.condominium.service.model.repo;
+package com.community.hmunguba.condominium.service.firebase;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;

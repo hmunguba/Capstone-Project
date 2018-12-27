@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,7 @@ import android.widget.Toast;
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.CommonAreas;
 import com.community.hmunguba.condominium.service.model.Event;
-import com.community.hmunguba.condominium.service.model.repo.FirebaseUserAuthentication;
+import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
 import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.viewmodel.EventViewModel;
 

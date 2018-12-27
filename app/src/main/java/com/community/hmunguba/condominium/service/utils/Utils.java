@@ -7,7 +7,7 @@ import android.net.NetworkInfo;
 import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
-import com.community.hmunguba.condominium.service.model.repo.FirebaseUserAuthentication;
+import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
 
 import java.text.Normalizer;
 import java.text.ParseException;

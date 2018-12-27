@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
 import com.community.hmunguba.condominium.service.model.Condominium;
-import com.community.hmunguba.condominium.service.model.repo.FirebaseCondRepository;
+import com.community.hmunguba.condominium.service.firebase.FirebaseCondRepository;
 
 import java.util.List;
 

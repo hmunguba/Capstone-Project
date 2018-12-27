@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
 import com.community.hmunguba.condominium.service.model.Event;
-import com.community.hmunguba.condominium.service.model.repo.FirebaseEventRepository;
+import com.community.hmunguba.condominium.service.firebase.FirebaseEventRepository;
 
 import java.util.List;
 

@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
 import com.community.hmunguba.condominium.service.model.User;
-import com.community.hmunguba.condominium.service.model.repo.FirebaseResidentRepository;
+import com.community.hmunguba.condominium.service.firebase.FirebaseResidentRepository;
 
 public class ResidentViewModel extends ViewModel {
     private static final String TAG = ResidentViewModel.class.getSimpleName();

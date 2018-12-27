@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.User;
-import com.community.hmunguba.condominium.service.model.repo.FirebaseUserAuthentication;
+import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
 import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
 import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;

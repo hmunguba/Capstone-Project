@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
 import com.community.hmunguba.condominium.service.model.AuthAnswer;
-import com.community.hmunguba.condominium.service.model.repo.FirebaseUserAuthentication;
+import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
 
 public class LoginViewModel extends ViewModel {
     private static final String TAG = LoginViewModel.class.getSimpleName();

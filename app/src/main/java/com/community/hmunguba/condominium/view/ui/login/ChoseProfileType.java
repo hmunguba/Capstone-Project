@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.community.hmunguba.condominium.R;
-import com.community.hmunguba.condominium.service.model.repo.FirebaseUserAuthentication;
+import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
 import com.community.hmunguba.condominium.view.ui.profile.ProfileActivity;
 
 public class ChoseProfileType extends AppCompatActivity implements View.OnClickListener {
