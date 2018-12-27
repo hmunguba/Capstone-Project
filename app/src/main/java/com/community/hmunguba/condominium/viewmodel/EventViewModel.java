@@ -38,6 +38,14 @@ public class EventViewModel extends ViewModel {
         return event;
     }
 
+    public LiveData<List<Event>> loadAllEvents() {
+        Log.d(TAG, "loadEventsByMonth");
+        LiveData<List<Event>> eventsList =
+                FirebaseEventRepository.getInstance().queryAllEvents();
+
+        return eventsList;
+    }
+
     public LiveData<List<Event>> loadEventsByMonth(String month, String year) {
         Log.d(TAG, "loadEventsByMonth");
         LiveData<List<Event>> eventsList =

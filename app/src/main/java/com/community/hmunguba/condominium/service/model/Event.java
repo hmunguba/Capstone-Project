@@ -8,6 +8,7 @@ public class Event {
     private String createdBy;
     private String title;
     private Date date;
+    private String simpleDate;
     private String year;
     private String month;
     private String day;
@@ -18,12 +19,13 @@ public class Event {
 
     public Event() { }
 
-    public Event(String eventId, String createdBy, String title, Date date, int numberOfParticipants,
-                 CommonAreas reservedArea, String startTime, String endTime) {
+    public Event(String eventId, String createdBy, String title, Date date, String simpleDate,
+                 int numberOfParticipants, CommonAreas reservedArea, String startTime, String endTime) {
         this.eventId = eventId;
         this.createdBy = createdBy;
         this.title = title;
         this.date = date;
+        this.simpleDate = simpleDate;
         this.numberOfParticipants = numberOfParticipants;
         this.reservedArea = reservedArea;
         this.startTime = startTime;
@@ -60,6 +62,14 @@ public class Event {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getSimpleDate() {
+        return simpleDate;
+    }
+
+    public void setSimpleDate(String simpleDate) {
+        this.simpleDate = simpleDate;
     }
 
     public String getYear() {

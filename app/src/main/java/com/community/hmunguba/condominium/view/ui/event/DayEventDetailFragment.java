@@ -114,10 +114,11 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
 
     private void createEvent() {
         Date eventDate = Utils.getDateFromString(date);
-        String eventId = Utils.getSimpleDateAsString(date) + "_" + eventName;
+        String eventSimpleDate = Utils.getSimpleDateAsString(date);
+        String eventId = eventSimpleDate + "_" + eventName;
 
         String createdBy = FirebaseUserAuthentication.getInstance().getUserEmail();
-        Event event = new Event(eventId, createdBy, eventName, eventDate,
+        Event event = new Event(eventId, createdBy, eventName, eventDate, eventSimpleDate,
                 Integer.parseInt(eventParticipants), eventAreas, startTime, endTime);
 
         eventViewModel.createEvent(event).observe(this, new Observer<Boolean>() {

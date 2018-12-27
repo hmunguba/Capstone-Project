@@ -60,6 +60,32 @@ public class FirebaseEventRepository {
         return isEventCreated;
     }
 
+    public MutableLiveData<List<Event>> queryAllEvents() {
+        final MutableLiveData<List<Event>> data = new MutableLiveData<>();
+        Query query = mRef.child("events");
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Event> events = new ArrayList<>();
+
+                Log.d(TAG, "datasnaposhot = " + dataSnapshot);
+                for(DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    Event event = childDataSnapshot.getValue(Event.class);
+                    events.add(event);
+                }
+                data.setValue(events);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, databaseError.getMessage());
+                data.setValue(null);
+            }
+        });
+        return data;
+    }
+
     public MutableLiveData<List<Event>> queryEventsByMonth(String month, final String year) {
         final MutableLiveData<List<Event>> data = new MutableLiveData<>();
         Query query = mRef.child("events").child(month);
