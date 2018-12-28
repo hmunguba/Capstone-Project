@@ -29,10 +29,14 @@ public class Utils {
                 Toast.LENGTH_SHORT).show();
     }
 
-    public static String getProfileType(Context context) {
-        String userEmail = FirebaseUserAuthentication.getInstance().getUserEmail();
-        String prefFileName = context.getString(R.string.file_key_pref) + userEmail;
+    public static String getPreferenceFileName(Context context) {
+        String fileName = context.getString(R.string.file_key_pref) +
+                FirebaseUserAuthentication.getInstance().getUserEmail();
+        return fileName;
+    }
 
+    public static String getProfileTypePreference(Context context) {
+        String prefFileName = getPreferenceFileName(context);
         SharedPreferences prefs = context.getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
         String profileType = prefs.getString(context.getString(R.string.profile_type_pref),
                 context.getString(R.string.no_profile_type_set));

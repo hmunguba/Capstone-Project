@@ -14,10 +14,12 @@ import android.widget.LinearLayout;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
+import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.ui.profile.ProfileActivity;
 
 public class ChoseProfileType extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = ChoseProfileType.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,9 +46,7 @@ public class ChoseProfileType extends AppCompatActivity implements View.OnClickL
 
     public void saveProfileTypeSelection(String profileType) {
         Log.d(TAG, "Saving profile preference as " + profileType);
-
-        String userEmail = FirebaseUserAuthentication.getInstance().getUserEmail();
-        String prefFileName = getString(R.string.file_key_pref) + userEmail;
+        String prefFileName = Utils.getPreferenceFileName(this.getApplicationContext());
 
         SharedPreferences prefs = this.getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();

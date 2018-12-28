@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.AuthAnswer;
+import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
 import com.community.hmunguba.condominium.viewmodel.LoginViewModel;
 
@@ -208,7 +209,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void checkProfileTypeIsChoosen() {
-        String prefFileName = getString(R.string.file_key_pref) + mEmailView.getText().toString();
+        String prefFileName = Utils.getPreferenceFileName(this.getApplicationContext());
         SharedPreferences prefs = this.getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
         Boolean hasProfileType = prefs.getBoolean(getString(R.string.has_profile_type_pref), false);
         if (hasProfileType) {
