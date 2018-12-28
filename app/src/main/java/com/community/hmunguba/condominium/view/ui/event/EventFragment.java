@@ -65,6 +65,7 @@ public class EventFragment extends Fragment {
                     calendarView.addEvent(event.getSimpleDate(), event.getStartTime()+":00",
                             event.getEndTime()+":00", event.getTitle());
                 }
+                calendarView.refreshCalendar();
             }
         });
     }
