@@ -86,7 +86,6 @@ public class EventFragment extends Fragment {
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.event_container, dayEventFragment);
-                ft.addToBackStack(null);
                 ft.commit();
             }
 

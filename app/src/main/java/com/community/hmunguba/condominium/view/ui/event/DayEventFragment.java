@@ -113,7 +113,6 @@ public class DayEventFragment extends Fragment implements View.OnClickListener {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             ft.replace(R.id.event_container, dayEventDetailFragment);
-            ft.addToBackStack(null);
             ft.commit();
         }
     }

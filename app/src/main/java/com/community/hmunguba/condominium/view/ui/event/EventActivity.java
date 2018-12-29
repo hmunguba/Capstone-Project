@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.community.hmunguba.condominium.R;
 
 public class EventActivity extends AppCompatActivity {
+    private static final String TAG = EventActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +21,14 @@ public class EventActivity extends AppCompatActivity {
         EventFragment eventFragment = new EventFragment();
         ft.add(R.id.event_container, eventFragment);
         ft.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0 ){
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
