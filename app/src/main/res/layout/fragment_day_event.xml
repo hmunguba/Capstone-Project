@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,28 +13,17 @@
         android:layout_height="match_parent" />
 
     <TextView
-        android:id="@+id/no_scheduled_events_tv"
+        android:id="@+id/scheduled_events_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/no_scheduled_events"/>
 
-    <LinearLayout
-        android:id="@+id/scheduled_events_container"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/events_for_the_day_rv"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/scheduled_events_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/scheduled_events"/>
-
-        <!--<ListView-->
-            <!--android:id="@+id/scheduled_events_list"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content" />-->
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/add_event_btn"

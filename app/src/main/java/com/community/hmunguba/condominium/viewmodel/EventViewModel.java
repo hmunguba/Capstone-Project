@@ -54,10 +54,10 @@ public class EventViewModel extends ViewModel {
         return eventsList;
     }
 
-    public LiveData<List<Event>> loadEventsByDay(String day, String month, String year) {
-        Log.d(TAG, "loadEventsByDay");
+    public LiveData<List<Event>> queryEventsForDay(String simpleDate) {
+        Log.d(TAG, "queryEventsForDay");
         LiveData<List<Event>> eventsList =
-                FirebaseEventRepository.getInstance().queryEventsByDay(day, month, year);
+                FirebaseEventRepository.getInstance().queryEventsForDay(simpleDate);
 
         return eventsList;
     }

@@ -115,9 +115,9 @@ public class FirebaseEventRepository {
         return data;
     }
 
-    public MutableLiveData<List<Event>> queryEventsByDay(String day, final String month, final String year) {
+    public MutableLiveData<List<Event>> queryEventsForDay(String simpleDate) {
         final MutableLiveData<List<Event>> data = new MutableLiveData<>();
-        Query query = mRef.child("events").child(day);
+        Query query = mRef.child("events").orderByChild("simpleDate").equalTo(simpleDate);
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -126,12 +126,8 @@ public class FirebaseEventRepository {
 
                 Log.d(TAG, "datasnaposhot = " + dataSnapshot);
                 for(DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                    String childYear = childDataSnapshot.child("year").getValue(String.class);
-                    String childMonth = childDataSnapshot.child("month").getValue(String.class);
-                    if (childYear.equals(year) && childMonth.equals(month)) {
-                        Event event = childDataSnapshot.getValue(Event.class);
-                        events.add(event);
-                    }
+                    Event event = childDataSnapshot.getValue(Event.class);
+                    events.add(event);
                 }
                 data.setValue(events);
             }
