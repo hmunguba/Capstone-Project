@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.view.adapter.GridMenuAdapter;
+import com.community.hmunguba.condominium.view.ui.concierge.ConciergeActivity;
 import com.community.hmunguba.condominium.view.ui.event.EventActivity;
 import com.community.hmunguba.condominium.view.ui.notifications.NotificationsActivity;
 import com.community.hmunguba.condominium.view.ui.profile.ProfileActivity;
@@ -68,7 +69,8 @@ public class MenuFragment extends Fragment implements AdapterView.OnItemClickLis
                 Toast.makeText(mContext, "Not implemented yet", Toast.LENGTH_SHORT).show();
                 break;
             case 4:
-                Toast.makeText(mContext, "Not implemented yet", Toast.LENGTH_SHORT).show();
+                Intent conciergeIntent = new Intent(mContext, ConciergeActivity.class);
+                startActivity(conciergeIntent);
                 break;
             default:
                 break;
