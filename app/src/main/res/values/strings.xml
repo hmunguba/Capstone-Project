@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">Condominium</string>
 
+    <!-- Menu -->
+    <array name="main_menu_items">
+        <item>My Profile</item>
+        <item>Events</item>
+        <item>Gallery</item>
+        <item>Services</item>
+    </array>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -26,15 +34,18 @@
     <string name="phone">Phone:</string>
     <string name="email">Email:</string>
     <string name="condominium">Condominium:</string>
+    <string name="personal_info_title">Personal Info</string>
+    <string name="residence_info_title">Residence Info</string>
 
     <!-- Related with condominium profile -->
     <string name="condominium_name">Name: </string>
-    <string name="condominium_location">Location:</string>
+    <string name="condominium_address">Address:</string>
     <string name="condominium_number">Number:</string>
     <string name="condominium_zip_code">Zip code:</string>
     <string name="condominium_state">State:</string>
     <string name="condominium_city">City:</string>
-    <string name="cond_common_areas">Common areas</string>
+    <string name="condominium_general_info">General Info</string>
+    <string name="cond_common_areas">Common Areas</string>
     <string name="gourmet_area">Gourmet area</string>
     <string name="pool_area">Pool area</string>
     <string name="barbecue_area">Barbecue area</string>
@@ -49,34 +60,34 @@
     <string name="resident_created_success">Resident created with success!</string>
     <string name="resident_created_fail">Failed create resident.</string>
 
-    <string-array name="brazilian_states">
-        <item>-</item>
-        <item>Acre</item>
-        <item>Alagoas</item>
-        <item>Amapá</item>
-        <item>Amazonas</item>
-        <item>Bahia</item>
-        <item>Ceará</item>
-        <item>Distrito Federal</item>
-        <item>Espírito Santo</item>
-        <item>Goiás</item>
-        <item>Maranhão</item>
-        <item>Mato Grosso</item>
-        <item>Mato Grosso do Sul</item>
-        <item>Minas Gerais</item>
-        <item>Pará</item>
-        <item>Paraíba</item>
-        <item>Pernambuco</item>
-        <item>Piauí</item>
-        <item>Rio de Janeiro</item>
-        <item>Rio Grande do Norte</item>
-        <item>Rio Grande do Sul</item>
-        <item>Rondônia</item>
-        <item>Roraima</item>
-        <item>Santa Catarina</item>
-        <item>São Paulo</item>
-        <item>Sergipe</item>
-        <item>Tocantins</item>
+    <string-array name="brazilian_states_abb">
+        <item>AC</item>
+        <item>AL</item>
+        <item>AP</item>
+        <item>AM</item>
+        <item>BA</item>
+        <item>CE</item>
+        <item>DF</item>
+        <item>ES</item>
+        <item>GO</item>
+        <item>MA</item>
+        <item>MT</item>
+        <item>MS</item>
+        <item>MG</item>
+        <item>PA</item>
+        <item>PB</item>
+        <item>PR</item>
+        <item>PE</item>
+        <item>PI</item>
+        <item>RJ</item>
+        <item>RN</item>
+        <item>RS</item>
+        <item>RO</item>
+        <item>RR</item>
+        <item>SC</item>
+        <item>SP</item>
+        <item>SE</item>
+        <item>TO</item>
     </string-array>
 
     <string name="user">User</string>
@@ -89,13 +100,16 @@
     <string name="general_info">General Info</string>
     <string name="time">Time</string>
     <string name="event_name">Event Name:</string>
-    <string name="event_day">Event Day:</string>
+    <string name="event_date">Event Date:</string>
     <string name="event_reserved_area">Reserved area</string>
     <string name="event_amount_of_people">Amount of people</string>
     <string name="event_begin_time">Begin: </string>
     <string name="event_end_time">Until:</string>
     <string name="event_created_success">Event created with success!</string>
     <string name="event_created_fail">Failed create event.</string>
+    <string name="my_events">My events</string>
+    <string name="all_events">All events</string>
+    <string name="create_event">Create event</string>
 
     <!-- related profile Activity -->
     <string name="chose_a_profile_title">Chose a Profile</string>

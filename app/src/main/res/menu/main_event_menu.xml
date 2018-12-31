@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/my_events_action"
+        android:title="@string/my_events" />
+    <item android:id="@+id/all_events_action"
+        android:title="@string/all_events"/>
+</menu>

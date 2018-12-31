@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
@@ -33,17 +35,17 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
     private EventViewModel eventViewModel;
     private String date;
 
-    private EditText eventDayEt;
-    private EditText eventNameEt;
-    private EditText amountOfPeopleEt;
+    private TextInputLayout eventDayInput;
+    private TextInputLayout eventNameInput;
+    private TextInputLayout amountOfPeopleInput;
     private CheckBox gourmetAreaCb;
     private CheckBox poolAreaCb;
     private CheckBox barbecueAreaCb;
     private CheckBox moviesAreaCb;
     private CheckBox partyRoomAreaCb;
     private CheckBox sportsAreaCb;
-    private EditText startTimeEt;
-    private EditText endTimeEt;
+    private TextInputLayout startTimeInput;
+    private TextInputLayout endTimeInput;
     private Button saveBtn;
 
     private String eventDay;
@@ -75,22 +77,22 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_day_event_detail, container, false);
 
-        eventDayEt = view.findViewById(R.id.event_detail_day_ed);
-        eventNameEt = view.findViewById(R.id.event_detail_name_ed);
-        amountOfPeopleEt = view.findViewById(R.id.event_detail_amount_of_people_ed);
+        eventDayInput = view.findViewById(R.id.event_detail_day_til);
+        eventNameInput = view.findViewById(R.id.event_detail_name_til);
+        amountOfPeopleInput = view.findViewById(R.id.event_detail_amount_of_people_til);
         gourmetAreaCb = view.findViewById(R.id.event_details_gourmet_area_check_box);
         poolAreaCb = view.findViewById(R.id.event_details_pool_area_check_box);
         barbecueAreaCb = view.findViewById(R.id.event_details_barbecue_area_check_box);
         moviesAreaCb = view.findViewById(R.id.event_details_movies_area_check_box);
         partyRoomAreaCb = view.findViewById(R.id.event_details_party_room_area_check_box);
         sportsAreaCb = view.findViewById(R.id.event_details_sports_area_check_box);
-        startTimeEt = view.findViewById(R.id.event_detail_time_start);
-        endTimeEt = view.findViewById(R.id.event_detail_time_end);
+        startTimeInput = view.findViewById(R.id.event_detail_time_start);
+        endTimeInput = view.findViewById(R.id.event_detail_time_end);
         saveBtn = view.findViewById(R.id.event_detail_add_event);
 
-        eventDayEt.setHint(date);
-        eventDayEt.setInputType(InputType.TYPE_NULL);
-        eventDayEt.setKeyListener(null);
+        eventDayInput.setHint(date);
+        eventDayInput.getEditText().setInputType(InputType.TYPE_NULL);
+        eventDayInput.getEditText().setKeyListener(null);
 
         saveBtn.setOnClickListener(this);
 
@@ -145,11 +147,11 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
     }
 
     private boolean checkAllRequiredFields() {
-        eventName = eventNameEt.getText().toString();
-        eventParticipants = amountOfPeopleEt.getText().toString();
+        eventName = eventNameInput.getEditText().getText().toString();
+        eventParticipants = amountOfPeopleInput.getEditText().getText().toString();
         eventAreas = getCheckedAreas();
-        startTime = startTimeEt.getText().toString();
-        endTime = endTimeEt.getText().toString();
+        startTime = startTimeInput.getEditText().getText().toString();
+        endTime = endTimeInput.getEditText().getText().toString();
 
         if (!eventName.isEmpty() && !eventParticipants.isEmpty() && eventAreas != null
                 && !startTime.isEmpty() && !endTime.isEmpty()) {

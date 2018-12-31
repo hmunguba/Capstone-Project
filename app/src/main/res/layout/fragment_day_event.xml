@@ -8,15 +8,12 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/date"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <TextView
         android:id="@+id/scheduled_events_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/no_scheduled_events"/>
+        android:text="@string/no_scheduled_events"
+        android:gravity="center_horizontal"
+        style="@style/Base.TextAppearance.AppCompat.Medium"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/events_for_the_day_rv"
@@ -29,6 +26,8 @@
         android:id="@+id/add_event_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/add_event"
         android:layout_gravity="center_horizontal"/>
 

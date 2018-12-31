@@ -50,6 +50,7 @@ public class ChoseProfileType extends AppCompatActivity implements View.OnClickL
 
         SharedPreferences prefs = this.getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(getString(R.string.has_profile_type_pref), true);
         editor.putString(getString(R.string.profile_type_pref), profileType);
         editor.commit();
     }
