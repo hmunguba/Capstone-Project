@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,12 +34,12 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
     private DatabaseReference mRef;
     private Context mContext;
 
-    private EditText nameEt;
-    private EditText locationEt;
-    private EditText numberEt;
-    private EditText zipCodeEt;
+    private TextInputLayout nameInput;
+    private TextInputLayout addressInput;
+    private TextInputLayout numberInput;
+    private TextInputLayout zipCodeInput;
     private Spinner stateSp;
-    private EditText cityEt;
+    private TextInputLayout cityInput;
     private CheckBox gourmetAreaCb;
     private CheckBox poolAreaCb;
     private CheckBox barbecueAreaCb;
@@ -74,12 +75,12 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_cond_profile, container, false);
 
-        nameEt = rootView.findViewById(R.id.cond_name_et);
-        locationEt = rootView.findViewById(R.id.cond_location_et);
-        numberEt = rootView.findViewById(R.id.cond_number_et);
-        zipCodeEt = rootView.findViewById(R.id.cond_zipcode_et);
+        nameInput = rootView.findViewById(R.id.cond_name_til);
+        addressInput = rootView.findViewById(R.id.cond_address_til);
+        numberInput = rootView.findViewById(R.id.cond_number_til);
+        zipCodeInput = rootView.findViewById(R.id.cond_zipcode_til);
         stateSp = rootView.findViewById(R.id.cond_state_sp);
-        cityEt = rootView.findViewById(R.id.cond_city_et);
+        cityInput = rootView.findViewById(R.id.cond_city_til);
         gourmetAreaCb = rootView.findViewById(R.id.gourmet_area_check_box);
         poolAreaCb = rootView.findViewById(R.id.pool_area_check_box);
         barbecueAreaCb = rootView.findViewById(R.id.barbecue_area_check_box);
@@ -122,12 +123,12 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
     }
 
     private boolean hasAllRequiredFields() {
-        condName = nameEt.getText().toString();
-        condLocation = locationEt.getText().toString();
-        condNumber = numberEt.getText().toString();
-        condZipCode = zipCodeEt.getText().toString();
+        condName = nameInput.getEditText().getText().toString();
+        condLocation = addressInput.getEditText().getText().toString();
+        condNumber = numberInput.getEditText().getText().toString();
+        condZipCode = zipCodeInput.getEditText().getText().toString();
         condState = stateSp.getSelectedItem().toString();
-        condCity = cityEt.getText().toString();
+        condCity = cityInput.getEditText().getText().toString();
 
         if (!condName.isEmpty() && !condLocation.isEmpty() && !condNumber.isEmpty() &&
                 !condZipCode.isEmpty() && condState != null && !condCity.isEmpty()) {

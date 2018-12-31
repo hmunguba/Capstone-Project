@@ -9,26 +9,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.community.hmunguba.condominium.R;
+import com.community.hmunguba.condominium.service.utils.Utils;
 
 public class GridMenuAdapter extends BaseAdapter {
 
     private Context mContext;
-    private final String[] gridViewString = {
-            "My Profile", "Events", "Notifications", "Gallery", "Services"
-    };
-    private final int[] gridViewImageId = {
-            R.drawable.ic_launcher_background, R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_background, R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_background,
-    };
+    private final String[] menuItems;
+    private final int[] menuItemsDrawable;
 
     public GridMenuAdapter(Context context) {
         this.mContext = context;
+        menuItems = mContext.getResources().getStringArray(R.array.main_menu_items);
+
+        String profileType = Utils.getProfileTypePreference(mContext);
+        if (profileType.equals("condominium")) {
+            menuItemsDrawable = Utils.getCondominiumMenuItemDrawables();
+        } else {
+            menuItemsDrawable = Utils.getResidentMenuItemDrawables();
+        }
     }
 
     @Override
     public int getCount() {
-        return gridViewString.length;
+        return menuItems.length;
     }
 
     @Override
@@ -52,8 +55,8 @@ public class GridMenuAdapter extends BaseAdapter {
             gridView = inflater.inflate(R.layout.menu_item, null);
             TextView menuItemText = gridView.findViewById(R.id.menu_item_text);
             ImageView menuItemImage = gridView.findViewById(R.id.menu_item_image);
-            menuItemText.setText(gridViewString[i]);
-            menuItemImage.setImageResource(gridViewImageId[i]);
+            menuItemText.setText(menuItems[i]);
+            menuItemImage.setImageResource(menuItemsDrawable[i]);
         } else {
             gridView = (View) view;
         }

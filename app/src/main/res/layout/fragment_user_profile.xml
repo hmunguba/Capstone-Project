@@ -5,142 +5,190 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_margin="12dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/resident_profile_image"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="52dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/ic_user_profile_placeholder" />
 
         <TextView
-            android:id="@+id/resident_first_name_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/first_name"
-            app:layout_constraintBaseline_toBaselineOf="@+id/resident_first_name_et" />
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="@string/personal_info_title" />
 
-        <EditText
-            android:id="@+id/resident_first_name_et"
-            android:layout_width="wrap_content"
+        <!-- Name -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textCapWords"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toBottomOf="@+id/resident_profile_image" />
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:paddingRight="8dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_person"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- First Name -->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/resident_first_name_til"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/first_name">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <!-- Last Name -->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/resident_last_name_til"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/last_name">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"/>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Phone -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_phone"
+                android:layout_marginTop="16dp"
+                android:paddingRight="8dp"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/resident_phone_til"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/phone">
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"/>
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <!--&lt;!&ndash; Email &ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="32dp"-->
+                <!--android:layout_height="32dp"-->
+                <!--android:src="@drawable/ic_mail"-->
+                <!--android:layout_marginTop="16dp"-->
+                <!--android:paddingRight="8dp"/>-->
+
+            <!--<android.support.design.widget.TextInputLayout-->
+                <!--android:id="@+id/resident_email_til"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="@string/email">-->
+
+                <!--<android.support.design.widget.TextInputEditText-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"/>-->
+            <!--</android.support.design.widget.TextInputLayout>-->
+
+        <!--</LinearLayout>-->
 
         <TextView
-            android:id="@+id/resident_last_name_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/last_name"
-            app:layout_constraintBaseline_toBaselineOf="@+id/resident_last_name_et" />
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="@string/residence_info_title" />
 
-        <EditText
-            android:id="@+id/resident_last_name_et"
-            android:layout_width="wrap_content"
+        <!-- Cond -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:ems="10"
-            android:inputType="textCapWords"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toBottomOf="@+id/resident_first_name_et" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/resident_house_number_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/house_number"
-            app:layout_constraintBaseline_toBaselineOf="@+id/resident_house_number_et" />
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:paddingRight="8dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_building"/>
 
-        <EditText
-            android:id="@+id/resident_house_number_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toBottomOf="@+id/resident_last_name_et" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/resident_phone_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/phone"
-            app:layout_constraintBaseline_toBaselineOf="@+id/resident_phone_et" />
+                <Spinner
+                    android:id="@+id/resident_cond_options"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="19dp"/>
 
-        <EditText
-            android:id="@+id/resident_phone_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="phone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toBottomOf="@+id/resident_house_number_et" />
+                <!-- House Number -->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/resident_house_number_til"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/house_number">
 
-        <TextView
-            android:id="@+id/resident_email_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/email"
-            app:layout_constraintBaseline_toBaselineOf="@+id/resident_email_et" />
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"/>
+                </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/resident_email_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:focusable="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toBottomOf="@+id/resident_phone_et"/>
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/resident_cond_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/condominium"
-            app:layout_constraintBottom_toBottomOf="@+id/resident_cond_options"
-            app:layout_constraintTop_toTopOf="@+id/resident_cond_options" />
-
-        <Spinner
-            android:id="@+id/resident_cond_options"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toBottomOf="@+id/resident_email_et" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/resident_ok_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="24dp"
             android:text="@string/ok"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/resident_cond_options"/>
+            android:layout_gravity="center_horizontal"/>
 
-        <android.support.constraint.Barrier
-            android:id="@+id/barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="right"
-            app:constraint_referenced_ids="resident_first_name_tv,resident_email_tv,resident_phone_tv,
-        resident_last_name_tv,resident_house_number_tv, resident_cond_tv" />
 
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 
 </ScrollView>

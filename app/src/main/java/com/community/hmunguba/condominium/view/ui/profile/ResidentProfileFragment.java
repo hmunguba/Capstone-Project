@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.util.Log;
@@ -34,11 +35,11 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     private static final String TAG = ResidentProfileFragment.class.getSimpleName();
     private Context mContext;
 
-    private EditText firstNameEt;
-    private EditText lastNameEt;
-    private EditText houseNumberEt;
-    private EditText phoneNumberEt;
-    private EditText emailEt;
+    private TextInputLayout firstNameInput;
+    private TextInputLayout lastNameInput;
+    private TextInputLayout houseNumberInput;
+    private TextInputLayout phoneNumberInput;
+//    private TextInputLayout emailInput;
     private Spinner condOptionsSp;
     private Button saveBtn;
 
@@ -69,17 +70,17 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
-        firstNameEt = rootView.findViewById(R.id.resident_first_name_et);
-        lastNameEt = rootView.findViewById(R.id.resident_last_name_et);
-        houseNumberEt = rootView.findViewById(R.id.resident_house_number_et);
-        phoneNumberEt = rootView.findViewById(R.id.resident_phone_et);
-        emailEt = rootView.findViewById(R.id.resident_email_et);
+        firstNameInput = rootView.findViewById(R.id.resident_first_name_til);
+        lastNameInput = rootView.findViewById(R.id.resident_last_name_til);
+        houseNumberInput = rootView.findViewById(R.id.resident_house_number_til);
+        phoneNumberInput = rootView.findViewById(R.id.resident_phone_til);
+//        emailInput= rootView.findViewById(R.id.resident_email_til);
         condOptionsSp = rootView.findViewById(R.id.resident_cond_options);
         saveBtn = rootView.findViewById(R.id.resident_ok_btn);
 
-        emailEt.setHint(FirebaseUserAuthentication.getInstance().getUserEmail());
-        emailEt.setInputType(InputType.TYPE_NULL);
-        emailEt.setKeyListener(null);
+//        emailInput.setHint(FirebaseUserAuthentication.getInstance().getUserEmail());
+//        emailInput.getEditText().setInputType(InputType.TYPE_NULL);
+//        emailInput.getEditText().setKeyListener(null);
 
         saveBtn.setOnClickListener(this);
 
@@ -120,10 +121,10 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     private boolean hasAllRequiredFields() {
         email = FirebaseUserAuthentication.getInstance().getUserEmail();
         residentId = Utils.removeSpecialCharacters(email);
-        firstName = firstNameEt.getText().toString();
-        lastName = lastNameEt.getText().toString();
-        houseNumber = houseNumberEt.getText().toString();
-        phoneNumber = phoneNumberEt.getText().toString();
+        firstName = firstNameInput.getEditText().getText().toString();
+        lastName = lastNameInput.getEditText().getText().toString();
+        houseNumber = houseNumberInput.getEditText().getText().toString();
+        phoneNumber = phoneNumberInput.getEditText().getText().toString();
         selectedCond = condOptionsSp.getSelectedItem().toString();
 
         if (!firstName.isEmpty() && !lastName.isEmpty() && !houseNumber.isEmpty() &&

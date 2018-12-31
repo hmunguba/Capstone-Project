@@ -212,6 +212,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String prefFileName = Utils.getPreferenceFileName(this.getApplicationContext());
         SharedPreferences prefs = this.getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
         Boolean hasProfileType = prefs.getBoolean(getString(R.string.has_profile_type_pref), false);
+
         if (hasProfileType) {
             startMenuActivity();
         } else {

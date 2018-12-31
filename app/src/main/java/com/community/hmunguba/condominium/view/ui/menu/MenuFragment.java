@@ -50,7 +50,6 @@ public class MenuFragment extends Fragment implements AdapterView.OnItemClickLis
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(mContext, "Clicked item : " + i, Toast.LENGTH_SHORT).show();
 
         switch (i) {
             case 0:
@@ -62,13 +61,9 @@ public class MenuFragment extends Fragment implements AdapterView.OnItemClickLis
                 startActivity(eventsIntent);
                 break;
             case 2:
-                Intent notificationsIntent = new Intent(mContext, NotificationsActivity.class);
-                startActivity(notificationsIntent);
-                break;
-            case 3:
                 Toast.makeText(mContext, "Not implemented yet", Toast.LENGTH_SHORT).show();
                 break;
-            case 4:
+            case 3:
                 Intent conciergeIntent = new Intent(mContext, ConciergeActivity.class);
                 startActivity(conciergeIntent);
                 break;

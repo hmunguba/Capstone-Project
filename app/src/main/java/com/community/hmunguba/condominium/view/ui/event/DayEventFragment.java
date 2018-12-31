@@ -11,6 +11,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,12 +31,12 @@ import java.util.List;
 public class DayEventFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = DayEventFragment.class.getSimpleName();
 
-    private TextView dateTv;
     private TextView scheduledEventsTv;
     private RecyclerView eventsRecyclerView;
     private Button addEventBtn;
 
-    private String date;
+    private String fullDate;
+    private String simpleDate;
     private EventViewModel eventViewModel;
 
     @Override
@@ -41,12 +44,13 @@ public class DayEventFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
 
         Bundle arguments = getArguments();
-        date = "";
+        fullDate = "";
         if (arguments.containsKey(getString(R.string.bundle_event_date_key))) {
-            date = arguments.getString(getString(R.string.bundle_event_date_key));
+            fullDate = arguments.getString(getString(R.string.bundle_event_date_key));
         }
 
         eventViewModel = ViewModelProviders.of(this).get(EventViewModel.class);
+        simpleDate = Utils.getSimpleDateAsString(fullDate);
         loadEventsForThisDay();
     }
 
@@ -56,20 +60,16 @@ public class DayEventFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_day_event, container, false);
-        dateTv = view.findViewById(R.id.date);
         scheduledEventsTv = view.findViewById(R.id.scheduled_events_title);
         eventsRecyclerView = view.findViewById(R.id.events_for_the_day_rv);
         addEventBtn = view.findViewById(R.id.add_event_btn);
 
         addEventBtn.setOnClickListener(this);
 
-        updateResources(date);
-
         return view;
     }
 
     public void loadEventsForThisDay() {
-        String simpleDate = Utils.getSimpleDateAsString(date);
         eventViewModel.queryEventsForDay(simpleDate).observe(this, new Observer<List<Event>>() {
             @Override
             public void onChanged(@Nullable List<Event> events) {
@@ -96,16 +96,11 @@ public class DayEventFragment extends Fragment implements View.OnClickListener {
         eventsRecyclerView.setAdapter(adapter);
     }
 
-    private void updateResources(String text) {
-        Log.d(TAG, "text is = " + text);
-        dateTv.setText(text);
-    }
-
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.add_event_btn) {
             Bundle args = new Bundle();
-            args.putString(getString(R.string.bundle_event_date_key), date.toString());
+            args.putString(getString(R.string.bundle_event_date_key), fullDate.toString());
 
             DayEventDetailFragment dayEventDetailFragment = new DayEventDetailFragment();
             dayEventDetailFragment.setArguments(args);

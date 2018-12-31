@@ -109,4 +109,20 @@ public class Utils {
                 return "00";
         }
     }
+
+    public static int[] getResidentMenuItemDrawables() {
+        int[] drawablesImageIds = {
+                R.drawable.ic_menu_resident, R.drawable.ic_menu_events,
+                R.drawable.ic_menu_gallery, R.drawable.ic_menu_concierge,
+        };
+        return drawablesImageIds;
+    }
+
+    public static int[] getCondominiumMenuItemDrawables() {
+        int[] drawablesImageIds = {
+                R.drawable.ic_menu_building, R.drawable.ic_menu_events,
+                R.drawable.ic_menu_gallery, R.drawable.ic_menu_concierge,
+        };
+        return drawablesImageIds;
+    }
 }

@@ -5,139 +5,155 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_margin="12dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/cond_profile_image"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="52dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/ic_cond_profile_placeholder" />
 
         <TextView
-            android:id="@+id/cond_name_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/condominium_name"
-            app:layout_constraintBaseline_toBaselineOf="@+id/cond_name_et" />
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="@string/condominium_general_info" />
 
-        <EditText
-            android:id="@+id/cond_name_et"
-            android:layout_width="wrap_content"
+        <!-- Cond Name -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textCapWords"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toBottomOf="@+id/cond_profile_image" />
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_building"
+                android:layout_marginTop="16dp"
+                android:paddingRight="8dp"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/cond_name_til"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/condominium_name">
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"/>
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/location_iv"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:paddingRight="8dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_location"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Address -->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/cond_address_til"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/location_iv"
+                    android:hint="@string/condominium_address">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <!-- Number -->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/cond_number_til"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/condominium_number"
+                    android:layout_toRightOf="@+id/location_iv"
+                    android:layout_below="@+id/address_til">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/cond_state_sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:entries="@array/brazilian_states_abb"
+                        android:layout_marginTop="12dp"/>
+
+                    <!-- Zip code -->
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/cond_zipcode_til"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/condominium_zip_code">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <!-- City -->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/cond_city_til"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/condominium_city">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"/>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/cond_location_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/condominium_location"
-            app:layout_constraintBaseline_toBaselineOf="@+id/cond_location_et" />
-
-        <EditText
-            android:id="@+id/cond_location_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textCapSentences"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toBottomOf="@+id/cond_name_et" />
-
-        <TextView
-            android:id="@+id/cond_number_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/condominium_number"
-            app:layout_constraintBaseline_toBaselineOf="@+id/cond_number_et" />
-
-        <EditText
-            android:id="@+id/cond_number_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toBottomOf="@+id/cond_location_et" />
-
-        <TextView
-            android:id="@+id/cond_zipcode_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/condominium_zip_code"
-            app:layout_constraintBaseline_toBaselineOf="@+id/cond_zipcode_et" />
-
-        <EditText
-            android:id="@+id/cond_zipcode_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toBottomOf="@+id/cond_number_et" />
-
-        <TextView
-            android:id="@+id/cond_state_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/condominium_state"
-            app:layout_constraintBottom_toBottomOf="@+id/cond_state_sp"
-            app:layout_constraintTop_toTopOf="@+id/cond_state_sp"/>
-
-        <Spinner
-            android:id="@+id/cond_state_sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/brazilian_states"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toBottomOf="@+id/cond_zipcode_et" />
-
-        <TextView
-            android:id="@+id/cond_city_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/condominium_city"
-            app:layout_constraintBaseline_toBaselineOf="@+id/cond_city_et" />
-
-        <EditText
-            android:id="@+id/cond_city_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textCapWords"
-            android:ems="10"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toBottomOf="@+id/cond_state_sp" />
-
-        <android.support.constraint.Barrier
-            android:id="@+id/barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="right"
-            app:constraint_referenced_ids="cond_location_tv,cond_zipcode_tv,cond_name_tv,cond_state_tv,cond_number_tv,cond_city_tv" />
-
-        <TextView
-            android:id="@+id/cond_common_areas_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:paddingTop="20dp"
-            android:text="@string/cond_common_areas"
-            app:layout_constraintTop_toBottomOf="@+id/cond_city_tv" />
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="@string/cond_common_areas"/>
 
         <LinearLayout
             android:id="@+id/common_areas_content"
@@ -152,25 +168,25 @@
                 android:id="@+id/gourmet_area_check_box"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/gourmet_area" />
+                android:text="@string/gourmet_area"/>
 
             <CheckBox
                 android:id="@+id/pool_area_check_box"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/pool_area" />
+                android:text="@string/pool_area"/>
 
             <CheckBox
                 android:id="@+id/barbecue_area_check_box"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/barbecue_area" />
+                android:text="@string/barbecue_area"/>
 
             <CheckBox
                 android:id="@+id/movies_area_check_box"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/movies_area" />
+                android:text="@string/movies_area"/>
 
             <CheckBox
                 android:id="@+id/party_room_area_check_box"
@@ -189,12 +205,10 @@
             android:id="@+id/ok_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="24dp"
             android:text="@string/ok"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/common_areas_content" />
+            android:layout_gravity="center_horizontal"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 </ScrollView>
