@@ -92,7 +92,7 @@
                 <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords"/>
+                    android:inputType="number"/>
             </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
@@ -105,50 +105,50 @@
             android:text="@string/event_reserved_area"
             style="@style/Base.TextAppearance.AppCompat.Medium"/>
 
-        <LinearLayout
-            android:id="@+id/common_areas_content"
+        <RadioGroup
+            android:id="@+id/common_areas_radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="12dp"
             android:paddingBottom="12dp">
 
-            <CheckBox
-                android:id="@+id/event_details_gourmet_area_check_box"
+            <RadioButton
+                android:id="@+id/event_details_gourmet_area_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/gourmet_area" />
+                android:text="@string/gourmet_area"/>
 
-            <CheckBox
-                android:id="@+id/event_details_pool_area_check_box"
+            <RadioButton
+                android:id="@+id/event_details_pool_area_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/pool_area" />
+                android:text="@string/pool_area"/>
 
-            <CheckBox
-                android:id="@+id/event_details_barbecue_area_check_box"
+            <RadioButton
+                android:id="@+id/event_details_barbecue_area_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/barbecue_area" />
+                android:text="@string/barbecue_area"/>
 
-            <CheckBox
-                android:id="@+id/event_details_movies_area_check_box"
+            <RadioButton
+                android:id="@+id/event_details_movies_area_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/movies_area" />
 
-            <CheckBox
-                android:id="@+id/event_details_party_room_area_check_box"
+            <RadioButton
+                android:id="@+id/event_details_party_room_area_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/party_room_area" />
+                android:text="@string/party_room_area"/>
 
-            <CheckBox
-                android:id="@+id/event_details_sports_area_check_box"
+            <RadioButton
+                android:id="@+id/event_details_sports_area_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sports_court_area" />
-        </LinearLayout>
+                android:text="@string/sports_court_area"/>
+        </RadioGroup>
 
         <TextView
             android:id="@+id/event_detail_time_title"
@@ -172,33 +172,33 @@
                 android:layout_marginTop="16dp"
                 android:src="@drawable/ic_time"/>
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/event_detail_time_start"
-                    android:layout_width="0dp"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/event_detail_time_start"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="time"
+                android:hint="@string/event_begin_time">
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:inputType="time"
-                    android:hint="@string/event_begin_time">
+                    android:inputType="textCapWords"/>
+            </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textCapWords"/>
-                </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/event_detail_time_end"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="time"
+                android:hint="@string/event_end_time">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/event_detail_time_end"
-                    android:layout_width="0dp"
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:inputType="time"
-                    android:hint="@string/event_end_time">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textCapWords"/>
-                </android.support.design.widget.TextInputLayout>
+                    android:inputType="textCapWords"/>
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 

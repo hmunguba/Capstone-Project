@@ -56,4 +56,58 @@ public class CommonAreas {
     public void setHasSportsCourtArea(boolean hasSportsCourtArea) {
         this.hasSportsCourtArea = hasSportsCourtArea;
     }
+
+    public void setOnlyGourmetArea() {
+        hasGourmetArea = true;
+        hasPoolArea = false;
+        hasBarbecueArea = false;
+        hasMoviesArea = false;
+        hasPartyRoomArea = false;
+        hasSportsCourtArea = false;
+    }
+
+    public void setOnlyPoolArea() {
+        hasGourmetArea = false;
+        hasPoolArea = true;
+        hasBarbecueArea = false;
+        hasMoviesArea = false;
+        hasPartyRoomArea = false;
+        hasSportsCourtArea = false;
+    }
+
+    public void setOnlyBarbecueArea() {
+        hasGourmetArea = false;
+        hasPoolArea = false;
+        hasBarbecueArea = true;
+        hasMoviesArea = false;
+        hasPartyRoomArea = false;
+        hasSportsCourtArea = false;
+    }
+
+    public void setOnlyMoviesArea() {
+        hasGourmetArea = false;
+        hasPoolArea = false;
+        hasBarbecueArea = false;
+        hasMoviesArea = true;
+        hasPartyRoomArea = false;
+        hasSportsCourtArea = false;
+    }
+
+    public void setOnlyPartyRoomArea() {
+        hasGourmetArea = false;
+        hasPoolArea = false;
+        hasBarbecueArea = false;
+        hasMoviesArea = false;
+        hasPartyRoomArea = true;
+        hasSportsCourtArea = false;
+    }
+
+    public void setOnlySportsCourtArea() {
+        hasGourmetArea = false;
+        hasPoolArea = false;
+        hasBarbecueArea = false;
+        hasMoviesArea = false;
+        hasPartyRoomArea = false;
+        hasSportsCourtArea = true;
+    }
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.community.hmunguba.condominium.R;
@@ -19,11 +20,15 @@ public class EventsForTheDayAdapter extends RecyclerView.Adapter<EventsForTheDay
 
     public static class EventsViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView mTextView;
+        private ImageView eventItemIcon;
+        private TextView eventItemDate;
+        private TextView eventItemName;
 
         public EventsViewHolder(View view) {
             super(view);
-            mTextView = view.findViewById(R.id.item_event_name);
+            eventItemIcon = view.findViewById(R.id.item_event_icon);
+            eventItemDate = view.findViewById(R.id.item_event_date);
+            eventItemName = view.findViewById(R.id.item_event_name);
         }
     }
 
@@ -34,7 +39,10 @@ public class EventsForTheDayAdapter extends RecyclerView.Adapter<EventsForTheDay
 
     @Override
     public void onBindViewHolder(@NonNull EventsViewHolder holder, int position) {
-        holder.mTextView.setText(mEvents.get(position).getTitle());
+        int iconResource = getCorrectEventIcon(mEvents.get(position));
+        holder.eventItemIcon.setBackgroundResource(iconResource);
+        holder.eventItemDate.setText(mEvents.get(position).getSimpleDate());
+        holder.eventItemName.setText(mEvents.get(position).getTitle());
     }
 
     @Override
@@ -43,6 +51,22 @@ public class EventsForTheDayAdapter extends RecyclerView.Adapter<EventsForTheDay
             return 0;
         }
         return mEvents.size();
+    }
+
+    private int getCorrectEventIcon(Event event) {
+        if (event.getReservedArea().isHasGourmetArea()) {
+            return R.drawable.ic_gourmet;
+        } else if (event.getReservedArea().isHasPoolArea()) {
+            return R.drawable.ic_pool;
+        } else if (event.getReservedArea().isHasBarbecueArea()) {
+            return R.drawable.ic_barbecue;
+        } else if (event.getReservedArea().isHasMoviesArea()) {
+            return R.drawable.ic_movies;
+        } else if (event.getReservedArea().isHasPartyRoomArea()) {
+            return R.drawable.ic_partyroom;
+        } else {
+            return R.drawable.ic_sports;
+        }
     }
 
     @NonNull
