@@ -44,6 +44,15 @@ public class Utils {
         return profileType;
     }
 
+    public static String getCondIdPreference(Context context) {
+        String prefFileName = getPreferenceFileName(context);
+        SharedPreferences prefs = context.getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
+        String condIdPref = prefs.getString(context.getString(R.string.cond_id_pref),
+                context.getString(R.string.no_cond_id_set));
+
+        return condIdPref;
+    }
+
     public static String removeSpecialCharacters(String input) {
         String text = input.replaceAll("[^a-zA-Z0-9]+", "");
         return text;

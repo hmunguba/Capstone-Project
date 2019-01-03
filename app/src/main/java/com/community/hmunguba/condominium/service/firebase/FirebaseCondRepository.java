@@ -15,7 +15,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FirebaseCondRepository<Model> {
     private static final String TAG = FirebaseCondRepository.class.getSimpleName();
@@ -57,6 +59,12 @@ public class FirebaseCondRepository<Model> {
                     }
                 });
         return isCondCreated;
+    }
+
+    public void updateCondServicesInfo(Condominium cond) {
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/condominiums/" + cond.getCondId(), cond);
+        mRef.updateChildren(childUpdates);
     }
 
     public MutableLiveData<Condominium> queryCond(String condId) {

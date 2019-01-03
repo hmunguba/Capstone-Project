@@ -33,6 +33,7 @@
     <string name="house_number">House Number:</string>
     <string name="phone">Phone:</string>
     <string name="email">Email:</string>
+    <string name="city">City:</string>
     <string name="condominium">Condominium:</string>
     <string name="personal_info_title">Personal Info</string>
     <string name="residence_info_title">Residence Info</string>
@@ -116,6 +117,19 @@
     <string name="profile_type_resident">Resident</string>
     <string name="profile_type_condominium">Condominium</string>
 
+    <!-- related with Services Activity -->
+    <string name="cond_services_info">Services Info</string>
+    <string name="lobby_info">Lobby Info</string>
+    <string name="lobby">Lobby</string>
+    <string name="syndic_info">Syndic Info</string>
+    <string name="syndic">Syndic</string>
+    <string name="name">Name:</string>
+    <string name="call">Call</string>
+    <string name="send_message">Message</string>
+    <string name="send_email">Email</string>
+    <string name="data_successfully_updated">Successfully updated</string>
+    <string name="no_service_info">No Concierge Information provided</string>
+
     <!-- Bundle Keys -->
     <string name="bundle_event_date_key">DATE EVENT KEY</string>
 
@@ -124,6 +138,8 @@
     <string name="has_profile_type_pref">has_profile_type</string>
     <string name="profile_type_pref">profile_type</string>
     <string name="no_profile_type_set">no profile type set</string>
+    <string name="no_cond_id_set">no cond id set</string>
+    <string name="cond_id_pref">cond_id_pref</string>
 
     <!-- Menu actions -->
     <string name="action_delete_profile">Delete Profile</string>

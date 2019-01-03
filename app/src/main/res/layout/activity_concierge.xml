@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.ui.concierge.ConciergeActivity">
+    tools:context=".view.ui.concierge.ConciergeActivity"
+    android:id="@+id/services_container"
+    android:layout_margin="12dp">
 
 </android.support.constraint.ConstraintLayout>

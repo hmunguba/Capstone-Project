@@ -21,12 +21,12 @@ public class ConciergeActivity extends AppCompatActivity {
         FragmentTransaction ft = fm.beginTransaction();
 
         if (profileType.equals("condominium")) {
-            ConciergeResidentsListFragment residentsListFragment = new ConciergeResidentsListFragment();
-            ft.replace(R.id.profile_container, residentsListFragment);
+            ConciergeCondServicesFragment condServicesFragment = new ConciergeCondServicesFragment();
+            ft.replace(R.id.services_container, condServicesFragment);
             ft.commit();
         } else {
-            ConciergeServicesFragment conciergeServicesFragment = new ConciergeServicesFragment();
-            ft.replace(R.id.profile_container, conciergeServicesFragment);
+            ConciergeResidentServicesFragment residentServicesFragment = new ConciergeResidentServicesFragment();
+            ft.replace(R.id.services_container, residentServicesFragment);
             ft.commit();
         }
     }

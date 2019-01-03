@@ -47,6 +47,11 @@ public class CondominiumViewModel extends ViewModel {
         return cond;
     }
 
+    public void udateCondServices(Condominium condominium) {
+        Log.d(TAG, "udateCondServices " + condominium.getName());
+        FirebaseCondRepository.getInstance().updateCondServicesInfo(condominium);
+    }
+
     public LiveData<List<String>> loadCondsNameList() {
         Log.d(TAG, "loadCondsNameList");
         condsNameList = FirebaseCondRepository.getInstance().queryCondsNames();

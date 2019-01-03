@@ -12,6 +12,8 @@ public class Condominium {
     private String city;
     private CommonAreas commonAreas;
     private String syndicName;
+    private String syndicPhone;
+    private String syndicEmail;
     private String conciergePhoneNumber;
 
     public Condominium() {}
@@ -105,8 +107,22 @@ public class Condominium {
         return syndicName;
     }
 
-    public void setSyndicName(String syndicName) {
-        this.syndicName = syndicName;
+    public void setSyndicName(String syndicName) { this.syndicName = syndicName; }
+
+    public void setSyndicPhone(String syndicPhone) {
+        this.syndicPhone = syndicPhone;
+    }
+
+    public String getSyndicPhone() {
+        return syndicPhone;
+    }
+
+    public void setSyndicMail(String syndicEmail) {
+        this.syndicEmail = syndicEmail;
+    }
+
+    public String getSyndicMail() {
+        return syndicEmail;
     }
 
     public String getConciergePhoneNumber() {

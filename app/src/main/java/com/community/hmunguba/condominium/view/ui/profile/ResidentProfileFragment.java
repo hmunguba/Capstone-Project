@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,7 +40,7 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     private TextInputLayout lastNameInput;
     private TextInputLayout houseNumberInput;
     private TextInputLayout phoneNumberInput;
-//    private TextInputLayout emailInput;
+    private TextInputLayout cityInput;
     private Spinner condOptionsSp;
     private Button saveBtn;
 
@@ -49,6 +50,7 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     private String houseNumber;
     private String phoneNumber;
     private String email;
+    private String city;
     private String selectedCond;
 
     private CondominiumViewModel condViewModel;
@@ -74,13 +76,9 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         lastNameInput = rootView.findViewById(R.id.resident_last_name_til);
         houseNumberInput = rootView.findViewById(R.id.resident_house_number_til);
         phoneNumberInput = rootView.findViewById(R.id.resident_phone_til);
-//        emailInput= rootView.findViewById(R.id.resident_email_til);
+        cityInput = rootView.findViewById(R.id.resident_city_til);
         condOptionsSp = rootView.findViewById(R.id.resident_cond_options);
         saveBtn = rootView.findViewById(R.id.resident_ok_btn);
-
-//        emailInput.setHint(FirebaseUserAuthentication.getInstance().getUserEmail());
-//        emailInput.getEditText().setInputType(InputType.TYPE_NULL);
-//        emailInput.getEditText().setKeyListener(null);
 
         saveBtn.setOnClickListener(this);
 
@@ -112,6 +110,7 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         if (view.getId() == R.id.resident_ok_btn) {
             if (hasAllRequiredFields()) {
                 createResident();
+                saveCondIdPreference();
             } else {
                 Toast.makeText(mContext, R.string.insert_all_required_fiels_toast, Toast.LENGTH_SHORT).show();
             }
@@ -125,10 +124,11 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         lastName = lastNameInput.getEditText().getText().toString();
         houseNumber = houseNumberInput.getEditText().getText().toString();
         phoneNumber = phoneNumberInput.getEditText().getText().toString();
+        city = cityInput.getEditText().getText().toString();
         selectedCond = condOptionsSp.getSelectedItem().toString();
 
         if (!firstName.isEmpty() && !lastName.isEmpty() && !houseNumber.isEmpty() &&
-                !email.isEmpty() && selectedCond != null) {
+                !email.isEmpty() && !city.isEmpty() &&  selectedCond != null) {
             return true;
         }
         return false;
@@ -136,7 +136,7 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
 
     private void createResident() {
         String profilePic = "";
-        User user = new User(residentId, firstName, lastName, selectedCond, profilePic,
+        User user = new User(residentId, firstName, lastName, city, selectedCond, profilePic,
                 Integer.parseInt(houseNumber), phoneNumber, email);
 
         residentViewModel.createUser(user).observe(this, new Observer<Boolean>() {
@@ -153,6 +153,19 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
                 }
             }
         });
+    }
+
+    private void saveCondIdPreference() {
+        String normalizedCondName = Utils.normalizeAndLowcaseName(selectedCond);
+        final String condId = "id_" + normalizedCondName + "_" + city;
+
+        Log.d(TAG, "Saving condId preference as " + condId);
+        String prefFileName = Utils.getPreferenceFileName(getContext());
+
+        SharedPreferences prefs = getContext().getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(getString(R.string.cond_id_pref), condId);
+        editor.commit();
     }
 
     private void startMenuActivity() {

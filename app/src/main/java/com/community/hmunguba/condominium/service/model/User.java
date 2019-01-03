@@ -5,6 +5,7 @@ public class User {
     private String userId;
     private String firstName;
     private String lastName;
+    private String city;
     private String condominiumName;
     private String profilePic;
     private int houseNumber;
@@ -15,11 +16,12 @@ public class User {
 
     }
 
-    public User(String userId, String firstName, String lastName, String condominiumName,
+    public User(String userId, String firstName, String lastName, String city, String condominiumName,
                 String profilePic, int houseNumber, String phone, String email) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.city = city;
         this.condominiumName = condominiumName;
         this.profilePic = profilePic;
         this.houseNumber = houseNumber;
@@ -50,6 +52,10 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public String getCity() { return city; }
+
+    public void setCity(String city) { this.city = city; }
 
     public String getCondominium() {
         return condominiumName;
