@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,6 +42,7 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     private TextInputLayout houseNumberInput;
     private TextInputLayout phoneNumberInput;
     private TextInputLayout cityInput;
+    private TextInputLayout condNameInput;
     private Spinner condOptionsSp;
     private Button saveBtn;
 
@@ -53,7 +55,6 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     private String city;
     private String selectedCond;
 
-    private CondominiumViewModel condViewModel;
     private ResidentViewModel residentViewModel;
 
     public ResidentProfileFragment() {}
@@ -62,9 +63,10 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        residentViewModel = ViewModelProviders.of(this).get(ResidentViewModel.class);
         mContext = getActivity();
         setupCondsNamesViewModel();
-        residentViewModel = ViewModelProviders.of(this).get(ResidentViewModel.class);
+        checkUserSetup();
     }
 
     @Nullable
@@ -78,6 +80,7 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         phoneNumberInput = rootView.findViewById(R.id.resident_phone_til);
         cityInput = rootView.findViewById(R.id.resident_city_til);
         condOptionsSp = rootView.findViewById(R.id.resident_cond_options);
+        condNameInput = rootView.findViewById(R.id.resident_cond_name_til);
         saveBtn = rootView.findViewById(R.id.resident_ok_btn);
 
         saveBtn.setOnClickListener(this);
@@ -85,8 +88,46 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         return rootView;
     }
 
+    public void checkUserSetup() {
+        email = FirebaseUserAuthentication.getInstance().getUserEmail();
+        residentId = Utils.removeSpecialCharacters(email);
+
+        residentViewModel.getUserById(residentId).observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(@Nullable User user) {
+                if (user != null) {
+                    // Disabling unchangeble fields
+                    firstNameInput.getEditText().setText(user.getFirstName());
+                    lastNameInput.getEditText().setText(user.getLastName());
+                    houseNumberInput.getEditText().setText(String.valueOf(user.getHouseNumber()));
+                    phoneNumberInput.getEditText().setText(user.getPhone());
+                    cityInput.getEditText().setText(user.getCity());
+                    condNameInput.getEditText().setText(user.getCondominium());
+
+                    firstNameInput.getEditText().setFocusable(false);
+                    firstNameInput.getEditText().setInputType(InputType.TYPE_NULL);
+                    firstNameInput.getEditText().setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+
+                    lastNameInput.getEditText().setFocusable(false);
+                    lastNameInput.getEditText().setInputType(InputType.TYPE_NULL);
+                    lastNameInput.getEditText().setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+
+                    cityInput.getEditText().setFocusable(false);
+                    cityInput.getEditText().setInputType(InputType.TYPE_NULL);
+                    cityInput.getEditText().setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+
+                    condOptionsSp.setVisibility(View.GONE);
+                    condNameInput.setVisibility(View.VISIBLE);
+                    condNameInput.getEditText().setFocusable(false);
+                    condNameInput.getEditText().setInputType(InputType.TYPE_NULL);
+                    condNameInput.getEditText().setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+                }
+            }
+        });
+    }
+
     public void setupCondsNamesViewModel() {
-        condViewModel = ViewModelProviders.of(this).get(CondominiumViewModel.class);
+        CondominiumViewModel condViewModel = ViewModelProviders.of(this).get(CondominiumViewModel.class);
         condViewModel.getCondsNameList().observe(this, new Observer<List<String>>() {
             @Override
             public void onChanged(@Nullable List<String> condNames) {
@@ -118,8 +159,6 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     }
 
     private boolean hasAllRequiredFields() {
-        email = FirebaseUserAuthentication.getInstance().getUserEmail();
-        residentId = Utils.removeSpecialCharacters(email);
         firstName = firstNameInput.getEditText().getText().toString();
         lastName = lastNameInput.getEditText().getText().toString();
         houseNumber = houseNumberInput.getEditText().getText().toString();

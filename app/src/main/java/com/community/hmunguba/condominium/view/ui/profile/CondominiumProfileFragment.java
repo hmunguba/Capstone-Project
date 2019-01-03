@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +42,7 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
     private TextInputLayout addressInput;
     private TextInputLayout numberInput;
     private TextInputLayout zipCodeInput;
+    private TextInputLayout stateInput;
     private Spinner stateSp;
     private TextInputLayout cityInput;
     private CheckBox gourmetAreaCb;
@@ -70,6 +73,7 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
         mContext = getActivity();
 
         condViewModel = ViewModelProviders.of(this).get(CondominiumViewModel.class);
+        checkCondSetup();
     }
 
     @Nullable
@@ -82,6 +86,7 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
         numberInput = rootView.findViewById(R.id.cond_number_til);
         zipCodeInput = rootView.findViewById(R.id.cond_zipcode_til);
         stateSp = rootView.findViewById(R.id.cond_state_sp);
+        stateInput = rootView.findViewById(R.id.cond_state_til);
         cityInput = rootView.findViewById(R.id.cond_city_til);
         gourmetAreaCb = rootView.findViewById(R.id.gourmet_area_check_box);
         poolAreaCb = rootView.findViewById(R.id.pool_area_check_box);
@@ -96,7 +101,87 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
         return rootView;
     }
 
-    //TODO: normalize cond name before add its Id to database
+    public void checkCondSetup() {
+        final String condId = Utils.getCondIdPreference(getContext());
+
+        condViewModel.getCondById(condId).observe(this, new Observer<Condominium>() {
+            @Override
+            public void onChanged(@Nullable Condominium condominium) {
+                if (condominium != null) {
+                    nameInput.getEditText().setText(condominium.getName());
+                    addressInput.getEditText().setText(condominium.getLocation());
+                    numberInput.getEditText().setText(condominium.getNumber());
+                    zipCodeInput.getEditText().setText(condominium.getZipCode());
+                    stateInput.getEditText().setText(condominium.getState());
+                    cityInput.getEditText().setText(condominium.getCity());
+
+                    CommonAreas condAreas = condominium.getCommonAreas();
+                    gourmetAreaCb.setChecked(condAreas.isHasGourmetArea());
+                    poolAreaCb.setChecked(condAreas.isHasPoolArea());
+                    barbecueAreaCb.setChecked(condAreas.isHasBarbecueArea());
+                    moviesAreaCb.setChecked(condAreas.isHasMoviesArea());
+                    partyRoomAreaCb.setChecked(condAreas.isHasPartyRoomArea());
+                    sportsCourtAreaCb.setChecked(condAreas.isHasSportsCourtArea());
+
+                    nameInput.getEditText().setFocusable(false);
+                    nameInput.getEditText().setInputType(InputType.TYPE_NULL);
+                    nameInput.getEditText().setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+
+                    addressInput.getEditText().setFocusable(false);
+                    addressInput.getEditText().setInputType(InputType.TYPE_NULL);
+                    addressInput.getEditText().setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+
+                    numberInput.getEditText().setFocusable(false);
+                    numberInput.getEditText().setInputType(InputType.TYPE_NULL);
+                    numberInput.getEditText().setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+
+                    zipCodeInput.getEditText().setFocusable(false);
+                    zipCodeInput.getEditText().setInputType(InputType.TYPE_NULL);
+                    zipCodeInput.getEditText().setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+
+                    stateSp.setVisibility(View.GONE);
+                    stateInput.setVisibility(View.VISIBLE);
+                    stateInput.getEditText().setFocusable(false);
+                    stateInput.getEditText().setInputType(InputType.TYPE_NULL);
+                    stateInput.getEditText().setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+
+                    cityInput.getEditText().setFocusable(false);
+                    cityInput.getEditText().setInputType(InputType.TYPE_NULL);
+                    cityInput.getEditText().setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+
+                    if (gourmetAreaCb.isChecked()) {
+                        gourmetAreaCb.setEnabled(false);
+                        gourmetAreaCb.setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+                    }
+
+                    if (poolAreaCb.isChecked()) {
+                        poolAreaCb.setEnabled(false);
+                        poolAreaCb.setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+                    }
+
+                    if (barbecueAreaCb.isChecked()) {
+                        barbecueAreaCb.setEnabled(false);
+                        barbecueAreaCb.setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+                    }
+
+                    if (moviesAreaCb.isChecked()) {
+                        moviesAreaCb.setEnabled(false);
+                        moviesAreaCb.setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+                    }
+
+                    if (partyRoomAreaCb.isChecked()) {
+                        partyRoomAreaCb.setEnabled(false);
+                        partyRoomAreaCb.setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+                    }
+
+                    if (sportsCourtAreaCb.isChecked()) {
+                        sportsCourtAreaCb.setEnabled(false);
+                        sportsCourtAreaCb.setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+                    }
+                }
+            }
+        });
+    }
 
     @Override
     public void onClick(View view) {
