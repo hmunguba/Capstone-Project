@@ -81,6 +81,7 @@ public class ChoseProfileType extends AppCompatActivity implements View.OnClickL
 
     public void startLoginActivity() {
         Intent intent = new Intent(ChoseProfileType.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 }

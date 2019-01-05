@@ -76,6 +76,7 @@ public class MenuActivity extends AppCompatActivity {
 
     private void startLoginActivity() {
         Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 }

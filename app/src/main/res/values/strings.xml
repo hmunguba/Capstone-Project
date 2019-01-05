@@ -55,12 +55,16 @@
     <string name="party_room_area">Party room area</string>
     <string name="sports_court_area">Sports court area</string>
     <string name="ok">OK</string>
+    <string name="save">Save</string>
+    <string name="cond_not_found">Cond not found</string>
     <string name="insert_all_required_fiels_toast">Please insert all required fields.</string>
     <string name="cond_created_success">Condominium added with success!</string>
     <string name="cond_created_fail">Failed to add Condominium.</string>
     <string name="cond_already_exists">Condominium already exists!</string>
     <string name="resident_created_success">Resident created with success!</string>
     <string name="resident_created_fail">Failed create resident.</string>
+    <string name="dialog_create_cond">Do you want to create an account for your condominium?</string>
+    <string name="cancel">Cancel</string>
 
     <string-array name="brazilian_states_abb">
         <item>AC</item>

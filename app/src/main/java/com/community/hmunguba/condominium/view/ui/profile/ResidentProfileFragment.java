@@ -1,8 +1,10 @@
 package com.community.hmunguba.condominium.view.ui.profile;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import com.community.hmunguba.condominium.service.model.Condominium;
 import com.community.hmunguba.condominium.service.model.User;
 import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
 import com.community.hmunguba.condominium.service.utils.Utils;
+import com.community.hmunguba.condominium.view.ui.login.LoginActivity;
 import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
 import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;
 import com.community.hmunguba.condominium.viewmodel.ResidentViewModel;
@@ -48,6 +51,7 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     private LinearLayout condInfoLl;
     private Spinner condOptionsSp;
     private Button loadCondsBtn;
+    private Button condNotFoundBtn;
     private Button saveBtn;
 
     private String residentId;
@@ -89,8 +93,10 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         condNameInput = rootView.findViewById(R.id.resident_cond_name_til);
         condInfoLl = rootView.findViewById(R.id.resident_residence_info_ll);
         loadCondsBtn = rootView.findViewById(R.id.resident_load_conds_btn);
+        condNotFoundBtn = rootView.findViewById(R.id.cond_not_found_btn);
         saveBtn = rootView.findViewById(R.id.resident_ok_btn);
 
+        condNotFoundBtn.setOnClickListener(this);
         loadCondsBtn.setOnClickListener(this);
         saveBtn.setOnClickListener(this);
         checkUserSetup();
@@ -187,6 +193,8 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
             }
         } else if (view.getId() == R.id.resident_load_conds_btn) {
             checkCityName();
+        } else if (view.getId() == R.id.cond_not_found_btn) {
+            displayCondNotFoundDialog();
         }
     }
 
@@ -234,7 +242,6 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
                     Toast.makeText(getContext(), getString(R.string.resident_created_success),
                             Toast.LENGTH_SHORT).show();
                     startMenuActivity();
-
                 } else {
                     Toast.makeText(getContext(), getString(R.string.resident_created_fail),
                             Toast.LENGTH_LONG).show();
@@ -256,8 +263,34 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         editor.commit();
     }
 
+    public void displayCondNotFoundDialog() {
+        Log.d(TAG, "displayCondNotFoundDialog");
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+        dialogBuilder.setMessage(R.string.dialog_create_cond).setTitle(R.string.cond_not_found);
+        dialogBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                FirebaseUserAuthentication.getInstance().signOut();
+                startLoginActivity();
+            }
+        });
+        dialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+    }
+
     private void startMenuActivity() {
         Intent intent = new Intent(getActivity(), MenuActivity.class);
+        startActivity(intent);
+    }
+
+    public void startLoginActivity() {
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 }
