@@ -9,6 +9,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,7 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
     private EventViewModel eventViewModel;
     private String date;
 
-    private TextInputLayout eventDayInput;
+    private TextView eventDay;
     private TextInputLayout eventNameInput;
     private TextInputLayout amountOfPeopleInput;
     private TextInputLayout startTimeInput;
@@ -82,7 +83,7 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_day_event_detail, container, false);
 
-        eventDayInput = view.findViewById(R.id.event_detail_day_til);
+        eventDay = view.findViewById(R.id.event_detail_day_tv);
         eventNameInput = view.findViewById(R.id.event_detail_name_til);
         amountOfPeopleInput = view.findViewById(R.id.event_detail_amount_of_people_til);
         eventAreasRadioGroup = view.findViewById(R.id.common_areas_radio_group);
@@ -97,9 +98,10 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
         endTimeInput = view.findViewById(R.id.event_detail_time_end);
         saveBtn = view.findViewById(R.id.event_detail_add_event);
 
-        eventDayInput.setHint(Utils.getSimpleDateAsString(date));
-        eventDayInput.getEditText().setInputType(InputType.TYPE_NULL);
-        eventDayInput.getEditText().setKeyListener(null);
+        eventDay.setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+        eventDay.setHint(Utils.getSimpleDateAsString(date));
+        eventDay.setInputType(InputType.TYPE_NULL);
+        eventDay.setKeyListener(null);
 
         saveBtn.setOnClickListener(this);
 
@@ -153,8 +155,6 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
             }
         }
     }
-
-    //TODO: Autocomplete event Day
 
     private void createEvent() {
         String condId = Utils.getCondIdPreference(getContext());

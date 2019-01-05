@@ -30,16 +30,15 @@
                 android:layout_marginTop="16dp"
                 android:paddingRight="8dp"/>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/event_detail_day_til"
+            <TextView
+                android:id="@+id/event_detail_day_tv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textCapWords"/>
-            </android.support.design.widget.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginBottom="2dp"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"/>
 
         </LinearLayout>
 
