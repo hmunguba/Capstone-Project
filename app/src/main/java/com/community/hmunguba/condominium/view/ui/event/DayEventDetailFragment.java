@@ -157,13 +157,14 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
     //TODO: Autocomplete event Day
 
     private void createEvent() {
+        String condId = Utils.getCondIdPreference(getContext());
         Date eventDate = Utils.getDateFromString(date);
         String eventSimpleDate = Utils.getSimpleDateAsString(date);
         String eventId = eventSimpleDate + "_" + eventName;
 
         String createdBy = FirebaseUserAuthentication.getInstance().getUserEmail();
         Event event = new Event(eventId, createdBy, eventName, eventDate, eventSimpleDate,
-                Integer.parseInt(eventParticipants), eventArea, startTime, endTime);
+                Integer.parseInt(eventParticipants), eventArea, startTime, endTime, condId);
 
         eventViewModel.createEvent(event).observe(this, new Observer<Boolean>() {
             @Override

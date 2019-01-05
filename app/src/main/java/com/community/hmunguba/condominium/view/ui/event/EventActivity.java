@@ -1,9 +1,11 @@
 package com.community.hmunguba.condominium.view.ui.event;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -46,13 +48,23 @@ public class EventActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.my_events_action:
-
+                Log.d(TAG, "starting my events");
+                startListEventIntent(EventsListActivity.MY_EVENTS);
                 return true;
             case R.id.all_events_action:
-
+                Log.d(TAG, "starting all events");
+                startListEventIntent(EventsListActivity.ALL_EVENTS);
                 return true;
             default :
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void startListEventIntent(int type) {
+        Bundle arguments = new Bundle();
+        arguments.putInt(getString(R.string.bundle_event_type_event), type);
+        Intent listEventIntent = new Intent(EventActivity.this, EventsListActivity.class);
+        listEventIntent.putExtras(arguments);
+        startActivity(listEventIntent);
     }
 }

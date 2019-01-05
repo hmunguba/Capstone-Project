@@ -16,11 +16,13 @@ public class Event {
     private CommonAreas reservedArea;
     private String startTime;
     private String endTime;
+    private String condId;
 
     public Event() { }
 
     public Event(String eventId, String createdBy, String title, Date date, String simpleDate,
-                 int numberOfParticipants, CommonAreas reservedArea, String startTime, String endTime) {
+                 int numberOfParticipants, CommonAreas reservedArea, String startTime,
+                 String endTime, String condId) {
         this.eventId = eventId;
         this.createdBy = createdBy;
         this.title = title;
@@ -30,6 +32,7 @@ public class Event {
         this.reservedArea = reservedArea;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.condId = condId;
     }
 
     public String getEventId() {
@@ -126,5 +129,9 @@ public class Event {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public String getCondId() {
+        return condId;
     }
 }

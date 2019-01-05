@@ -60,7 +60,7 @@ public class FirebaseEventRepository {
         return isEventCreated;
     }
 
-    public MutableLiveData<List<Event>> queryAllEvents() {
+    public MutableLiveData<List<Event>> queryAllEvents(final String condId) {
         final MutableLiveData<List<Event>> data = new MutableLiveData<>();
         Query query = mRef.child("events");
 
@@ -69,10 +69,12 @@ public class FirebaseEventRepository {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Event> events = new ArrayList<>();
 
-                Log.d(TAG, "datasnaposhot = " + dataSnapshot);
                 for(DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                    Event event = childDataSnapshot.getValue(Event.class);
-                    events.add(event);
+                    String childDataCondId = childDataSnapshot.child("condId").getValue(String.class);
+                    if (condId != null && childDataCondId.equals(condId)) {
+                        Event event = childDataSnapshot.getValue(Event.class);
+                        events.add(event);
+                    }
                 }
                 data.setValue(events);
             }

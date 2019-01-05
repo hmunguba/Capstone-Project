@@ -38,10 +38,10 @@ public class EventViewModel extends ViewModel {
         return event;
     }
 
-    public LiveData<List<Event>> loadAllEvents() {
+    public LiveData<List<Event>> loadAllEvents(String condId) {
         Log.d(TAG, "loadAllEvents");
         LiveData<List<Event>> eventsList =
-                FirebaseEventRepository.getInstance().queryAllEvents();
+                FirebaseEventRepository.getInstance().queryAllEvents(condId);
 
         return eventsList;
     }

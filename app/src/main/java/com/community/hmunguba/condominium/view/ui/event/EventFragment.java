@@ -57,7 +57,8 @@ public class EventFragment extends Fragment {
     }
 
     public void setupEvents() {
-        eventViewModel.loadAllEvents().observe(this, new Observer<List<Event>>() {
+        String condId = Utils.getCondIdPreference(getContext());
+        eventViewModel.loadAllEvents(condId).observe(this, new Observer<List<Event>>() {
             @Override
             public void onChanged(@Nullable List<Event> events) {
                 for (Event event : events) {
