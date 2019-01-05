@@ -16,13 +16,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.CommonAreas;
+import com.community.hmunguba.condominium.service.model.Condominium;
 import com.community.hmunguba.condominium.service.model.Event;
 import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
 import com.community.hmunguba.condominium.service.utils.Utils;
+import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;
 import com.community.hmunguba.condominium.viewmodel.EventViewModel;
 
 import java.util.Date;
@@ -46,6 +49,7 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
     private RadioButton moviesAreaRb;
     private RadioButton partyRoomAreaRb;
     private RadioButton sportsAreaRb;
+    private TextView commonAreasTv;
     private Button saveBtn;
 
     private String eventName;
@@ -69,6 +73,7 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
 
         eventViewModel = ViewModelProviders.of(this).get(EventViewModel.class);
         eventArea = new CommonAreas();
+        getCondAvailableCommonAreas();
     }
 
     @Override
@@ -87,17 +92,54 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
         moviesAreaRb = view.findViewById(R.id.event_details_movies_area_radio_btn);
         partyRoomAreaRb = view.findViewById(R.id.event_details_party_room_area_radio_btn);
         sportsAreaRb = view.findViewById(R.id.event_details_sports_area_radio_btn);
+        commonAreasTv = view.findViewById(R.id.no_common_areas_tv);
         startTimeInput = view.findViewById(R.id.event_detail_time_start);
         endTimeInput = view.findViewById(R.id.event_detail_time_end);
         saveBtn = view.findViewById(R.id.event_detail_add_event);
 
-        eventDayInput.setHint(date);
+        eventDayInput.setHint(Utils.getSimpleDateAsString(date));
         eventDayInput.getEditText().setInputType(InputType.TYPE_NULL);
         eventDayInput.getEditText().setKeyListener(null);
 
         saveBtn.setOnClickListener(this);
 
         return view;
+    }
+
+    private void getCondAvailableCommonAreas() {
+        String condId = Utils.getCondIdPreference(getContext());
+        CondominiumViewModel condominiumViewModel = ViewModelProviders.of(this).get(CondominiumViewModel.class);
+        condominiumViewModel.loadCond(condId).observe(this, new Observer<Condominium>() {
+            @Override
+            public void onChanged(@Nullable Condominium condominium) {
+                CommonAreas areas = condominium.getCommonAreas();
+                if (areas.isHasGourmetArea()) {
+                    gourmetAreaRb.setVisibility(View.VISIBLE);
+                }
+                if (areas.isHasPoolArea()) {
+                    poolAreaRb.setVisibility(View.VISIBLE);
+                }
+                if (areas.isHasBarbecueArea()) {
+                    barbecueAreaRb.setVisibility(View.VISIBLE);
+                }
+                if (areas.isHasMoviesArea()) {
+                    moviesAreaRb.setVisibility(View.VISIBLE);
+                }
+                if (areas.isHasPartyRoomArea()) {
+                    partyRoomAreaRb.setVisibility(View.VISIBLE);
+                }
+                if (areas.isHasSportsCourtArea()) {
+                    sportsAreaRb.setVisibility(View.VISIBLE);
+                }
+                if (!areas.isHasGourmetArea() && !areas.isHasPoolArea() && !areas.isHasBarbecueArea()
+                        && !areas.isHasMoviesArea() && !areas.isHasPartyRoomArea()
+                        && !areas.isHasSportsCourtArea()) {
+                    commonAreasTv.setVisibility(View.VISIBLE);
+                } else {
+                    commonAreasTv.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     @Override

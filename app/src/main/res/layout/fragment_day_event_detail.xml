@@ -117,38 +117,53 @@
                 android:id="@+id/event_details_gourmet_area_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="@string/gourmet_area"/>
 
             <RadioButton
                 android:id="@+id/event_details_pool_area_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="@string/pool_area"/>
 
             <RadioButton
                 android:id="@+id/event_details_barbecue_area_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="@string/barbecue_area"/>
 
             <RadioButton
                 android:id="@+id/event_details_movies_area_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="@string/movies_area" />
 
             <RadioButton
                 android:id="@+id/event_details_party_room_area_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="@string/party_room_area"/>
 
             <RadioButton
                 android:id="@+id/event_details_sports_area_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="@string/sports_court_area"/>
+
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/no_common_areas_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp"
+            android:text="@string/cond_has_no_common_area"
+            android:gravity="center_horizontal"/>
 
         <TextView
             android:id="@+id/event_detail_time_title"

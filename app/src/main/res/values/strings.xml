@@ -116,6 +116,7 @@
     <string name="my_events">My events</string>
     <string name="all_events">All events</string>
     <string name="create_event">Create event</string>
+    <string name="cond_has_no_common_area">Condominium have no common areas</string>
 
     <!-- related profile Activity -->
     <string name="chose_a_profile_title">Chose a Profile</string>
