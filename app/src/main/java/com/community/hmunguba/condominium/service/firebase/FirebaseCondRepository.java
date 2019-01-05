@@ -1,5 +1,6 @@
 package com.community.hmunguba.condominium.service.firebase;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -87,20 +88,20 @@ public class FirebaseCondRepository<Model> {
         return cond;
     }
 
-    public MutableLiveData<List<String>> queryCondsNames() {
-        final MutableLiveData<List<String>> data = new MutableLiveData<>();
+    public MutableLiveData<List<Condominium>> queryCondsNames() {
+        final MutableLiveData<List<Condominium>> data = new MutableLiveData<>();
         Query query = mRef.child("condominiums").orderByChild("name");
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<String> names = new ArrayList<>();
+                List<Condominium> conds = new ArrayList<>();
 
                 for(DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                    String name = childDataSnapshot.child("name").getValue(String.class);
-                    names.add(name);
+                    Condominium cond = childDataSnapshot.getValue(Condominium.class);
+                    conds.add(cond);
                 }
-                data.setValue(names);
+                data.setValue(conds);
 
             }
 

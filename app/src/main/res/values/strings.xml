@@ -37,6 +37,7 @@
     <string name="condominium">Condominium:</string>
     <string name="personal_info_title">Personal Info</string>
     <string name="residence_info_title">Residence Info</string>
+    <string name="load_available_conds">Search</string>
 
     <!-- Related with condominium profile -->
     <string name="condominium_name">Name: </string>

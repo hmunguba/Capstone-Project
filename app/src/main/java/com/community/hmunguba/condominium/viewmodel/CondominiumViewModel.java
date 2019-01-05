@@ -14,7 +14,7 @@ public class CondominiumViewModel extends ViewModel {
     public static final String TAG = CondominiumViewModel.class.getSimpleName();
 
     private MutableLiveData<Condominium> cond;
-    private MutableLiveData<List<String>> condsNameList;
+    private MutableLiveData<List<Condominium>> condsNameList;
 
     public LiveData<Condominium> getCondById(String id) {
         if (cond == null) {
@@ -24,10 +24,10 @@ public class CondominiumViewModel extends ViewModel {
         return cond;
     }
 
-    public LiveData<List<String>> getCondsNameList() {
+    public LiveData<List<Condominium>> getCondsNameList() {
         if (condsNameList == null) {
             condsNameList = new MutableLiveData<>();
-            loadCondsNameList();
+            loadCondsNames();
         }
         return condsNameList;
     }
@@ -52,7 +52,7 @@ public class CondominiumViewModel extends ViewModel {
         FirebaseCondRepository.getInstance().updateCondServicesInfo(condominium);
     }
 
-    public LiveData<List<String>> loadCondsNameList() {
+    public LiveData<List<Condominium>> loadCondsNames() {
         Log.d(TAG, "loadCondsNameList");
         condsNameList = FirebaseCondRepository.getInstance().queryCondsNames();
 

@@ -18,11 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
+import com.community.hmunguba.condominium.service.model.Condominium;
 import com.community.hmunguba.condominium.service.model.User;
 import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
 import com.community.hmunguba.condominium.service.utils.Utils;
@@ -30,6 +31,7 @@ import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
 import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;
 import com.community.hmunguba.condominium.viewmodel.ResidentViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResidentProfileFragment extends Fragment implements View.OnClickListener {
@@ -43,7 +45,9 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     private TextInputLayout phoneNumberInput;
     private TextInputLayout cityInput;
     private TextInputLayout condNameInput;
+    private LinearLayout condInfoLl;
     private Spinner condOptionsSp;
+    private Button loadCondsBtn;
     private Button saveBtn;
 
     private String residentId;
@@ -56,6 +60,7 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     private String selectedCond;
 
     private ResidentViewModel residentViewModel;
+    private ArrayList<Condominium> loadedConds;
 
     public ResidentProfileFragment() {}
 
@@ -64,9 +69,10 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         super.onCreate(savedInstanceState);
 
         residentViewModel = ViewModelProviders.of(this).get(ResidentViewModel.class);
+        loadedConds = new ArrayList<>();
         mContext = getActivity();
+
         setupCondsNamesViewModel();
-        checkUserSetup();
     }
 
     @Nullable
@@ -81,9 +87,13 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         cityInput = rootView.findViewById(R.id.resident_city_til);
         condOptionsSp = rootView.findViewById(R.id.resident_cond_options);
         condNameInput = rootView.findViewById(R.id.resident_cond_name_til);
+        condInfoLl = rootView.findViewById(R.id.resident_residence_info_ll);
+        loadCondsBtn = rootView.findViewById(R.id.resident_load_conds_btn);
         saveBtn = rootView.findViewById(R.id.resident_ok_btn);
 
+        loadCondsBtn.setOnClickListener(this);
         saveBtn.setOnClickListener(this);
+        checkUserSetup();
 
         return rootView;
     }
@@ -97,6 +107,9 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
             public void onChanged(@Nullable User user) {
                 if (user != null) {
                     // Disabling unchangeble fields
+                    condInfoLl.setVisibility(View.VISIBLE);
+                    loadCondsBtn.setVisibility(View.GONE);
+
                     firstNameInput.getEditText().setText(user.getFirstName());
                     lastNameInput.getEditText().setText(user.getLastName());
                     houseNumberInput.getEditText().setText(String.valueOf(user.getHouseNumber()));
@@ -121,21 +134,37 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
                     condNameInput.getEditText().setFocusable(false);
                     condNameInput.getEditText().setInputType(InputType.TYPE_NULL);
                     condNameInput.getEditText().setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+                } else {
+                    // Load conds only after knowing the city name
+                    condInfoLl.setVisibility(View.GONE);
                 }
             }
         });
     }
 
     public void setupCondsNamesViewModel() {
+        Log.d(TAG, "setupCondsNamesViewModel");
+
         CondominiumViewModel condViewModel = ViewModelProviders.of(this).get(CondominiumViewModel.class);
-        condViewModel.getCondsNameList().observe(this, new Observer<List<String>>() {
+        condViewModel.getCondsNameList().observe(this, new Observer<List<Condominium>>() {
             @Override
-            public void onChanged(@Nullable List<String> condNames) {
-                if (condNames != null && condNames.size() > 0) {
-                    populateCondSpinner(condNames);
+            public void onChanged(@Nullable List<Condominium> conds) {
+                for (Condominium c : conds) {
+                    loadedConds.add(c);
                 }
             }
         });
+    }
+
+    public ArrayList<String> getCondsNameForCity() {
+        ArrayList<String> condNames = new ArrayList<>();
+
+        for (int i = 0; i < loadedConds.size(); i++) {
+            if (loadedConds.get(i).getCity().equals(city)){
+                condNames.add(loadedConds.get(i).getName());
+            }
+        }
+        return condNames;
     }
 
     public void populateCondSpinner(List<String> condsNames) {
@@ -143,6 +172,7 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mContext,
                 android.R.layout.simple_spinner_item, condsNames);
+        spinnerAdapter.notifyDataSetChanged();
         condOptionsSp.setAdapter(spinnerAdapter);
     }
 
@@ -155,6 +185,26 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
             } else {
                 Toast.makeText(mContext, R.string.insert_all_required_fiels_toast, Toast.LENGTH_SHORT).show();
             }
+        } else if (view.getId() == R.id.resident_load_conds_btn) {
+            checkCityName();
+        }
+    }
+
+    public void checkCityName() {
+        city = cityInput.getEditText().getText().toString();
+
+        if (city == null || city.isEmpty()) {
+            Toast.makeText(getContext(), "Please input a city name", Toast.LENGTH_SHORT).show();
+        } else {
+            condInfoLl.setVisibility(View.VISIBLE);
+            ArrayList<String> condList = getCondsNameForCity();
+            if (condList != null && condList.size() > 0) {
+                //condOptionsSp.setEnabled(true);
+                populateCondSpinner(condList);
+            } else {
+                Toast.makeText(getContext(), "No condominium found for this city", Toast.LENGTH_SHORT).show();
+                populateCondSpinner(new ArrayList<String>());
+            }
         }
     }
 
@@ -163,11 +213,10 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         lastName = lastNameInput.getEditText().getText().toString();
         houseNumber = houseNumberInput.getEditText().getText().toString();
         phoneNumber = phoneNumberInput.getEditText().getText().toString();
-        city = cityInput.getEditText().getText().toString();
-        selectedCond = condOptionsSp.getSelectedItem().toString();
 
         if (!firstName.isEmpty() && !lastName.isEmpty() && !houseNumber.isEmpty() &&
-                !email.isEmpty() && !city.isEmpty() &&  selectedCond != null) {
+                !email.isEmpty() && !city.isEmpty() &&  condOptionsSp.getSelectedItem() != null) {
+            selectedCond = condOptionsSp.getSelectedItem().toString();
             return true;
         }
         return false;
