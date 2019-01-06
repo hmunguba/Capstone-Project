@@ -70,7 +70,8 @@ public class DayEventFragment extends Fragment implements View.OnClickListener {
     }
 
     public void loadEventsForThisDay() {
-        eventViewModel.queryEventsForDay(simpleDate).observe(this, new Observer<List<Event>>() {
+        String condId = Utils.getCondIdPreference(getContext());
+        eventViewModel.queryEventsForDay(condId, simpleDate).observe(this, new Observer<List<Event>>() {
             @Override
             public void onChanged(@Nullable List<Event> events) {
                 if (events.size() > 0) {

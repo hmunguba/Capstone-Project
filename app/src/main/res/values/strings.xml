@@ -117,6 +117,7 @@
     <string name="all_events">All events</string>
     <string name="create_event">Create event</string>
     <string name="cond_has_no_common_area">Condominium have no common areas</string>
+    <string name="event_same_day_same_place">There is another event already reserved at the same day and same please.</string>
 
     <!-- related profile Activity -->
     <string name="chose_a_profile_title">Chose a Profile</string>

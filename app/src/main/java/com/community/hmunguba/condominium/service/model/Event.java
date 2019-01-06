@@ -134,4 +134,23 @@ public class Event {
     public String getCondId() {
         return condId;
     }
+
+    public boolean hasSameCommonAreas(Event eventB) {
+        boolean hasMoviesArea = this.getReservedArea().isHasMoviesArea();
+        boolean hasBarbecueArea = this.getReservedArea().isHasBarbecueArea();
+        boolean hasGourmetArea = this.getReservedArea().isHasGourmetArea();
+        boolean hasPoolArea = this.getReservedArea().isHasPoolArea();
+        boolean hasPartyArea = this.getReservedArea().isHasPartyRoomArea();
+        boolean hasSportsArea = this.getReservedArea().isHasSportsCourtArea();
+
+        if (eventB.getReservedArea().isHasGourmetArea() == hasGourmetArea &&
+                eventB.getReservedArea().isHasBarbecueArea() == hasBarbecueArea &&
+                eventB.getReservedArea().isHasPoolArea() == hasPoolArea &&
+                eventB.getReservedArea().isHasPartyRoomArea() == hasPartyArea &&
+                eventB.getReservedArea().isHasMoviesArea() == hasMoviesArea &&
+                eventB.getReservedArea().isHasSportsCourtArea() == hasSportsArea) {
+            return true;
+        }
+        return false;
+    }
 }

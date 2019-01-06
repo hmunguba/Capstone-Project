@@ -88,36 +88,7 @@ public class FirebaseEventRepository {
         return data;
     }
 
-    public MutableLiveData<List<Event>> queryEventsByMonth(String month, final String year) {
-        final MutableLiveData<List<Event>> data = new MutableLiveData<>();
-        Query query = mRef.child("events").child(month);
-
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<Event> events = new ArrayList<>();
-
-                Log.d(TAG, "datasnaposhot = " + dataSnapshot);
-                for(DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                    String childYear = childDataSnapshot.child("year").getValue(String.class);
-                    if (childYear.equals(year)) {
-                        Event event = childDataSnapshot.getValue(Event.class);
-                        events.add(event);
-                    }
-                }
-                data.setValue(events);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, databaseError.getMessage());
-                data.setValue(null);
-            }
-        });
-        return data;
-    }
-
-    public MutableLiveData<List<Event>> queryEventsForDay(String simpleDate) {
+    public MutableLiveData<List<Event>> queryEventsForDay(final String condId, String simpleDate) {
         final MutableLiveData<List<Event>> data = new MutableLiveData<>();
         Query query = mRef.child("events").orderByChild("simpleDate").equalTo(simpleDate);
 
@@ -128,9 +99,13 @@ public class FirebaseEventRepository {
 
                 Log.d(TAG, "datasnaposhot = " + dataSnapshot);
                 for(DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                    Event event = childDataSnapshot.getValue(Event.class);
-                    events.add(event);
+                    String childDataCondId = childDataSnapshot.child("condId").getValue(String.class);
+                    if (condId != null && childDataCondId.equals(condId)) {
+                        Event event = childDataSnapshot.getValue(Event.class);
+                        events.add(event);
+                    }
                 }
+
                 data.setValue(events);
             }
 

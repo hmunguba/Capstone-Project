@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;
 import com.community.hmunguba.condominium.viewmodel.EventViewModel;
 
 import java.util.Date;
+import java.util.List;
 
 public class DayEventDetailFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = DayEventDetailFragment.class.getSimpleName();
@@ -37,6 +39,8 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
     private Context mContext;
     private EventViewModel eventViewModel;
     private String date;
+    private String condId;
+    private String eventSimpleDate;
 
     private TextView eventDay;
     private TextInputLayout eventNameInput;
@@ -75,6 +79,9 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
         eventViewModel = ViewModelProviders.of(this).get(EventViewModel.class);
         eventArea = new CommonAreas();
         getCondAvailableCommonAreas();
+
+        condId = Utils.getCondIdPreference(getContext());
+        eventSimpleDate = Utils.getSimpleDateAsString(date);
     }
 
     @Override
@@ -148,7 +155,8 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
     public void onClick(View view) {
         if (view.getId() == R.id.event_detail_add_event) {
             if (checkAllRequiredFields()) {
-                createEvent();
+                Event event = createEvent();
+                checkHasEventDayPlaceSamePlace(event);
             } else {
                 Toast.makeText(mContext, R.string.insert_all_required_fiels_toast,
                         Toast.LENGTH_SHORT).show();
@@ -156,16 +164,43 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
         }
     }
 
-    private void createEvent() {
-        String condId = Utils.getCondIdPreference(getContext());
+    private void checkHasEventDayPlaceSamePlace(final Event newEvent) {
+        Log.d(TAG, "Checking if already exists an event at the same day and same area");
+
+        eventViewModel.queryEventsForDay(condId, eventSimpleDate).observe(this, new Observer<List<Event>>() {
+            @Override
+            public void onChanged(@Nullable List<Event> events) {
+                boolean foundEvent = false;
+                if (events.size() > 0) {
+                    for (int i = 0; i < events.size(); i++) {
+                        Log.d(TAG, "checking event " + events.get(i).getTitle());
+                        if (newEvent.hasSameCommonAreas(events.get(i)) &&
+                                !newEvent.getEventId().equals(events.get(i).getEventId())) {
+                            foundEvent = true;
+                            break;
+                        }
+                    }
+                }
+                if (!foundEvent) {
+                    addEventToServer(newEvent);
+                } else {
+                    Toast.makeText(getContext(), R.string.event_same_day_same_place, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private Event createEvent() {
         Date eventDate = Utils.getDateFromString(date);
-        String eventSimpleDate = Utils.getSimpleDateAsString(date);
         String eventId = eventSimpleDate + "_" + eventName;
 
         String createdBy = FirebaseUserAuthentication.getInstance().getUserEmail();
         Event event = new Event(eventId, createdBy, eventName, eventDate, eventSimpleDate,
                 Integer.parseInt(eventParticipants), eventArea, startTime, endTime, condId);
+        return event;
+    }
 
+    public void addEventToServer(Event event) {
         eventViewModel.createEvent(event).observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
@@ -173,7 +208,6 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
                     Toast.makeText(getContext(), getString(R.string.event_created_success),
                             Toast.LENGTH_SHORT).show();
                     backToEventsFragment();
-
                 } else {
                     Toast.makeText(getContext(), getString(R.string.event_created_fail),
                             Toast.LENGTH_LONG).show();
