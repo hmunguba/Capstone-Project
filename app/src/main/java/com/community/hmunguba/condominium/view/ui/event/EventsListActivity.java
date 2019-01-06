@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.community.hmunguba.condominium.R;
@@ -21,6 +20,7 @@ import com.community.hmunguba.condominium.view.adapter.EventsForTheDayAdapter;
 import com.community.hmunguba.condominium.viewmodel.EventViewModel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class EventsListActivity extends AppCompatActivity
@@ -55,12 +55,18 @@ public class EventsListActivity extends AppCompatActivity
 
     public void setupEvents(final int type) {
         Log.d(TAG, "setting up events");
+        final Date today = new Date();
         allEvents = new ArrayList<>();
         String condId = Utils.getCondIdPreference(getApplicationContext());
+
         eventViewModel.loadAllEvents(condId).observe(this, new Observer<List<Event>>() {
             @Override
             public void onChanged(@Nullable List<Event> events) {
-                allEvents.addAll(events);
+                for (int i = 0; i < events.size(); i++) {
+                    if (!Utils.isOldEvent(today, events.get(i))) {
+                        allEvents.add(events.get(i));
+                    }
+                }
 
                 if (type == ALL_EVENTS) {
                     if (allEvents.size() <= 0) {

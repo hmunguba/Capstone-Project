@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
+import com.community.hmunguba.condominium.service.model.Event;
 
 import java.text.Normalizer;
 import java.text.ParseException;
@@ -64,9 +65,8 @@ public class Utils {
         return name.toLowerCase();
     }
 
-    public static Date getDateFromString(String fullDate) {
+    public static Date getDateFromString(String simpleDate) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        String simpleDate = getSimpleDateAsString(fullDate);
         Date date = new Date();
 
         try {
@@ -86,6 +86,15 @@ public class Utils {
         String month = getMonthNumberCorrepondant(monthName);
         String simpleDate = day + "-" + month + "-" + year;
         return simpleDate;
+    }
+
+    public static boolean isOldEvent(Date today, Event event) {
+        Date eventDate = Utils.getDateFromString(event.getSimpleDate());
+
+        if (eventDate.before(today)) {
+            return true;
+        }
+        return false;
     }
 
     public static String getMonthNumberCorrepondant(String monthText) {
