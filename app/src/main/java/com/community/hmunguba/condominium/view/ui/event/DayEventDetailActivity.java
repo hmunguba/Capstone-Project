@@ -2,19 +2,15 @@ package com.community.hmunguba.condominium.view.ui.event;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -33,14 +29,14 @@ import com.community.hmunguba.condominium.viewmodel.EventViewModel;
 import java.util.Date;
 import java.util.List;
 
-public class DayEventDetailFragment extends Fragment implements View.OnClickListener {
-    private static final String TAG = DayEventDetailFragment.class.getSimpleName();
+public class DayEventDetailActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = DayEventDetailActivity.class.getSimpleName();
 
-    private Context mContext;
     private EventViewModel eventViewModel;
-    private String date;
+    private String date = "";
     private String condId;
     private String eventSimpleDate;
+    private boolean eventIsSetup = false;
 
     private TextView eventDay;
     private TextInputLayout eventNameInput;
@@ -63,60 +59,117 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
     private String startTime;
     private String endTime;
 
-    public DayEventDetailFragment() { }
+    public DayEventDetailActivity() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = getActivity();
+        setContentView(R.layout.activity_day_event_detail);
 
-        Bundle arguments = getArguments();
-        date = "";
+        Bundle arguments = getIntent().getExtras();
+        Event previouslyCreatedEvent = null;
+
         if (arguments.containsKey(getString(R.string.bundle_event_date_key))) {
             date = arguments.getString(getString(R.string.bundle_event_date_key));
         }
+        if (arguments.containsKey(getString(R.string.bundle_event_key))) {
+            eventIsSetup = true;
+            previouslyCreatedEvent = arguments.getParcelable(getString(R.string.bundle_event_key));
+        }
 
         eventViewModel = ViewModelProviders.of(this).get(EventViewModel.class);
+        condId = Utils.getCondIdPreference(getApplicationContext());
+        eventSimpleDate = Utils.getSimpleDateAsString(date);
+
         eventArea = new CommonAreas();
         getCondAvailableCommonAreas();
 
-        condId = Utils.getCondIdPreference(getContext());
-        eventSimpleDate = Utils.getSimpleDateAsString(date);
-    }
+        eventDay = findViewById(R.id.event_detail_day_tv);
+        eventNameInput = findViewById(R.id.event_detail_name_til);
+        amountOfPeopleInput = findViewById(R.id.event_detail_amount_of_people_til);
+        eventAreasRadioGroup = findViewById(R.id.common_areas_radio_group);
+        gourmetAreaRb = findViewById(R.id.event_details_gourmet_area_radio_btn);
+        poolAreaRb = findViewById(R.id.event_details_gourmet_area_radio_btn);
+        barbecueAreaRb = findViewById(R.id.event_details_barbecue_area_radio_btn);
+        moviesAreaRb = findViewById(R.id.event_details_movies_area_radio_btn);
+        partyRoomAreaRb = findViewById(R.id.event_details_party_room_area_radio_btn);
+        sportsAreaRb = findViewById(R.id.event_details_sports_area_radio_btn);
+        commonAreasTv = findViewById(R.id.no_common_areas_tv);
+        startTimeInput = findViewById(R.id.event_detail_time_start);
+        endTimeInput = findViewById(R.id.event_detail_time_end);
+        saveBtn = findViewById(R.id.event_detail_add_event);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_day_event_detail, container, false);
-
-        eventDay = view.findViewById(R.id.event_detail_day_tv);
-        eventNameInput = view.findViewById(R.id.event_detail_name_til);
-        amountOfPeopleInput = view.findViewById(R.id.event_detail_amount_of_people_til);
-        eventAreasRadioGroup = view.findViewById(R.id.common_areas_radio_group);
-        gourmetAreaRb = view.findViewById(R.id.event_details_gourmet_area_radio_btn);
-        poolAreaRb = view.findViewById(R.id.event_details_gourmet_area_radio_btn);
-        barbecueAreaRb = view.findViewById(R.id.event_details_barbecue_area_radio_btn);
-        moviesAreaRb = view.findViewById(R.id.event_details_movies_area_radio_btn);
-        partyRoomAreaRb = view.findViewById(R.id.event_details_party_room_area_radio_btn);
-        sportsAreaRb = view.findViewById(R.id.event_details_sports_area_radio_btn);
-        commonAreasTv = view.findViewById(R.id.no_common_areas_tv);
-        startTimeInput = view.findViewById(R.id.event_detail_time_start);
-        endTimeInput = view.findViewById(R.id.event_detail_time_end);
-        saveBtn = view.findViewById(R.id.event_detail_add_event);
-
-        eventDay.setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
+        eventDay.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorDisabled));
         eventDay.setHint(Utils.getSimpleDateAsString(date));
         eventDay.setInputType(InputType.TYPE_NULL);
         eventDay.setKeyListener(null);
 
         saveBtn.setOnClickListener(this);
 
-        return view;
+        if (eventIsSetup) {
+            updateUi(previouslyCreatedEvent);
+        }
+    }
+
+    // disabling fields that cannot be changed
+    private void updateUi(Event event) {
+        Log.d(TAG, "updatingUI event");
+        if (event == null)
+            return;
+
+        eventNameInput.getEditText().setText(event.getTitle());
+        amountOfPeopleInput.getEditText().setText(Integer.toString(event.getNumberOfParticipants()));
+        startTimeInput.getEditText().setText(event.getStartTime());
+        endTimeInput.getEditText().setText(event.getEndTime());
+        gourmetAreaRb.setChecked(event.getReservedArea().isHasGourmetArea());
+        poolAreaRb.setChecked(event.getReservedArea().isHasPoolArea());
+        barbecueAreaRb.setChecked(event.getReservedArea().isHasBarbecueArea());
+        moviesAreaRb.setChecked(event.getReservedArea().isHasMoviesArea());
+        partyRoomAreaRb.setChecked(event.getReservedArea().isHasPartyRoomArea());
+        sportsAreaRb.setChecked(event.getReservedArea().isHasSportsCourtArea());
+
+        eventNameInput.getEditText().setFocusable(false);
+        eventNameInput.getEditText().setInputType(InputType.TYPE_NULL);
+        eventNameInput.getEditText().setTextColor(ContextCompat
+                .getColor(getApplicationContext(), R.color.colorDisabled));
+
+        amountOfPeopleInput.getEditText().setFocusable(false);
+        amountOfPeopleInput.getEditText().setInputType(InputType.TYPE_NULL);
+        amountOfPeopleInput.getEditText().setTextColor(ContextCompat
+                .getColor(getApplicationContext(), R.color.colorDisabled));
+
+        startTimeInput.getEditText().setFocusable(false);
+        startTimeInput.getEditText().setInputType(InputType.TYPE_NULL);
+        startTimeInput.getEditText().setTextColor(ContextCompat
+                .getColor(getApplicationContext(), R.color.colorDisabled));
+
+        endTimeInput.getEditText().setFocusable(false);
+        endTimeInput.getEditText().setInputType(InputType.TYPE_NULL);
+        endTimeInput.getEditText().setTextColor(ContextCompat
+                .getColor(getApplicationContext(), R.color.colorDisabled));
+
+        gourmetAreaRb.setEnabled(false);
+        gourmetAreaRb.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorDisabled));
+
+        poolAreaRb.setEnabled(false);
+        poolAreaRb.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorDisabled));
+
+        barbecueAreaRb.setEnabled(false);
+        barbecueAreaRb.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorDisabled));
+
+        moviesAreaRb.setEnabled(false);
+        moviesAreaRb.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorDisabled));
+
+        partyRoomAreaRb.setEnabled(false);
+        partyRoomAreaRb.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorDisabled));
+
+        sportsAreaRb.setEnabled(false);
+        sportsAreaRb.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorDisabled));
+
+        saveBtn.setVisibility(View.GONE);
     }
 
     private void getCondAvailableCommonAreas() {
-        String condId = Utils.getCondIdPreference(getContext());
         CondominiumViewModel condominiumViewModel = ViewModelProviders.of(this).get(CondominiumViewModel.class);
         condominiumViewModel.loadCond(condId).observe(this, new Observer<Condominium>() {
             @Override
@@ -158,7 +211,7 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
                 Event event = createEvent();
                 checkHasEventDayPlaceSamePlace(event);
             } else {
-                Toast.makeText(mContext, R.string.insert_all_required_fiels_toast,
+                Toast.makeText(getApplicationContext(), R.string.insert_all_required_fiels_toast,
                         Toast.LENGTH_SHORT).show();
             }
         }
@@ -184,18 +237,18 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
                 if (!foundEvent) {
                     addEventToServer(newEvent);
                 } else {
-                    Toast.makeText(getContext(), R.string.event_same_day_same_place, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.event_same_day_same_place,
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
     private Event createEvent() {
-        Date eventDate = Utils.getDateFromString(date);
-        String eventId = eventSimpleDate + "_" + eventName;
+        String newEventId = eventSimpleDate + "_" + eventName;
 
         String createdBy = FirebaseUserAuthentication.getInstance().getUserEmail();
-        Event event = new Event(eventId, createdBy, eventName, eventDate, eventSimpleDate,
+        Event event = new Event(newEventId, createdBy, eventName, eventSimpleDate,
                 Integer.parseInt(eventParticipants), eventArea, startTime, endTime, condId);
         return event;
     }
@@ -205,23 +258,20 @@ public class DayEventDetailFragment extends Fragment implements View.OnClickList
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
                 if (aBoolean) {
-                    Toast.makeText(getContext(), getString(R.string.event_created_success),
+                    Toast.makeText(getApplicationContext(), getString(R.string.event_created_success),
                             Toast.LENGTH_SHORT).show();
-                    backToEventsFragment();
+                    startEventActivity();
                 } else {
-                    Toast.makeText(getContext(), getString(R.string.event_created_fail),
+                    Toast.makeText(getApplicationContext(), getString(R.string.event_created_fail),
                             Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
-    public void backToEventsFragment() {
-        EventFragment eventFragment = new EventFragment();
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.event_container, eventFragment);
-        ft.commit();
+    public void startEventActivity() {
+        Intent eventCalendarIntent = new Intent(DayEventDetailActivity.this, EventActivity.class);
+        startActivity(eventCalendarIntent);
     }
 
     private boolean checkAllRequiredFields() {

@@ -2,6 +2,7 @@ package com.community.hmunguba.condominium.view.ui.event;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,9 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,10 +23,10 @@ import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.adapter.EventsForTheDayAdapter;
 import com.community.hmunguba.condominium.viewmodel.EventViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class DayEventFragment extends Fragment implements View.OnClickListener {
+public class DayEventFragment extends Fragment implements View.OnClickListener,
+        EventsForTheDayAdapter.OnEventClickListener {
     private static final String TAG = DayEventFragment.class.getSimpleName();
 
     private TextView scheduledEventsTv;
@@ -92,24 +90,35 @@ public class DayEventFragment extends Fragment implements View.OnClickListener {
 
     private void setupEventRecyclerView(List<Event> events) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        RecyclerView.Adapter adapter = new EventsForTheDayAdapter(events);
+        RecyclerView.Adapter adapter = new EventsForTheDayAdapter(events, this);
         eventsRecyclerView.setLayoutManager(layoutManager);
         eventsRecyclerView.setAdapter(adapter);
     }
 
     @Override
+    public void onEventClick(View view, Event event) {
+        Log.d(TAG, "Event clicked " + event.getTitle());
+
+        Bundle arguments = new Bundle();
+        arguments.putParcelable(getString(R.string.bundle_event_key), event);
+        arguments.putString(getString(R.string.bundle_event_date_key), event.getSimpleDate());
+        Intent createEventIntent = new Intent(getActivity(), DayEventDetailActivity.class);
+        createEventIntent.putExtras(arguments);
+        startActivity(createEventIntent);
+    }
+
+    @Override
     public void onClick(View view) {
         if (view.getId() == R.id.add_event_btn) {
-            Bundle args = new Bundle();
-            args.putString(getString(R.string.bundle_event_date_key), fullDate.toString());
-
-            DayEventDetailFragment dayEventDetailFragment = new DayEventDetailFragment();
-            dayEventDetailFragment.setArguments(args);
-
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.event_container, dayEventDetailFragment);
-            ft.commit();
+            startCreateEventIntent();
         }
+    }
+
+    private void startCreateEventIntent() {
+        Bundle arguments = new Bundle();
+        arguments.putString(getString(R.string.bundle_event_date_key), fullDate.toString());
+        Intent createEventIntent = new Intent(getActivity(), DayEventDetailActivity.class);
+        createEventIntent.putExtras(arguments);
+        startActivity(createEventIntent);
     }
 }

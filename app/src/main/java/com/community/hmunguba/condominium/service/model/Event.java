@@ -1,13 +1,13 @@
 package com.community.hmunguba.condominium.service.model;
 
-import java.util.Date;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Event {
+public class Event implements Parcelable {
 
     private String eventId;
     private String createdBy;
     private String title;
-    private Date date;
     private String simpleDate;
     private String year;
     private String month;
@@ -20,14 +20,30 @@ public class Event {
 
     public Event() { }
 
-    public Event(String eventId, String createdBy, String title, Date date, String simpleDate,
+    public Event(String eventId, String createdBy, String title, String simpleDate,
                  int numberOfParticipants, CommonAreas reservedArea, String startTime,
                  String endTime, String condId) {
         this.eventId = eventId;
         this.createdBy = createdBy;
         this.title = title;
-        this.date = date;
         this.simpleDate = simpleDate;
+        this.numberOfParticipants = numberOfParticipants;
+        this.reservedArea = reservedArea;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.condId = condId;
+    }
+
+    public Event(String eventId, String createdBy, String title, String simpleDate, String year,
+                 String month, String day, int numberOfParticipants, CommonAreas reservedArea,
+                 String startTime, String endTime, String condId) {
+        this.eventId = eventId;
+        this.createdBy = createdBy;
+        this.title = title;
+        this.simpleDate = simpleDate;
+        this.year = year;
+        this.month = month;
+        this.day = day;
         this.numberOfParticipants = numberOfParticipants;
         this.reservedArea = reservedArea;
         this.startTime = startTime;
@@ -57,14 +73,6 @@ public class Event {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public String getSimpleDate() {
@@ -153,4 +161,52 @@ public class Event {
         }
         return false;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(this.eventId);
+        parcel.writeString(this.createdBy);
+        parcel.writeString(this.title);
+        parcel.writeString(this.simpleDate);
+        parcel.writeString(this.year);
+        parcel.writeString(this.month);
+        parcel.writeString(this.day);
+        parcel.writeInt(this.numberOfParticipants);
+        parcel.writeParcelable(this.reservedArea, i);
+        parcel.writeString(this.startTime);
+        parcel.writeString(this.endTime);
+        parcel.writeString(this.condId);
+    }
+
+    protected Event(Parcel in) {
+        this.eventId = in.readString();
+        this.createdBy = in.readString();
+        this.title = in.readString();
+        this.simpleDate = in.readString();
+        this.year = in.readString();
+        this.month = in.readString();
+        this.day = in.readString();
+        this.numberOfParticipants = in.readInt();
+        this.reservedArea = in.readParcelable(CommonAreas.class.getClassLoader());
+        this.startTime = in.readString();
+        this.endTime = in.readString();
+        this.condId = in.readString();
+    }
+
+    public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel parcel) {
+            return new Event(parcel);
+        }
+
+        @Override
+        public Event[] newArray(int i) {
+            return new Event[i];
+        }
+    };
 }

@@ -40,6 +40,7 @@
         <activity android:name=".view.ui.login.ChoseProfileType" />
         <activity android:name=".view.ui.concierge.ConciergeActivity" />
         <activity android:name=".view.ui.event.EventsListActivity"></activity>
+        <activity android:name=".view.ui.event.DayEventDetailActivity"></activity>
     </application>
 
 </manifest>

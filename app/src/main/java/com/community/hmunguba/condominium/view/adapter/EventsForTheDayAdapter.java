@@ -17,24 +17,37 @@ import java.util.List;
 public class EventsForTheDayAdapter extends RecyclerView.Adapter<EventsForTheDayAdapter.EventsViewHolder> {
     private static final String TAG = EventsForTheDayAdapter.class.getSimpleName();
     private List<Event> mEvents;
+    private OnEventClickListener eventClickListener;
 
-    public static class EventsViewHolder extends RecyclerView.ViewHolder {
+    public static class EventsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private ImageView eventItemIcon;
         private TextView eventItemDate;
         private TextView eventItemName;
+        private Event event;
 
-        public EventsViewHolder(View view) {
+        private OnEventClickListener eventClickListener;
+
+        public EventsViewHolder(View view, OnEventClickListener listener) {
             super(view);
             eventItemIcon = view.findViewById(R.id.item_event_icon);
             eventItemDate = view.findViewById(R.id.item_event_date);
             eventItemName = view.findViewById(R.id.item_event_name);
+
+            eventClickListener = listener;
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            eventClickListener.onEventClick(view,event);
         }
     }
 
-    public EventsForTheDayAdapter(List<Event> events) {
+    public EventsForTheDayAdapter(List<Event> events, OnEventClickListener listener) {
         Log.d(TAG, "events size = " + events.size());
        this.mEvents = events;
+       eventClickListener = listener;
     }
 
     @Override
@@ -43,6 +56,7 @@ public class EventsForTheDayAdapter extends RecyclerView.Adapter<EventsForTheDay
         holder.eventItemIcon.setBackgroundResource(iconResource);
         holder.eventItemDate.setText(mEvents.get(position).getSimpleDate());
         holder.eventItemName.setText(mEvents.get(position).getTitle());
+        holder.event = mEvents.get(position);
     }
 
     @Override
@@ -75,7 +89,11 @@ public class EventsForTheDayAdapter extends RecyclerView.Adapter<EventsForTheDay
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.event_item, parent, false);
 
-        return new EventsViewHolder(itemView);
+        return new EventsViewHolder(itemView, eventClickListener);
+    }
+
+    public interface OnEventClickListener {
+        void onEventClick(View view, Event event);
     }
 
 }

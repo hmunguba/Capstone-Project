@@ -1,6 +1,9 @@
 package com.community.hmunguba.condominium.service.model;
 
-public class CommonAreas {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class CommonAreas implements Parcelable {
 
     private boolean hasGourmetArea;
     private boolean hasPoolArea;
@@ -8,6 +11,18 @@ public class CommonAreas {
     private boolean hasMoviesArea;
     private boolean hasPartyRoomArea;
     private boolean hasSportsCourtArea;
+
+    public CommonAreas() { }
+
+    public CommonAreas(boolean hasGourmetArea, boolean hasPoolArea, boolean hasBarbecueArea,
+                       boolean hasMoviesArea, boolean hasPartyRoomArea, boolean hasSportsCourtArea) {
+        this.hasGourmetArea = hasGourmetArea;
+        this.hasPoolArea = hasPoolArea;
+        this.hasBarbecueArea = hasBarbecueArea;
+        this.hasMoviesArea = hasMoviesArea;
+        this.hasPartyRoomArea = hasPartyRoomArea;
+        this.hasSportsCourtArea = hasSportsCourtArea;
+    }
 
     public boolean isHasGourmetArea() {
         return hasGourmetArea;
@@ -110,4 +125,40 @@ public class CommonAreas {
         hasPartyRoomArea = false;
         hasSportsCourtArea = true;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeByte((byte) (hasGourmetArea ? 1 : 0));
+        parcel.writeByte((byte) (hasPoolArea ? 1 : 0));
+        parcel.writeByte((byte) (hasBarbecueArea ? 1 : 0));
+        parcel.writeByte((byte) (hasMoviesArea ? 1 : 0));
+        parcel.writeByte((byte) (hasPartyRoomArea ? 1 : 0));
+        parcel.writeByte((byte) (hasSportsCourtArea ? 1 : 0));
+    }
+
+    protected CommonAreas(Parcel in) {
+        this.hasGourmetArea = in.readByte() != 0;
+        this.hasPoolArea = in.readByte() != 0;
+        this.hasBarbecueArea = in.readByte() != 0;
+        this.hasMoviesArea = in.readByte() != 0;
+        this.hasPartyRoomArea = in.readByte() != 0;
+        this.hasSportsCourtArea = in.readByte() != 0;
+    }
+
+    public static final Parcelable.Creator<CommonAreas> CREATOR = new Parcelable.Creator<CommonAreas>() {
+        @Override
+        public CommonAreas createFromParcel(Parcel parcel) {
+            return new CommonAreas(parcel);
+        }
+
+        @Override
+        public CommonAreas[] newArray(int i) {
+            return new CommonAreas[i];
+        }
+    };
 }

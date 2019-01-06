@@ -2,6 +2,7 @@ package com.community.hmunguba.condominium.view.ui.event;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.community.hmunguba.condominium.R;
@@ -21,7 +23,8 @@ import com.community.hmunguba.condominium.viewmodel.EventViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventsListActivity extends AppCompatActivity {
+public class EventsListActivity extends AppCompatActivity
+        implements EventsForTheDayAdapter.OnEventClickListener{
     private static final String TAG = EventsListActivity.class.getSimpleName();
     public static final int ALL_EVENTS = 0;
     public static final int MY_EVENTS = 1;
@@ -99,9 +102,21 @@ public class EventsListActivity extends AppCompatActivity {
     private void setupEventRecyclerView(List<Event> events) {
         Log.d(TAG, "setupEventRecyclerView");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        RecyclerView.Adapter adapter = new EventsForTheDayAdapter(events);
+        RecyclerView.Adapter adapter = new EventsForTheDayAdapter(events, this);
         eventsListRv.setLayoutManager(layoutManager);
         eventsListRv.setAdapter(adapter);
     }
 
+    @Override
+    public void onEventClick(View view, Event event) {
+        Log.d(TAG, "Event clicked " + event.getTitle());
+
+        Bundle arguments = new Bundle();
+        arguments.putString(getString(R.string.bundle_event_date_key), event.getSimpleDate());
+        arguments.putParcelable(getString(R.string.bundle_event_key), event);
+        Intent createEventIntent = new Intent(EventsListActivity.this,
+                DayEventDetailActivity.class);
+        createEventIntent.putExtras(arguments);
+        startActivity(createEventIntent);
+    }
 }
