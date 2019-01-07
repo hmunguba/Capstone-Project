@@ -36,21 +36,4 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.profile_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_delete_profile:
-                return true;
-            default :
-                return super.onOptionsItemSelected(item);
-        }
-    }
 }

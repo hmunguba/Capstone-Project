@@ -128,8 +128,6 @@
                             android:layout_height="wrap_content"/>
                     </android.support.design.widget.TextInputLayout>
 
-=======
->>>>>>> 221e5e81e6b92ed1b0c30610ca0677d448c6ef75
                     <!-- Zip code -->
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/cond_zipcode_til"
