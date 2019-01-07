@@ -31,8 +31,7 @@ public class DayEventFragment extends Fragment implements View.OnClickListener,
     private RecyclerView eventsRecyclerView;
     private Button addEventBtn;
 
-    private String fullDate;
-    private String simpleDate;
+    private String simpleDate = "";
     private EventViewModel eventViewModel;
 
     @Override
@@ -40,13 +39,11 @@ public class DayEventFragment extends Fragment implements View.OnClickListener,
         super.onCreate(savedInstanceState);
 
         Bundle arguments = getArguments();
-        fullDate = "";
         if (arguments.containsKey(getString(R.string.bundle_event_date_key))) {
-            fullDate = arguments.getString(getString(R.string.bundle_event_date_key));
+            simpleDate = arguments.getString(getString(R.string.bundle_event_date_key));
         }
 
         eventViewModel = ViewModelProviders.of(this).get(EventViewModel.class);
-        simpleDate = Utils.getSimpleDateAsString(fullDate);
         loadEventsForThisDay();
     }
 
@@ -114,7 +111,7 @@ public class DayEventFragment extends Fragment implements View.OnClickListener,
 
     private void startCreateEventIntent() {
         Bundle arguments = new Bundle();
-        arguments.putString(getString(R.string.bundle_event_date_key), fullDate.toString());
+        arguments.putString(getString(R.string.bundle_event_date_key), simpleDate);
         Intent createEventIntent = new Intent(getActivity(), DayEventDetailActivity.class);
         createEventIntent.putExtras(arguments);
         startActivity(createEventIntent);

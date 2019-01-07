@@ -116,6 +116,7 @@ public class EventsListActivity extends AppCompatActivity
     @Override
     public void onEventClick(View view, Event event) {
         Log.d(TAG, "Event clicked " + event.getTitle());
+        Log.d(TAG, "Event clicked date :" + event.getSimpleDate());
 
         Bundle arguments = new Bundle();
         arguments.putString(getString(R.string.bundle_event_date_key), event.getSimpleDate());

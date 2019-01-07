@@ -10,6 +10,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -33,10 +36,10 @@ public class DayEventDetailActivity extends AppCompatActivity implements View.On
     private static final String TAG = DayEventDetailActivity.class.getSimpleName();
 
     private EventViewModel eventViewModel;
-    private String date = "";
     private String condId;
     private String eventSimpleDate;
     private boolean eventIsSetup = false;
+    private Event previouslyCreatedEvent = null;
 
     private TextView eventDay;
     private TextInputLayout eventNameInput;
@@ -67,10 +70,9 @@ public class DayEventDetailActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_day_event_detail);
 
         Bundle arguments = getIntent().getExtras();
-        Event previouslyCreatedEvent = null;
 
         if (arguments.containsKey(getString(R.string.bundle_event_date_key))) {
-            date = arguments.getString(getString(R.string.bundle_event_date_key));
+            eventSimpleDate = arguments.getString(getString(R.string.bundle_event_date_key));
         }
         if (arguments.containsKey(getString(R.string.bundle_event_key))) {
             eventIsSetup = true;
@@ -79,7 +81,6 @@ public class DayEventDetailActivity extends AppCompatActivity implements View.On
 
         eventViewModel = ViewModelProviders.of(this).get(EventViewModel.class);
         condId = Utils.getCondIdPreference(getApplicationContext());
-        eventSimpleDate = Utils.getSimpleDateAsString(date);
 
         eventArea = new CommonAreas();
         getCondAvailableCommonAreas();
@@ -100,33 +101,34 @@ public class DayEventDetailActivity extends AppCompatActivity implements View.On
         saveBtn = findViewById(R.id.event_detail_add_event);
 
         eventDay.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorDisabled));
-        eventDay.setHint(Utils.getSimpleDateAsString(date));
         eventDay.setInputType(InputType.TYPE_NULL);
+        eventDay.setHint(eventSimpleDate);
         eventDay.setKeyListener(null);
 
         saveBtn.setOnClickListener(this);
 
         if (eventIsSetup) {
-            updateUi(previouslyCreatedEvent);
+            updateUi();
         }
     }
 
     // disabling fields that cannot be changed
-    private void updateUi(Event event) {
+    private void updateUi() {
         Log.d(TAG, "updatingUI event");
-        if (event == null)
+        if (previouslyCreatedEvent == null)
             return;
 
-        eventNameInput.getEditText().setText(event.getTitle());
-        amountOfPeopleInput.getEditText().setText(Integer.toString(event.getNumberOfParticipants()));
-        startTimeInput.getEditText().setText(event.getStartTime());
-        endTimeInput.getEditText().setText(event.getEndTime());
-        gourmetAreaRb.setChecked(event.getReservedArea().isHasGourmetArea());
-        poolAreaRb.setChecked(event.getReservedArea().isHasPoolArea());
-        barbecueAreaRb.setChecked(event.getReservedArea().isHasBarbecueArea());
-        moviesAreaRb.setChecked(event.getReservedArea().isHasMoviesArea());
-        partyRoomAreaRb.setChecked(event.getReservedArea().isHasPartyRoomArea());
-        sportsAreaRb.setChecked(event.getReservedArea().isHasSportsCourtArea());
+        eventNameInput.getEditText().setText(previouslyCreatedEvent.getTitle());
+        amountOfPeopleInput.getEditText().setText(Integer.
+                toString(previouslyCreatedEvent.getNumberOfParticipants()));
+        startTimeInput.getEditText().setText(previouslyCreatedEvent.getStartTime());
+        endTimeInput.getEditText().setText(previouslyCreatedEvent.getEndTime());
+        gourmetAreaRb.setChecked(previouslyCreatedEvent.getReservedArea().isHasGourmetArea());
+        poolAreaRb.setChecked(previouslyCreatedEvent.getReservedArea().isHasPoolArea());
+        barbecueAreaRb.setChecked(previouslyCreatedEvent.getReservedArea().isHasBarbecueArea());
+        moviesAreaRb.setChecked(previouslyCreatedEvent.getReservedArea().isHasMoviesArea());
+        partyRoomAreaRb.setChecked(previouslyCreatedEvent.getReservedArea().isHasPartyRoomArea());
+        sportsAreaRb.setChecked(previouslyCreatedEvent.getReservedArea().isHasSportsCourtArea());
 
         eventNameInput.getEditText().setFocusable(false);
         eventNameInput.getEditText().setInputType(InputType.TYPE_NULL);
@@ -305,6 +307,51 @@ public class DayEventDetailActivity extends AppCompatActivity implements View.On
             eventArea.setOnlySportsCourtArea();
         }
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        String currentUser = FirebaseUserAuthentication.getInstance().getUserEmail();
+        if (eventIsSetup && previouslyCreatedEvent != null
+                && previouslyCreatedEvent.getCreatedBy().equals(currentUser))
+            inflater.inflate(R.menu.day_event_detail_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete_event:
+                Log.d(TAG, "Delete events action clicked");
+                deleteEvent();
+                startEventsActivity();
+                return true;
+            default :
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void deleteEvent() {
+        eventViewModel.deleteEvent(previouslyCreatedEvent.getEventId()).observe(this,
+                new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        if (aBoolean) {
+                            Toast.makeText(getApplicationContext(), R.string.event_deleted_with_success,
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e(TAG, "Error in deleting event");
+                            Toast.makeText(getApplicationContext(), R.string.event_delete_error,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    public void startEventsActivity() {
+        Intent eventsActivity = new Intent(DayEventDetailActivity.this, EventActivity.class);
+        startActivity(eventsActivity);
     }
 
 }

@@ -79,7 +79,8 @@ public class EventFragment extends Fragment {
                 Log.d("date clicked: ", String.valueOf(date));
 
                 Bundle arguments = new Bundle();
-                arguments.putString(getString(R.string.bundle_event_date_key), date.toString());
+                String simpleDate = Utils.getSimpleDateAsString(date.toString());
+                arguments.putString(getString(R.string.bundle_event_date_key), simpleDate);
 
                 DayEventFragment dayEventFragment = new DayEventFragment();
                 dayEventFragment.setArguments(arguments);
