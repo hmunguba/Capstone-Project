@@ -63,8 +63,8 @@ public class EventFragment extends Fragment {
             public void onChanged(@Nullable List<Event> events) {
                 for (Event event : events) {
                     Log.d(TAG, "Seting up event " + event.getTitle());
-                    calendarView.addEvent(event.getSimpleDate(), event.getStartTime()+":00",
-                            event.getEndTime()+":00", event.getTitle());
+                    calendarView.addEvent(event.getSimpleDate(), event.getStartTime(),
+                            event.getEndTime(), event.getTitle());
                 }
                 calendarView.refreshCalendar();
             }

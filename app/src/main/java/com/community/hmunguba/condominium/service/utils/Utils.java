@@ -143,4 +143,26 @@ public class Utils {
         };
         return drawablesImageIds;
     }
+
+    public static boolean isPossibleTime(String time) {
+        if (time.length() == 1) {
+            return true;
+        }
+        int hour = Integer.parseInt(time.substring(0,2));
+        int minutes = Integer.parseInt(time.substring(3,5));
+        String twoPoints = time.substring(2, 3);
+
+        if (time.length() == 5 && hour <= 23 && minutes < 60 && twoPoints.equals(":")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isValidZipCode(String zipCode) {
+        String hyphen = zipCode.substring(5, 6);
+        if (zipCode.length() == 9 && hyphen.equals("-")) {
+            return true;
+        }
+        return false;
+    }
 }

@@ -13,7 +13,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,6 +102,28 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         condNotFoundBtn.setOnClickListener(this);
         loadCondsBtn.setOnClickListener(this);
         saveBtn.setOnClickListener(this);
+
+        phoneNumberInput.getEditText().setFilters(new InputFilter[] {new InputFilter.LengthFilter(10)});
+
+        phoneNumberInput.getEditText().addTextChangedListener(new TextWatcher() {
+            int prevL = 0;
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                prevL = phoneNumberInput.getEditText().getText().toString().length();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                int length = editable.length();
+                if ((prevL < length) && length == 5) {
+                    editable.append("-");
+                }
+            }
+        });
+
         checkUserSetup();
 
         return rootView;
@@ -207,7 +232,6 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
             condInfoLl.setVisibility(View.VISIBLE);
             ArrayList<String> condList = getCondsNameForCity();
             if (condList != null && condList.size() > 0) {
-                //condOptionsSp.setEnabled(true);
                 populateCondSpinner(condList);
             } else {
                 Toast.makeText(getContext(), "No condominium found for this city", Toast.LENGTH_SHORT).show();
@@ -223,11 +247,18 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         lastName = lastNameInput.getEditText().getText().toString();
         houseNumber = houseNumberInput.getEditText().getText().toString();
         phoneNumber = phoneNumberInput.getEditText().getText().toString();
-        selectedCond = condOptionsSp.getSelectedItem().toString();
+        city = cityInput.getEditText().getText().toString();
+
+        if (condOptionsSp.getVisibility() == View.GONE) {
+            selectedCond = condNameInput.getEditText().getText().toString();
+        } else {
+            if (condOptionsSp.getSelectedItem() == null)
+                return false;
+            selectedCond = condOptionsSp.getSelectedItem().toString();
+        }
 
         if (!firstName.isEmpty() && !lastName.isEmpty() && !houseNumber.isEmpty() &&
-                !email.isEmpty() && !city.isEmpty() &&  condOptionsSp.getSelectedItem() != null) {
-            selectedCond = condOptionsSp.getSelectedItem().toString();
+                !email.isEmpty() && !city.isEmpty() &&  !selectedCond.isEmpty()) {
             return true;
         }
         return false;

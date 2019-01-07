@@ -11,7 +11,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,6 +97,27 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
         partyRoomAreaCb = rootView.findViewById(R.id.party_room_area_check_box);
         sportsCourtAreaCb = rootView.findViewById(R.id.sports_area_check_box);
         okBtn = rootView.findViewById(R.id.ok_btn);
+
+        zipCodeInput.getEditText().setFilters(new InputFilter[] {new InputFilter.LengthFilter(9)});
+
+        zipCodeInput.getEditText().addTextChangedListener(new TextWatcher() {
+            int prevL = 0;
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                prevL = zipCodeInput.getEditText().getText().toString().length();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                int length = editable.length();
+                if ((prevL < length) && length == 5) {
+                    editable.append("-");
+                }
+            }
+        });
 
         okBtn.setOnClickListener(this);
 
@@ -217,8 +241,9 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
         condState = stateSp.getSelectedItem().toString();
         condCity = cityInput.getEditText().getText().toString();
 
-        if (!condName.isEmpty() && !condLocation.isEmpty() && !condNumber.isEmpty() &&
-                !condZipCode.isEmpty() && condState != null && !condCity.isEmpty()) {
+        if (Utils.isValidZipCode(condZipCode) && !condName.isEmpty() && !condLocation.isEmpty()
+                && !condNumber.isEmpty() && !condZipCode.isEmpty() && condState != null
+                && !condCity.isEmpty()) {
             return true;
         }
         return false;

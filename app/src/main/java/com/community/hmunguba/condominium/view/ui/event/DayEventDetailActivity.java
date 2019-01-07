@@ -8,7 +8,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -106,6 +109,47 @@ public class DayEventDetailActivity extends AppCompatActivity implements View.On
         eventDay.setKeyListener(null);
 
         saveBtn.setOnClickListener(this);
+
+        startTimeInput.getEditText().setFilters(new InputFilter[] {new InputFilter.LengthFilter(5)});
+        endTimeInput.getEditText().setFilters(new InputFilter[] {new InputFilter.LengthFilter(5)});
+
+        startTimeInput.getEditText().addTextChangedListener(new TextWatcher() {
+            int prevL = 0;
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                prevL = startTimeInput.getEditText().getText().toString().length();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                int length = editable.length();
+                if ((prevL < length) && length == 2) {
+                    editable.append(":00");
+                }
+            }
+        });
+
+        endTimeInput.getEditText().addTextChangedListener(new TextWatcher() {
+            int prevL = 0;
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                prevL = endTimeInput.getEditText().getText().toString().length();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                int length = editable.length();
+                if ((prevL < length) && length == 2) {
+                    editable.append(":00");
+                }
+            }
+        });
 
         if (eventIsSetup) {
             updateUi();
@@ -282,8 +326,9 @@ public class DayEventDetailActivity extends AppCompatActivity implements View.On
         startTime = startTimeInput.getEditText().getText().toString();
         endTime = endTimeInput.getEditText().getText().toString();
 
-        if (!eventName.isEmpty() && !eventParticipants.isEmpty() && eventArea != null
-                && !startTime.isEmpty() && !endTime.isEmpty() && radioButtonIsChecked()) {
+        if (Utils.isPossibleTime(startTime) && Utils.isPossibleTime(endTime) && !eventName.isEmpty()
+                && !eventParticipants.isEmpty() && eventArea != null && !startTime.isEmpty()
+                && !endTime.isEmpty() && radioButtonIsChecked()) {
             return true;
         }
         return false;

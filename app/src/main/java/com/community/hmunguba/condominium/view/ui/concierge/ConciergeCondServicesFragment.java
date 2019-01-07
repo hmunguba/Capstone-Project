@@ -9,6 +9,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +61,47 @@ public class ConciergeCondServicesFragment extends Fragment implements View.OnCl
         syndicPhoneInput = rootView.findViewById(R.id.services_syndic_phone_til);
         syndicEmailInput = rootView.findViewById(R.id.services_syndic_mail_til);
         saveBtn = rootView.findViewById(R.id.services_ok_btn);
+
+        syndicPhoneInput.getEditText().setFilters(new InputFilter[] {new InputFilter.LengthFilter(10)});
+        conciergePhoneNumberInput.getEditText().setFilters(new InputFilter[] {new InputFilter.LengthFilter(10)});
+
+        conciergePhoneNumberInput.getEditText().addTextChangedListener(new TextWatcher() {
+            int prevL = 0;
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                prevL = conciergePhoneNumberInput.getEditText().getText().toString().length();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                int length = editable.length();
+                if ((prevL < length) && length == 5) {
+                    editable.append("-");
+                }
+            }
+        });
+
+        syndicPhoneInput.getEditText().addTextChangedListener(new TextWatcher() {
+            int prevL = 0;
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                prevL = syndicPhoneInput.getEditText().getText().toString().length();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                int length = editable.length();
+                if ((prevL < length) && length == 5) {
+                    editable.append("-");
+                }
+            }
+        });
 
         saveBtn.setOnClickListener(this);
         checkCondInfo();
