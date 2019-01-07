@@ -3,6 +3,7 @@ package com.community.hmunguba.condominium.view.ui.concierge;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.Condominium;
 import com.community.hmunguba.condominium.service.utils.Utils;
+import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
 import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;
 
 public class ConciergeCondServicesFragment extends Fragment implements View.OnClickListener {
@@ -37,7 +39,6 @@ public class ConciergeCondServicesFragment extends Fragment implements View.OnCl
     private CondominiumViewModel condominiumViewModel;
 
     public ConciergeCondServicesFragment() {
-
     }
 
     @Override
@@ -59,6 +60,7 @@ public class ConciergeCondServicesFragment extends Fragment implements View.OnCl
         saveBtn = rootView.findViewById(R.id.services_ok_btn);
 
         saveBtn.setOnClickListener(this);
+        checkCondInfo();
 
         return rootView;
     }
@@ -67,7 +69,34 @@ public class ConciergeCondServicesFragment extends Fragment implements View.OnCl
     public void onClick(View view) {
         if (view.getId() == R.id.services_ok_btn) {
             updateCondServicesInfo();
+            startMenuActivity();
         }
+    }
+
+    public void checkCondInfo() {
+        String condId = Utils.getCondIdPreference(getContext());
+        condominiumViewModel.loadCond(condId).observe(this, new Observer<Condominium>() {
+            @Override
+            public void onChanged(@Nullable Condominium condominium) {
+                if (condominium.getConciergePhoneNumber() != null
+                        && !condominium.getConciergePhoneNumber().isEmpty()) {
+                    conciergePhoneNumberInput.getEditText()
+                            .setText(condominium.getConciergePhoneNumber());
+                }
+                if (condominium.getSyndicName() != null
+                        && !condominium.getSyndicName().isEmpty()) {
+                    syndicNameInput.getEditText().setText(condominium.getSyndicName());
+                }
+                if (condominium.getSyndicPhone() != null
+                        && !condominium.getSyndicPhone().isEmpty()) {
+                    syndicPhoneInput.getEditText().setText(condominium.getSyndicPhone());
+                }
+                if (condominium.getSyndicMail() != null
+                        && !condominium.getSyndicMail().isEmpty()) {
+                    syndicEmailInput.getEditText().setText(condominium.getSyndicMail());
+                }
+            }
+        });
     }
 
     public void updateCondServicesInfo() {
@@ -92,5 +121,10 @@ public class ConciergeCondServicesFragment extends Fragment implements View.OnCl
                         Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void startMenuActivity() {
+        Intent menuIntent = new Intent(getActivity(), MenuActivity.class);
+        startActivity(menuIntent);
     }
 }
