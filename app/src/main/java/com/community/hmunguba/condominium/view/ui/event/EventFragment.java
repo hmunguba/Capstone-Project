@@ -102,7 +102,7 @@ public class EventFragment extends Fragment {
         calendarView.setCalendarBackgroundColor("#ffffff");
         calendarView.setHeaderBackgroundColor("#ffffff");
         calendarView.setHeaderTextColor("#000000");
-        calendarView.setNextPreviousIndicatorColor("#ffffff");
+        calendarView.setNextPreviousIndicatorColor("#745632");
         calendarView.setWeekDayLayoutBackgroundColor("#965471");
         calendarView.setWeekDayLayoutTextColor("#ffffff");
         calendarView.setExtraDatesOfMonthBackgroundColor("#999999"); //light grey
