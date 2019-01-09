@@ -31,6 +31,7 @@ import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.Condominium;
 import com.community.hmunguba.condominium.service.model.User;
 import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
+import com.community.hmunguba.condominium.service.utils.ConnectionReceiver;
 import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.ui.login.LoginActivity;
 import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
@@ -40,7 +41,8 @@ import com.community.hmunguba.condominium.viewmodel.ResidentViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResidentProfileFragment extends Fragment implements View.OnClickListener {
+public class ResidentProfileFragment extends Fragment implements View.OnClickListener,
+        ConnectionReceiver.ConnectionReceiverListener {
 
     private static final String TAG = ResidentProfileFragment.class.getSimpleName();
     private Context mContext;
@@ -125,8 +127,15 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         });
 
         checkUserSetup();
+        checkConnection();
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ConnectionReceiver.connectionListener = this;
     }
 
     public void checkUserSetup() {
@@ -140,6 +149,7 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
                     // Disabling unchangeble fields
                     condInfoLl.setVisibility(View.VISIBLE);
                     loadCondsBtn.setVisibility(View.GONE);
+                    condNotFoundBtn.setVisibility(View.GONE);
 
                     firstNameInput.getEditText().setText(user.getFirstName());
                     lastNameInput.getEditText().setText(user.getLastName());
@@ -326,5 +336,24 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        settingUpButtons(isConnected);
+    }
+
+    public void checkConnection() {
+        boolean isConnected = ConnectionReceiver.isConnected(getContext());
+        settingUpButtons(isConnected);
+        if (!isConnected) {
+            Utils.displayNoConnectionToast(getContext());
+        }
+    }
+
+    public void settingUpButtons(boolean isConnected) {
+        saveBtn.setEnabled(isConnected);
+        loadCondsBtn.setEnabled(isConnected);
+        condNotFoundBtn.setEnabled(isConnected);
     }
 }

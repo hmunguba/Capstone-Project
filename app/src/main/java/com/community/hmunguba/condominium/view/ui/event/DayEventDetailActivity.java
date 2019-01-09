@@ -28,6 +28,7 @@ import com.community.hmunguba.condominium.service.model.CommonAreas;
 import com.community.hmunguba.condominium.service.model.Condominium;
 import com.community.hmunguba.condominium.service.model.Event;
 import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
+import com.community.hmunguba.condominium.service.utils.ConnectionReceiver;
 import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;
 import com.community.hmunguba.condominium.viewmodel.EventViewModel;
@@ -35,7 +36,8 @@ import com.community.hmunguba.condominium.viewmodel.EventViewModel;
 import java.util.Date;
 import java.util.List;
 
-public class DayEventDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class DayEventDetailActivity extends AppCompatActivity implements View.OnClickListener,
+        ConnectionReceiver.ConnectionReceiverListener {
     private static final String TAG = DayEventDetailActivity.class.getSimpleName();
 
     private EventViewModel eventViewModel;
@@ -151,9 +153,17 @@ public class DayEventDetailActivity extends AppCompatActivity implements View.On
             }
         });
 
+        checkConnection();
+
         if (eventIsSetup) {
             updateUi();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ConnectionReceiver.connectionListener = this;
     }
 
     // disabling fields that cannot be changed
@@ -397,6 +407,25 @@ public class DayEventDetailActivity extends AppCompatActivity implements View.On
     public void startEventsActivity() {
         Intent eventsActivity = new Intent(DayEventDetailActivity.this, EventActivity.class);
         startActivity(eventsActivity);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        Log.d(TAG, "onNetworkConnectionChanged");
+        settingUpButton(isConnected);
+    }
+
+    public void checkConnection() {
+        boolean isConnected = ConnectionReceiver.isConnected(getApplicationContext());
+        settingUpButton(isConnected);
+        if (!isConnected) {
+            Utils.displayNoConnectionToast(getApplicationContext());
+        }
+    }
+
+    public void settingUpButton(boolean isConnected) {
+        Log.d(TAG, "setting button " + isConnected);
+        saveBtn.setEnabled(isConnected);
     }
 
 }

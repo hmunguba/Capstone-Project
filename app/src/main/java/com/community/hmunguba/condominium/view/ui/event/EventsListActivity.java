@@ -11,10 +11,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
 import com.community.hmunguba.condominium.service.model.Event;
+import com.community.hmunguba.condominium.service.utils.ConnectionReceiver;
 import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.adapter.EventsForTheDayAdapter;
 import com.community.hmunguba.condominium.viewmodel.EventViewModel;
@@ -24,7 +26,8 @@ import java.util.Date;
 import java.util.List;
 
 public class EventsListActivity extends AppCompatActivity
-        implements EventsForTheDayAdapter.OnEventClickListener{
+        implements EventsForTheDayAdapter.OnEventClickListener,
+        ConnectionReceiver.ConnectionReceiverListener{
     private static final String TAG = EventsListActivity.class.getSimpleName();
     public static final int ALL_EVENTS = 0;
     public static final int MY_EVENTS = 1;
@@ -51,6 +54,13 @@ public class EventsListActivity extends AppCompatActivity
 
         eventViewModel = ViewModelProviders.of(this).get(EventViewModel.class);
         setupEvents(eventType);
+        checkConnection();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ConnectionReceiver.connectionListener = this;
     }
 
     public void setupEvents(final int type) {
@@ -116,7 +126,6 @@ public class EventsListActivity extends AppCompatActivity
     @Override
     public void onEventClick(View view, Event event) {
         Log.d(TAG, "Event clicked " + event.getTitle());
-        Log.d(TAG, "Event clicked date :" + event.getSimpleDate());
 
         Bundle arguments = new Bundle();
         arguments.putString(getString(R.string.bundle_event_date_key), event.getSimpleDate());
@@ -125,5 +134,24 @@ public class EventsListActivity extends AppCompatActivity
                 DayEventDetailActivity.class);
         createEventIntent.putExtras(arguments);
         startActivity(createEventIntent);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        if (!isConnected) {
+            Toast.makeText(getApplicationContext(), R.string.no_internet_for_loading_events_toast,
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.loading_events_toast,
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void checkConnection() {
+        boolean isConnected = ConnectionReceiver.isConnected(getApplicationContext());
+        if (!isConnected) {
+            Toast.makeText(getApplicationContext(), R.string.no_internet_for_loading_events_toast,
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }

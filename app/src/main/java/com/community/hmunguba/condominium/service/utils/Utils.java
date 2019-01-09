@@ -17,14 +17,6 @@ import java.util.Date;
 
 public class Utils {
 
-    public static boolean hasConnection(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(
-                Context.CONNECTIVITY_SERVICE
-        );
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
-
     public static void displayNoConnectionToast(Context context) {
         Toast.makeText(context, context.getString(R.string.check_internet_connection_toast),
                 Toast.LENGTH_SHORT).show();
@@ -159,6 +151,9 @@ public class Utils {
     }
 
     public static boolean isValidZipCode(String zipCode) {
+        if (zipCode.length() < 9) {
+            return false;
+        }
         String hyphen = zipCode.substring(5, 6);
         if (zipCode.length() == 9 && hyphen.equals("-")) {
             return true;

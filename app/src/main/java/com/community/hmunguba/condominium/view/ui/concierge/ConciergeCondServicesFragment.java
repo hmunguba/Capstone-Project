@@ -21,11 +21,13 @@ import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.Condominium;
+import com.community.hmunguba.condominium.service.utils.ConnectionReceiver;
 import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
 import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;
 
-public class ConciergeCondServicesFragment extends Fragment implements View.OnClickListener {
+public class ConciergeCondServicesFragment extends Fragment implements View.OnClickListener,
+        ConnectionReceiver.ConnectionReceiverListener {
     private static final String TAG = ConciergeCondServicesFragment.class.getSimpleName();
 
     private TextInputLayout conciergePhoneNumberInput;
@@ -105,8 +107,15 @@ public class ConciergeCondServicesFragment extends Fragment implements View.OnCl
 
         saveBtn.setOnClickListener(this);
         checkCondInfo();
+        checkConnection();
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ConnectionReceiver.connectionListener = this;
     }
 
     @Override
@@ -170,5 +179,24 @@ public class ConciergeCondServicesFragment extends Fragment implements View.OnCl
     public void startMenuActivity() {
         Intent menuIntent = new Intent(getActivity(), MenuActivity.class);
         startActivity(menuIntent);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        Log.d(TAG, "onNetworkConnectionChanged");
+        settingUpButton(isConnected);
+    }
+
+    public void checkConnection() {
+        boolean isConnected = ConnectionReceiver.isConnected(getContext());
+        settingUpButton(isConnected);
+        if (!isConnected) {
+            Utils.displayNoConnectionToast(getContext());
+        }
+    }
+
+    public void settingUpButton(boolean isConnected) {
+        Log.d(TAG, "setting button " + isConnected);
+        saveBtn.setEnabled(isConnected);
     }
 }

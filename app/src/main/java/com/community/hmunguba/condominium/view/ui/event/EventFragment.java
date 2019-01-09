@@ -13,9 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.Event;
+import com.community.hmunguba.condominium.service.utils.ConnectionReceiver;
 import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.ui.event.DayEventFragment;
 import com.community.hmunguba.condominium.viewmodel.EventViewModel;
@@ -27,7 +29,7 @@ import java.util.List;
 
 // https://github.com/developerVatsal/MyDynamicCalendarExample?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=5562
 
-public class EventFragment extends Fragment {
+public class EventFragment extends Fragment implements ConnectionReceiver.ConnectionReceiverListener {
     private static final String TAG = EventFragment.class.getSimpleName();
 
     private Context mContext;
@@ -52,8 +54,15 @@ public class EventFragment extends Fragment {
         calendarView = view.findViewById(R.id.calendar_events);
 
         initCalendarView();
+        checkConnection();
         setupEvents();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ConnectionReceiver.connectionListener = this;
     }
 
     public void setupEvents() {
@@ -139,4 +148,19 @@ public class EventFragment extends Fragment {
         calendarView.addHoliday("25-12-2018");
     }
 
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        if (!isConnected) {
+            Toast.makeText(getContext(), R.string.no_internet_for_loading_events_toast, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), R.string.loading_events_toast, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void checkConnection() {
+        boolean isConnected = ConnectionReceiver.isConnected(getContext());
+        if (!isConnected) {
+            Toast.makeText(getContext(), R.string.no_internet_for_loading_events_toast, Toast.LENGTH_SHORT).show();
+        }
+    }
 }

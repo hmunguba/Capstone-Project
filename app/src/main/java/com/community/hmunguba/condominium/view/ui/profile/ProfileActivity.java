@@ -1,10 +1,12 @@
 package com.community.hmunguba.condominium.view.ui.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,6 +36,22 @@ public class ProfileActivity extends AppCompatActivity {
             ft.replace(R.id.profile_container, residentProfileFragment);
             ft.commit();
         }
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        String currentCondId = Utils.getCondIdPreference(getApplicationContext());
+        if (currentCondId.equals(getString(R.string.no_cond_id_set))) {
+            exitApp();
+        }
+    }
+
+    public void exitApp() {
+        Log.d(TAG, "exitApp");
+        Intent exitApp = new Intent(Intent.ACTION_MAIN);
+        exitApp.addCategory(Intent.CATEGORY_HOME);
+        exitApp.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(exitApp);
     }
 }

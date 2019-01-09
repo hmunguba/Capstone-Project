@@ -27,13 +27,15 @@ import android.widget.Toast;
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.CommonAreas;
 import com.community.hmunguba.condominium.service.model.Condominium;
+import com.community.hmunguba.condominium.service.utils.ConnectionReceiver;
 import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
 import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class CondominiumProfileFragment extends Fragment implements View.OnClickListener {
+public class CondominiumProfileFragment extends Fragment implements View.OnClickListener,
+        ConnectionReceiver.ConnectionReceiverListener {
 
     private static final String TAG = CondominiumProfileFragment.class.getSimpleName();
     private FirebaseDatabase mDatabase;
@@ -120,8 +122,15 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
         });
 
         okBtn.setOnClickListener(this);
+        checkConnection();
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ConnectionReceiver.connectionListener = this;
     }
 
     public void checkCondSetup() {
@@ -300,5 +309,24 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
     private void startMenuActivity() {
         Intent intent = new Intent(getActivity(), MenuActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        Log.d(TAG, "onNetworkConnectionChanged");
+        settingUpButtons(isConnected);
+    }
+
+    public void checkConnection() {
+        boolean isConnected = ConnectionReceiver.isConnected(getContext());
+        settingUpButtons(isConnected);
+        if (!isConnected) {
+            Utils.displayNoConnectionToast(getContext());
+        }
+    }
+
+    public void settingUpButtons(boolean isConnected) {
+        Log.d(TAG, "setting button " + isConnected);
+        okBtn.setEnabled(isConnected);
     }
 }

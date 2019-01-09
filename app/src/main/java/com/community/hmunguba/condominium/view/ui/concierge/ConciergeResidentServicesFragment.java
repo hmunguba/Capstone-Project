@@ -9,18 +9,22 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.Condominium;
+import com.community.hmunguba.condominium.service.utils.ConnectionReceiver;
 import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;
 
-public class ConciergeResidentServicesFragment extends Fragment implements View.OnClickListener {
+public class ConciergeResidentServicesFragment extends Fragment implements View.OnClickListener,
+ConnectionReceiver.ConnectionReceiverListener{
     private static final String TAG = ConciergeResidentServicesFragment.class.getSimpleName();
 
     private TextView lobbyTv;
@@ -72,8 +76,15 @@ public class ConciergeResidentServicesFragment extends Fragment implements View.
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ConnectionReceiver.connectionListener = this;
+    }
+
     public void setupCondViewModel() {
         String condId = Utils.getCondIdPreference(getContext());
+        Log.d(TAG, "condId " + condId);
         condominiumViewModel.loadCond(condId).observe(this, new Observer<Condominium>() {
             @Override
             public void onChanged(@Nullable Condominium condominium) {
@@ -81,6 +92,10 @@ public class ConciergeResidentServicesFragment extends Fragment implements View.
                 syndicPhone = condominium.getSyndicPhone();
                 syndicEmail = condominium.getSyndicMail();
 
+                Log.d(TAG, "lobbyPhone " + lobbyPhone);
+                Log.d(TAG, "syndicPhone " + syndicPhone);
+                Log.d(TAG, "syndicEmail " + syndicEmail);
+                Log.d(TAG, "city " + condominium.getCity());
                 updateUI();
             }
         });
@@ -125,6 +140,9 @@ public class ConciergeResidentServicesFragment extends Fragment implements View.
 
     @Override
     public void onClick(View view) {
+        if (!hasConnection()) {
+            return;
+        }
         if (view.getId() == R.id.call_lobby_cv) {
             Log.d(TAG, "Clicked to call lobby");
             dialNumber(lobbyPhone);
@@ -144,6 +162,10 @@ public class ConciergeResidentServicesFragment extends Fragment implements View.
     }
 
     public void dialNumber(String phone) {
+        if (phone == null) {
+            Toast.makeText(getContext(), R.string.not_found_info_toast, Toast.LENGTH_SHORT).show();
+            return;
+        }
         String phoneNumber = String.format("tel: %s", phone);
         Intent dialIntent = new Intent(Intent.ACTION_DIAL);
         dialIntent.setData(Uri.parse(phoneNumber));
@@ -155,8 +177,14 @@ public class ConciergeResidentServicesFragment extends Fragment implements View.
     }
 
     public void sendMessage(String phoneNumber) {
+        if (phoneNumber == null) {
+            Toast.makeText(getContext(), R.string.not_found_info_toast, Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent messageIntent = new Intent(Intent.ACTION_VIEW,
                 Uri.fromParts("sms", phoneNumber, null));
+        String number = String.format("smsto: %s", phoneNumber);
+        messageIntent.setData(Uri.parse(number));
 
         if (messageIntent.resolveActivity(getContext().getPackageManager()) != null) {
             startActivity(Intent.createChooser(messageIntent, "Choose application"));
@@ -166,6 +194,10 @@ public class ConciergeResidentServicesFragment extends Fragment implements View.
     }
 
     public void sendEmail(String email) {
+        if (email == null) {
+            Toast.makeText(getContext(), R.string.not_found_info_toast, Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
                 Uri.parse("mailto:" + email));
 
@@ -175,4 +207,22 @@ public class ConciergeResidentServicesFragment extends Fragment implements View.
             Log.e(TAG, "Can't resolve app for send email intent");
         }
     }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        Log.d(TAG, "onNetworkConnectionChanged");
+        if (!isConnected) {
+            Utils.displayNoConnectionToast(getContext());
+        }
+    }
+
+    public boolean hasConnection() {
+        boolean isConnected = ConnectionReceiver.isConnected(getContext());
+        if (!isConnected) {
+            Utils.displayNoConnectionToast(getContext());
+        }
+        return isConnected;
+    }
+
+
 }

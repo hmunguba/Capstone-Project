@@ -27,6 +27,7 @@ import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.AuthAnswer;
 import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
+import com.community.hmunguba.condominium.view.ui.profile.ProfileActivity;
 import com.community.hmunguba.condominium.viewmodel.LoginViewModel;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -203,6 +204,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(intent);
     }
 
+    public void startProfileActivity() {
+        Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
     public void startChoseProfileTypeActivity() {
         Intent intent = new Intent(LoginActivity.this, ChoseProfileType.class);
         startActivity(intent);
@@ -210,13 +216,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public void checkProfileTypeIsChoosen() {
         String prefFileName = Utils.getPreferenceFileName(this.getApplicationContext());
+        String currentCondId = Utils.getCondIdPreference(getApplicationContext());
+
         SharedPreferences prefs = this.getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
         Boolean hasProfileType = prefs.getBoolean(getString(R.string.has_profile_type_pref), false);
 
-        if (hasProfileType) {
-            startMenuActivity();
-        } else {
+        if (!hasProfileType) {
             startChoseProfileTypeActivity();
+        } else if (hasProfileType && currentCondId.equals(getString(R.string.no_cond_id_set))) {
+            startProfileActivity();
+        } else {
+            startMenuActivity();
         }
     }
 

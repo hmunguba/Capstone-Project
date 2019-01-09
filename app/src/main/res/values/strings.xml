@@ -120,6 +120,8 @@
     <string name="event_same_day_same_place">There is another event already reserved at the same day and same please.</string>
     <string name="event_deleted_with_success">Event deleted with success!</string>
     <string name="event_delete_error">Error in deleting event</string>
+    <string name="no_internet_for_loading_events_toast">Events cannot be loaded because you have no internet connection</string>
+    <string name="loading_events_toast">Loading events...</string>
 
     <!-- related profile Activity -->
     <string name="chose_a_profile_title">Chose a Profile</string>
@@ -138,6 +140,7 @@
     <string name="send_email">Email</string>
     <string name="data_successfully_updated">Successfully updated</string>
     <string name="no_service_info">No Concierge Information provided</string>
+    <string name="not_found_info_toast">Information not found</string>
 
     <!-- Bundle Keys -->
     <string name="bundle_event_date_key">DATE EVENT KEY</string>
