@@ -159,4 +159,26 @@
     <string name="action_delete_profile">Delete Profile</string>
     <string name="action_sign_out">Sign out</string>
     <string name="action_delete_event">Delete event</string>
+
+    <!-- accessibility -->
+    <string name="accessibility_cond_image">Condominium image</string>
+    <string name="accessibility_resident_image">Resident image</string>
+    <string name="accessibility_building_icon">building icon</string>
+    <string name="accessibility_location_icon">location icon</string>
+    <string name="accessibility_date_icon">date icon</string>
+    <string name="accessibility_event_name_icon">event name icon</string>
+    <string name="accessibility_number_of_participants_icon">number of participants icon</string>
+    <string name="accessibility_phone_icon">phone icon</string>
+    <string name="accessibility_mail_icon">mail icon</string>
+    <string name="accessibility_person_icon">person icon</string>
+    <string name="accessibility_clock_icon">clock icon</string>
+    <string name="accessibility_event_icon">event icon</string>
+    <string name="accessibility_city_icon">city icon</string>
+    <string name="accessibility_call_lobby">call lobby icon</string>
+    <string name="accessibility_message_lobby">send message to lobby icon</string>
+    <string name="accessibility_call_syndic">call syndic icon</string>
+    <string name="accessibility_message_syndic">send syndic a message icon</string>
+    <string name="accessibility_email_syndic">send syndic an email icon</string>
+    <string name="accessibility_resident_profile_type">resident profile type</string>
+    <string name="accessibility_cond_profile_type">condominium profile type</string>
 </resources>

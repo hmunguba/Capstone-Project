@@ -40,7 +40,8 @@
             card_view:cardElevation="8dp"
             card_view:cardCornerRadius="8dp"
             card_view:cardBackgroundColor="@color/whiteDark2"
-            android:layout_marginRight="36dp">
+            android:layout_marginRight="36dp"
+            android:contentDescription="@string/accessibility_call_lobby">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,7 +70,8 @@
             android:layout_height="wrap_content"
             card_view:cardElevation="8dp"
             card_view:cardCornerRadius="8dp"
-            card_view:cardBackgroundColor="@color/whiteDark2">
+            card_view:cardBackgroundColor="@color/whiteDark2"
+            android:contentDescription="@string/accessibility_message_lobby">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -117,7 +119,8 @@
             card_view:cardElevation="8dp"
             card_view:cardCornerRadius="8dp"
             card_view:cardBackgroundColor="@color/whiteDark2"
-            android:layout_marginRight="36dp">
+            android:layout_marginRight="36dp"
+            android:contentDescription="@string/accessibility_call_syndic">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -147,7 +150,8 @@
             card_view:cardElevation="8dp"
             card_view:cardCornerRadius="8dp"
             card_view:cardBackgroundColor="@color/whiteDark2"
-            android:layout_marginRight="36dp">
+            android:layout_marginRight="36dp"
+            android:contentDescription="@string/accessibility_message_syndic">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -176,7 +180,8 @@
             android:layout_height="wrap_content"
             card_view:cardElevation="8dp"
             card_view:cardCornerRadius="8dp"
-            card_view:cardBackgroundColor="@color/whiteDark2">
+            card_view:cardBackgroundColor="@color/whiteDark2"
+            android:contentDescription="@string/accessibility_email_syndic">
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -29,7 +29,9 @@
                 android:layout_height="32dp"
                 android:src="@drawable/ic_date_range"
                 android:layout_marginTop="16dp"
-                android:paddingRight="8dp"/>
+                android:paddingRight="8dp"
+                android:contentDescription="@string/accessibility_date_icon"
+                />
 
             <TextView
                 android:id="@+id/event_detail_day_tv"
@@ -54,7 +56,8 @@
                 android:layout_height="32dp"
                 android:src="@drawable/ic_partyroom"
                 android:layout_marginTop="16dp"
-                android:paddingRight="8dp"/>
+                android:paddingRight="8dp"
+                android:contentDescription="@string/accessibility_event_name_icon"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/event_detail_name_til"
@@ -81,7 +84,8 @@
                 android:layout_height="32dp"
                 android:src="@drawable/ic_people"
                 android:layout_marginTop="16dp"
-                android:paddingRight="8dp"/>
+                android:paddingRight="8dp"
+                android:contentDescription="@string/accessibility_number_of_participants_icon"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/event_detail_amount_of_people_til"
@@ -185,7 +189,8 @@
                 android:layout_height="32dp"
                 android:paddingRight="8dp"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/ic_time"/>
+                android:src="@drawable/ic_time"
+                android:contentDescription="@string/accessibility_clock_icon"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/event_detail_time_start"

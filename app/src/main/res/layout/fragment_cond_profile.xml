@@ -19,7 +19,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:layout_gravity="center_horizontal"
-            app:srcCompat="@drawable/ic_cond_profile_placeholder" />
+            app:srcCompat="@drawable/ic_cond_profile_placeholder"
+            android:contentDescription="@string/accessibility_cond_image"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -40,7 +41,8 @@
                 android:layout_height="32dp"
                 android:src="@drawable/ic_building"
                 android:layout_marginTop="16dp"
-                android:paddingRight="8dp"/>
+                android:paddingRight="8dp"
+                android:contentDescription="@string/accessibility_building_icon"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/cond_name_til"
@@ -67,7 +69,8 @@
                 android:layout_height="32dp"
                 android:paddingRight="8dp"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/ic_location"/>
+                android:src="@drawable/ic_location"
+                android:contentDescription="@string/accessibility_location_icon"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

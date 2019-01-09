@@ -36,7 +36,8 @@
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:src="@drawable/ic_user_profile_placeholder"
-                android:clickable="false"/>
+                android:clickable="false"
+                android:contentDescription="@string/accessibility_resident_profile_type"/>
 
             <TextView
                 android:id="@+id/user_profile_type_title"
@@ -64,6 +65,7 @@
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:src="@drawable/ic_cond_profile_placeholder"
+                android:contentDescription="@string/accessibility_cond_profile_type"
                 android:clickable="false"/>
 
             <TextView

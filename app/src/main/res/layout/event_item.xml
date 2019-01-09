@@ -12,7 +12,8 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginRight="6dp"
-        android:layout_gravity="center_vertical"/>
+        android:layout_gravity="center_vertical"
+        android:contentDescription="@string/accessibility_event_icon"/>
 
     <TextView
         android:id="@+id/item_event_date"
