@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
@@ -24,6 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         String profileType = Utils.getProfileTypePreference(getApplicationContext());
 
         FragmentManager fm = getSupportFragmentManager();

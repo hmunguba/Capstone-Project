@@ -60,9 +60,6 @@ public class MenuFragment extends Fragment implements AdapterView.OnItemClickLis
                 startActivity(eventsIntent);
                 break;
             case 2:
-                Toast.makeText(mContext, "Not implemented yet", Toast.LENGTH_SHORT).show();
-                break;
-            case 3:
                 Intent conciergeIntent = new Intent(mContext, ConciergeActivity.class);
                 startActivity(conciergeIntent);
                 break;

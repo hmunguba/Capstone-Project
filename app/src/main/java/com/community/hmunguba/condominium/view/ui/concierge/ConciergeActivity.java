@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.utils.Utils;
@@ -15,6 +16,7 @@ public class ConciergeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_concierge);
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         String profileType = Utils.getProfileTypePreference(getApplicationContext());
 
         FragmentManager fm = getSupportFragmentManager();
