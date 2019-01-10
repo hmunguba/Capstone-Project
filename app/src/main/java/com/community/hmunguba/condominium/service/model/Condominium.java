@@ -10,6 +10,7 @@ public class Condominium {
     private String zipCode;
     private String state;
     private String city;
+    private String condEmail;
     private CommonAreas commonAreas;
     private String syndicName;
     private String syndicPhone;
@@ -19,7 +20,7 @@ public class Condominium {
     public Condominium() {}
 
     public Condominium(String condId, String name, String profilePic, String location, String number,
-                       String zipCode, String state, String city, CommonAreas commonAreas) {
+                       String zipCode, String state, String city, String condEmail, CommonAreas commonAreas) {
         this.condId = condId;
         this.name = name;
         this.profilePic = profilePic;
@@ -28,6 +29,7 @@ public class Condominium {
         this.zipCode = zipCode;
         this.state = state;
         this.city = city;
+        this.condEmail = condEmail;
         this.commonAreas = commonAreas;
     }
 
@@ -94,6 +96,10 @@ public class Condominium {
     public void setCity(String city) {
         this.city = city;
     }
+
+    public String getCondEmail() { return condEmail; }
+
+    public void setCondEmail(String condEmail) { this.condEmail = condEmail; }
 
     public CommonAreas getCommonAreas() {
         return commonAreas;

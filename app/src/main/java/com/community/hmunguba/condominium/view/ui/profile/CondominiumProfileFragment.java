@@ -25,12 +25,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
+import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
 import com.community.hmunguba.condominium.service.model.CommonAreas;
 import com.community.hmunguba.condominium.service.model.Condominium;
+import com.community.hmunguba.condominium.service.model.ProfileType;
 import com.community.hmunguba.condominium.service.utils.ConnectionReceiver;
 import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
 import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;
+import com.community.hmunguba.condominium.viewmodel.ProfileTypeViewModel;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -77,6 +80,8 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
         mContext = getActivity();
 
         condViewModel = ViewModelProviders.of(this).get(CondominiumViewModel.class);
+
+        profileViewModelSetup();
         checkCondSetup();
     }
 
@@ -131,6 +136,21 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
     public void onResume() {
         super.onResume();
         ConnectionReceiver.connectionListener = this;
+    }
+
+    public void profileViewModelSetup() {
+        String email = Utils.removeSpecialCharacters(FirebaseUserAuthentication.getInstance().getUserEmail());
+        ProfileType newProfileType = new ProfileType(email, "condominium");
+
+        ProfileTypeViewModel profileTypeViewModel = ViewModelProviders.of(this).get(ProfileTypeViewModel.class);
+        profileTypeViewModel.createProfileType(newProfileType).observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (!aBoolean) {
+                    Log.e(TAG, "Failed to setup profile type");
+                }
+            }
+        });
     }
 
     public void checkCondSetup() {
@@ -275,8 +295,9 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
                                      String number, String zipCode, String state, String city,
                                      CommonAreas commonAreas) {
 
+        String condEmail = Utils.removeSpecialCharacters(FirebaseUserAuthentication.getInstance().getUserEmail());
         final Condominium cond = new Condominium(condId, name, profilePic, location, number, zipCode,
-                state, city, commonAreas);
+                state, city, condEmail, commonAreas);
          condViewModel.createCond(cond).observe(this, new Observer<Boolean>() {
              @Override
              public void onChanged(@Nullable Boolean aBoolean) {

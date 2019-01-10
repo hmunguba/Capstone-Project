@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.Condominium;
+import com.community.hmunguba.condominium.service.model.ProfileType;
 import com.community.hmunguba.condominium.service.model.User;
 import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
 import com.community.hmunguba.condominium.service.utils.ConnectionReceiver;
@@ -36,6 +37,7 @@ import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.ui.login.LoginActivity;
 import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
 import com.community.hmunguba.condominium.viewmodel.CondominiumViewModel;
+import com.community.hmunguba.condominium.viewmodel.ProfileTypeViewModel;
 import com.community.hmunguba.condominium.viewmodel.ResidentViewModel;
 
 import java.util.ArrayList;
@@ -81,6 +83,7 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         loadedConds = new ArrayList<>();
         mContext = getActivity();
 
+        profileViewModelSetup();
         setupCondsNamesViewModel();
     }
 
@@ -136,6 +139,21 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     public void onResume() {
         super.onResume();
         ConnectionReceiver.connectionListener = this;
+    }
+
+    public void profileViewModelSetup() {
+        String email = Utils.removeSpecialCharacters(FirebaseUserAuthentication.getInstance().getUserEmail());
+        ProfileType newProfileType = new ProfileType(email, "condominium");
+
+        ProfileTypeViewModel profileTypeViewModel = ViewModelProviders.of(this).get(ProfileTypeViewModel.class);
+        profileTypeViewModel.createProfileType(newProfileType).observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (!aBoolean) {
+                    Log.e(TAG, "Failed to setup profile type");
+                }
+            }
+        });
     }
 
     public void checkUserSetup() {

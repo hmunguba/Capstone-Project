@@ -24,11 +24,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
+import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
 import com.community.hmunguba.condominium.service.model.AuthAnswer;
+import com.community.hmunguba.condominium.service.model.ProfileType;
 import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
 import com.community.hmunguba.condominium.view.ui.profile.ProfileActivity;
 import com.community.hmunguba.condominium.viewmodel.LoginViewModel;
+import com.community.hmunguba.condominium.viewmodel.ProfileTypeViewModel;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -46,8 +49,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private String userEmail;
 
     private LoginViewModel loginViewModel;
+    private ProfileTypeViewModel profileTypeViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.email_sign_out_button).setOnClickListener(this);
 
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
-
+        profileTypeViewModel = ViewModelProviders.of(this).get(ProfileTypeViewModel.class);
     }
 
     private void populateAutoComplete() {
@@ -117,6 +122,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Check if user is signed in (non-null) and update UI accordingly.
         if (loginViewModel.hasCurrentUser()) {
             Log.d(TAG, "user is already signed in");
+            userEmail = FirebaseUserAuthentication.getInstance().getUserEmail();
             checkProfileTypeIsChoosen();
         }
     }
@@ -215,24 +221,46 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void checkProfileTypeIsChoosen() {
+        String email = Utils.removeSpecialCharacters(userEmail);
+        profileTypeViewModel.loadProfileType(email).observe(this, new Observer<ProfileType>() {
+            @Override
+            public void onChanged(@Nullable ProfileType profileType) {
+                if (profileType != null) {
+                    saveProfileTypeSelection(profileType.getType());
+                }
+                String prefFileName = Utils.getPreferenceFileName(getApplicationContext());
+                String currentCondId = Utils.getCondIdPreference(getApplicationContext());
+
+                SharedPreferences prefs = getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
+                Boolean hasProfileTypePref = prefs.getBoolean(getString(R.string.has_profile_type_pref), false);
+
+                if (!hasProfileTypePref) {
+                    startChoseProfileTypeActivity();
+                } else if (hasProfileTypePref && currentCondId.equals(getString(R.string.no_cond_id_set))) {
+                    startProfileActivity();
+                } else {
+                    startMenuActivity();
+                }
+            }
+        });
+
+    }
+
+    public void saveProfileTypeSelection(String profileType) {
+        Log.d(TAG, "Saving profile preference as " + profileType);
         String prefFileName = Utils.getPreferenceFileName(this.getApplicationContext());
-        String currentCondId = Utils.getCondIdPreference(getApplicationContext());
 
         SharedPreferences prefs = this.getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
-        Boolean hasProfileType = prefs.getBoolean(getString(R.string.has_profile_type_pref), false);
-
-        if (!hasProfileType) {
-            startChoseProfileTypeActivity();
-        } else if (hasProfileType && currentCondId.equals(getString(R.string.no_cond_id_set))) {
-            startProfileActivity();
-        } else {
-            startMenuActivity();
-        }
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(getString(R.string.has_profile_type_pref), true);
+        editor.putString(getString(R.string.profile_type_pref), profileType);
+        editor.commit();
     }
 
     @Override
     public void onClick(View view) {
         int i = view.getId();
+        userEmail = mEmailView.getText().toString();
 
         if (i == R.id.email_sign_in_button) {
             signIn(mEmailView.getText().toString(), mPasswordView.getText().toString());
