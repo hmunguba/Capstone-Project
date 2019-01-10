@@ -122,6 +122,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Check if user is signed in (non-null) and update UI accordingly.
         if (loginViewModel.hasCurrentUser()) {
             Log.d(TAG, "user is already signed in");
+            mProgressView.setVisibility(View.VISIBLE);
+            mLoginFormView.setVisibility(View.GONE);
             userEmail = FirebaseUserAuthentication.getInstance().getUserEmail();
             checkProfileTypeIsChoosen();
         }
@@ -234,6 +236,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 SharedPreferences prefs = getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
                 Boolean hasProfileTypePref = prefs.getBoolean(getString(R.string.has_profile_type_pref), false);
 
+//                mProgressView.setVisibility(View.GONE);
                 if (!hasProfileTypePref) {
                     startChoseProfileTypeActivity();
                 } else if (hasProfileTypePref && currentCondId.equals(getString(R.string.no_cond_id_set))) {
