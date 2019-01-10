@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -76,6 +77,9 @@ public class DayEventDetailActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_day_event_detail);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         Bundle arguments = getIntent().getExtras();
 
         if (arguments.containsKey(getString(R.string.bundle_event_date_key))) {
@@ -379,6 +383,9 @@ public class DayEventDetailActivity extends AppCompatActivity implements View.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
             case R.id.action_delete_event:
                 Log.d(TAG, "Delete events action clicked");
                 deleteEvent();

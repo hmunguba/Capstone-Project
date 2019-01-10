@@ -2,8 +2,10 @@ package com.community.hmunguba.condominium.view.ui.concierge;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.community.hmunguba.condominium.R;
@@ -17,6 +19,9 @@ public class ConciergeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_concierge);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         String profileType = Utils.getProfileTypePreference(getApplicationContext());
 
         FragmentManager fm = getSupportFragmentManager();
@@ -30,6 +35,17 @@ public class ConciergeActivity extends AppCompatActivity {
             ConciergeResidentServicesFragment residentServicesFragment = new ConciergeResidentServicesFragment();
             ft.replace(R.id.services_container, residentServicesFragment);
             ft.commit();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default :
+                return super.onOptionsItemSelected(item);
         }
     }
 }

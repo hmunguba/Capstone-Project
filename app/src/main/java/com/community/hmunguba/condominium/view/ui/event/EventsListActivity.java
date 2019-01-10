@@ -4,11 +4,13 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -45,6 +47,9 @@ public class EventsListActivity extends AppCompatActivity
         setContentView(R.layout.activity_events_list);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         Bundle arguments = getIntent().getExtras();
         int eventType = -1;
         if (arguments.containsKey(getString(R.string.bundle_event_type_event))) {
@@ -154,6 +159,17 @@ public class EventsListActivity extends AppCompatActivity
         if (!isConnected) {
             Toast.makeText(getApplicationContext(), R.string.no_internet_for_loading_events_toast,
                     Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default :
+                return super.onOptionsItemSelected(item);
         }
     }
 }
