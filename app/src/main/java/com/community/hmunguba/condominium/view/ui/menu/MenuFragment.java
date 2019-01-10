@@ -15,7 +15,6 @@ import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.view.adapter.GridMenuAdapter;
 import com.community.hmunguba.condominium.view.ui.concierge.ConciergeActivity;
 import com.community.hmunguba.condominium.view.ui.event.EventActivity;
-import com.community.hmunguba.condominium.view.ui.notifications.NotificationsActivity;
 import com.community.hmunguba.condominium.view.ui.profile.ProfileActivity;
 
 

@@ -3,9 +3,8 @@
 
     <!-- Menu -->
     <array name="main_menu_items">
-        <item>My Profile</item>
+        <item>Profile</item>
         <item>Events</item>
-        <item>Gallery</item>
         <item>Services</item>
     </array>
 

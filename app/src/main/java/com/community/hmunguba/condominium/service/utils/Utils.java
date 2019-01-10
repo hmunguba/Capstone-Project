@@ -123,7 +123,7 @@ public class Utils {
     public static int[] getResidentMenuItemDrawables() {
         int[] drawablesImageIds = {
                 R.drawable.ic_menu_resident, R.drawable.ic_menu_events,
-                R.drawable.ic_menu_gallery, R.drawable.ic_menu_concierge,
+                R.drawable.ic_menu_concierge,
         };
         return drawablesImageIds;
     }
@@ -131,7 +131,7 @@ public class Utils {
     public static int[] getCondominiumMenuItemDrawables() {
         int[] drawablesImageIds = {
                 R.drawable.ic_menu_building, R.drawable.ic_menu_events,
-                R.drawable.ic_menu_gallery, R.drawable.ic_menu_concierge,
+                R.drawable.ic_menu_concierge,
         };
         return drawablesImageIds;
     }
