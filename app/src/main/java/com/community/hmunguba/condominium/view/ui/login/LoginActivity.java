@@ -19,7 +19,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -67,8 +69,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mProgressView = findViewById(R.id.login_progress);
 
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
-        findViewById(R.id.email_create_account_button).setOnClickListener(this);
-        findViewById(R.id.email_sign_out_button).setOnClickListener(this);
+        findViewById(R.id.register_button).setOnClickListener(this);
 
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         profileTypeViewModel = ViewModelProviders.of(this).get(ProfileTypeViewModel.class);
@@ -179,12 +180,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void signOut() {
-        loginViewModel.signOutUser();
-        Toast.makeText(LoginActivity.this, R.string.sign_out_toast_message,
-                Toast.LENGTH_SHORT).show();
-    }
-
     private boolean validateForm() {
         boolean valid = true;
 
@@ -236,7 +231,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 SharedPreferences prefs = getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
                 Boolean hasProfileTypePref = prefs.getBoolean(getString(R.string.has_profile_type_pref), false);
 
-//                mProgressView.setVisibility(View.GONE);
                 if (!hasProfileTypePref) {
                     startChoseProfileTypeActivity();
                 } else if (hasProfileTypePref && currentCondId.equals(getString(R.string.no_cond_id_set))) {
@@ -267,10 +261,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if (i == R.id.email_sign_in_button) {
             signIn(mEmailView.getText().toString(), mPasswordView.getText().toString());
-        } else if (i == R.id.email_create_account_button) {
+        } else if (i == R.id.register_button) {
             createAccount(mEmailView.getText().toString(), mPasswordView.getText().toString());
-        } else if (i == R.id.email_sign_out_button) {
-            signOut();
         }
     }
 
