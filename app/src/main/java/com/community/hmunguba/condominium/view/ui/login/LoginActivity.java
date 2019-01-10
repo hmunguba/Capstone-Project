@@ -29,6 +29,7 @@ import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
 import com.community.hmunguba.condominium.service.model.AuthAnswer;
 import com.community.hmunguba.condominium.service.model.ProfileType;
+import com.community.hmunguba.condominium.service.utils.ConnectionReceiver;
 import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.ui.menu.MenuActivity;
 import com.community.hmunguba.condominium.view.ui.profile.ProfileActivity;
@@ -41,7 +42,8 @@ import static android.Manifest.permission.READ_CONTACTS;
  * Part of code from:
  * https://github.com/firebase/quickstart-android/
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener,
+        ConnectionReceiver.ConnectionReceiverListener {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
     private static final int REQUEST_READ_CONTACTS = 0;
@@ -51,6 +53,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private Button mSignInBtn;
+    private Button mRegisterBtn;
+
     private String userEmail;
 
     private LoginViewModel loginViewModel;
@@ -69,12 +74,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mPasswordView = findViewById(R.id.password);
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        mSignInBtn = findViewById(R.id.email_sign_in_button);
+        mRegisterBtn = findViewById(R.id.register_button);
 
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
         findViewById(R.id.register_button).setOnClickListener(this);
 
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         profileTypeViewModel = ViewModelProviders.of(this).get(ProfileTypeViewModel.class);
+
+        checkConnection();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ConnectionReceiver.connectionListener = this;
     }
 
     private void populateAutoComplete() {
@@ -302,6 +317,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        Log.d(TAG, "onNetworkConnectionChanged");
+        settingUpButtons(isConnected);
+    }
+
+    public void checkConnection() {
+        boolean isConnected = ConnectionReceiver.isConnected(getApplicationContext());
+        settingUpButtons(isConnected);
+        if (!isConnected) {
+            Utils.displayNoConnectionToast(getApplicationContext());
+        }
+    }
+
+    public void settingUpButtons(boolean isConnected) {
+        Log.d(TAG, "setting button " + isConnected);
+        mSignInBtn.setEnabled(isConnected);
+        mRegisterBtn.setEnabled(isConnected);
     }
 }
 
