@@ -180,4 +180,9 @@
     <string name="accessibility_email_syndic">send syndic an email icon</string>
     <string name="accessibility_resident_profile_type">resident profile type</string>
     <string name="accessibility_cond_profile_type">condominium profile type</string>
+    <string name="accessibility_appwidget_text">Condominium next events</string>
+
+    <!-- widget -->
+    <string name="appwidget_text">Condominium next events</string>
+    <string name="add_widget">Add widget</string>
 </resources>

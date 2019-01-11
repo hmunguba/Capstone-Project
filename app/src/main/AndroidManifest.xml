@@ -30,8 +30,8 @@
         <activity android:name=".view.ui.event.EventActivity" />
         <activity android:name=".view.ui.login.ChoseProfileType" />
         <activity android:name=".view.ui.concierge.ConciergeActivity" />
-        <activity android:name=".view.ui.event.EventsListActivity"></activity>
-        <activity android:name=".view.ui.event.DayEventDetailActivity"></activity>
+        <activity android:name=".view.ui.event.EventsListActivity" />
+        <activity android:name=".view.ui.event.DayEventDetailActivity" />
 
         <receiver
             android:name=".service.utils.ConnectionReceiver"
@@ -39,6 +39,15 @@
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
+        </receiver>
+        <receiver android:name=".view.widget.CondominiumWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/condominium_widget_provider_info" />
         </receiver>
     </application>
 
