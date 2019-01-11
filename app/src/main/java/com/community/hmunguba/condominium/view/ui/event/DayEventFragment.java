@@ -107,6 +107,7 @@ public class DayEventFragment extends Fragment implements View.OnClickListener,
         arguments.putParcelable(getString(R.string.bundle_event_key), event);
         arguments.putString(getString(R.string.bundle_event_date_key), event.getSimpleDate());
         Intent createEventIntent = new Intent(getActivity(), DayEventDetailActivity.class);
+        createEventIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         createEventIntent.putExtras(arguments);
         startActivity(createEventIntent);
     }
@@ -122,6 +123,7 @@ public class DayEventFragment extends Fragment implements View.OnClickListener,
         Bundle arguments = new Bundle();
         arguments.putString(getString(R.string.bundle_event_date_key), simpleDate);
         Intent createEventIntent = new Intent(getActivity(), DayEventDetailActivity.class);
+        createEventIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         createEventIntent.putExtras(arguments);
         startActivity(createEventIntent);
     }

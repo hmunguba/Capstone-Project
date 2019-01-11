@@ -57,6 +57,7 @@ public class EventActivity extends AppCompatActivity {
         Bundle arguments = new Bundle();
         arguments.putInt(getString(R.string.bundle_event_type_event), type);
         Intent listEventIntent = new Intent(EventActivity.this, EventsListActivity.class);
+        listEventIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         listEventIntent.putExtras(arguments);
         startActivity(listEventIntent);
     }

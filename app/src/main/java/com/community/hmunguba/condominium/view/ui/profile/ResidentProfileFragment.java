@@ -143,7 +143,7 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
 
     public void profileViewModelSetup() {
         String email = Utils.removeSpecialCharacters(FirebaseUserAuthentication.getInstance().getUserEmail());
-        ProfileType newProfileType = new ProfileType(email, "condominium");
+        ProfileType newProfileType = new ProfileType(email, "resident");
 
         ProfileTypeViewModel profileTypeViewModel = ViewModelProviders.of(this).get(ProfileTypeViewModel.class);
         profileTypeViewModel.createProfileType(newProfileType).observe(this, new Observer<Boolean>() {
