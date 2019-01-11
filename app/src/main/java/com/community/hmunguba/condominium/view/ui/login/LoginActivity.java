@@ -190,8 +190,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     Toast.makeText(LoginActivity.this, authAnswer.getMessage(),
                             Toast.LENGTH_LONG).show();
+                    showProgress(false);
                 }
-                showProgress(false);
             }
         });
 
