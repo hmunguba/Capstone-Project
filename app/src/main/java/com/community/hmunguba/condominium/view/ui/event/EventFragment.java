@@ -3,6 +3,7 @@ package com.community.hmunguba.condominium.view.ui.event;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,11 +17,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
+import com.community.hmunguba.condominium.service.firebase.FirebaseUserAuthentication;
 import com.community.hmunguba.condominium.service.model.Event;
 import com.community.hmunguba.condominium.service.service.LoadEventsService;
 import com.community.hmunguba.condominium.service.utils.ConnectionReceiver;
 import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.ui.event.DayEventFragment;
+import com.community.hmunguba.condominium.view.ui.login.LoginActivity;
 import com.community.hmunguba.condominium.viewmodel.EventViewModel;
 import com.desai.vatsal.mydynamiccalendar.MyDynamicCalendar;
 import com.desai.vatsal.mydynamiccalendar.OnDateClickListener;
@@ -57,7 +60,7 @@ public class EventFragment extends Fragment implements ConnectionReceiver.Connec
 
         initCalendarView();
         checkConnection();
-        setupEvents();
+        checkSetupEvents();
         return view;
     }
 
@@ -65,6 +68,16 @@ public class EventFragment extends Fragment implements ConnectionReceiver.Connec
     public void onResume() {
         super.onResume();
         ConnectionReceiver.connectionListener = this;
+    }
+
+    public void checkSetupEvents() {
+        if (FirebaseUserAuthentication.getInstance().hasCurrentUser()) {
+            setupEvents();
+        } else {
+            Intent startLoginActivity = new Intent(getContext(), LoginActivity.class);
+            startActivity(startLoginActivity);
+        }
+
     }
 
     public void setupEvents() {
