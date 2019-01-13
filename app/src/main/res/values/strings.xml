@@ -145,6 +145,7 @@
     <string name="bundle_event_date_key">DATE EVENT KEY</string>
     <string name="bundle_event_type_event">EVENT TYPE KEY</string>
     <string name="bundle_event_key">EVENT KEY</string>
+    <string name="bundle_events_widget">EVENTS WIDGET</string>
 
     <!-- Shared Preferences -->
     <string name="file_key_pref">com.community.hmunguba.condominium</string>
@@ -185,4 +186,5 @@
     <!-- widget -->
     <string name="appwidget_text">Condominium next events</string>
     <string name="add_widget">Add widget</string>
+    <string name="load_events_widget_btn">Tap to load events</string>
 </resources>

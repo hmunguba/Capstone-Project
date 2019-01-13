@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.Event;
+import com.community.hmunguba.condominium.service.service.LoadEventsService;
 import com.community.hmunguba.condominium.service.utils.ConnectionReceiver;
 import com.community.hmunguba.condominium.service.utils.Utils;
 import com.community.hmunguba.condominium.view.ui.event.DayEventFragment;
@@ -24,6 +25,7 @@ import com.community.hmunguba.condominium.viewmodel.EventViewModel;
 import com.desai.vatsal.mydynamiccalendar.MyDynamicCalendar;
 import com.desai.vatsal.mydynamiccalendar.OnDateClickListener;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -70,12 +72,16 @@ public class EventFragment extends Fragment implements ConnectionReceiver.Connec
         eventViewModel.loadAllEvents(condId).observe(this, new Observer<List<Event>>() {
             @Override
             public void onChanged(@Nullable List<Event> events) {
+                ArrayList<Event> allEvents = new ArrayList<>();
+
                 for (Event event : events) {
                     Log.d(TAG, "Seting up event " + event.getTitle());
+                    allEvents.add(event);
                     calendarView.addEvent(event.getSimpleDate(), event.getStartTime(),
                             event.getEndTime(), event.getTitle());
                 }
                 calendarView.refreshCalendar();
+                LoadEventsService.startActionLoadEventsService(getContext(), allEvents);
             }
         });
     }
