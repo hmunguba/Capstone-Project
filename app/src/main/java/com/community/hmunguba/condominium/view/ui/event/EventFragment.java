@@ -113,45 +113,19 @@ public class EventFragment extends Fragment implements ConnectionReceiver.Connec
             }
         });
 
-
         calendarView.setCalendarBackgroundColor("#ffffff");
         calendarView.setHeaderBackgroundColor("#ffffff");
-        calendarView.setHeaderTextColor("#000000");
-        calendarView.setNextPreviousIndicatorColor("#745632");
-        calendarView.setWeekDayLayoutBackgroundColor("#965471");
+        calendarView.setHeaderTextColor("#3F51B5");
+        calendarView.setNextPreviousIndicatorColor("#3F51B5");
+        calendarView.setWeekDayLayoutBackgroundColor("#3F51B5");
         calendarView.setWeekDayLayoutTextColor("#ffffff");
-        calendarView.setExtraDatesOfMonthBackgroundColor("#999999"); //light grey
+        calendarView.setExtraDatesOfMonthBackgroundColor("#f6f4f6");
         calendarView.setExtraDatesOfMonthTextColor("#000000");
         calendarView.setDatesOfMonthBackgroundColor("#ffffff");
-        calendarView.setDatesOfMonthTextColor("#745632");
-        calendarView.setCurrentDateBackgroundColor(R.color.black);
-        calendarView.setCurrentDateTextColor("#f583f8"); //light pink
-        calendarView.setBelowMonthEventTextColor("#425684");
-        calendarView.setBelowMonthEventDividerColor("#635478");
-
-        // set all saturday off(Holiday) - default value is false
-        // isSaturdayOff(true/false, date_background_color, date_text_color);
-        calendarView.isSaturdayOff(true, "#ffffff", "#000000");
-
-        // set all sunday off(Holiday) - default value is false
-        // isSundayOff(true/false, date_background_color, date_text_color);
-        calendarView.isSundayOff(true, "#ffffff", "#000000");
-
-        /** manage events */
-        //calendarView.setEventCellBackgroundColor("#852365");
+        calendarView.setDatesOfMonthTextColor("#3F51B5");
+        calendarView.setCurrentDateBackgroundColor("#FF4081");
+        calendarView.setCurrentDateTextColor("#ffffff");
         calendarView.setEventCellTextColor("#425684");
-
-        /** Manage holidays */
-        calendarView.setHolidayCellBackgroundColor("#654248");
-        calendarView.setHolidayCellTextColor("#d590bb");
-
-        // set holiday date clickable true/false
-        calendarView.setHolidayCellClickable(false);
-
-        // Add event  -  addEvent(event_date, event_start_time, event_end_time, event_title)
-        calendarView.addEvent("5-12-2018", "8:00", "8:15", "Today Event 1");
-        // Add holiday  -  addHoliday(holiday_date)
-        calendarView.addHoliday("25-12-2018");
     }
 
     @Override

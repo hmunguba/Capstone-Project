@@ -1,22 +1,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#09C"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="@dimen/widget_margin"
-    android:id="@+id/app_widget_container">
+    android:id="@+id/app_widget_container"
+    android:background="@color/background"
+    app:layout_constraintCircleRadius="8dp">
 
     <TextView
         android:id="@+id/appwidget_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_margin="8dp"
-        android:background="#09C"
+        android:padding="8dp"
+        android:background="@color/colorPrimary"
         android:contentDescription="@string/accessibility_appwidget_text"
         android:layout_alignParentTop="true"
         android:text="@string/appwidget_text"
-        android:textColor="#ffffff"
+        android:textColor="@color/textColor"
         android:textSize="18sp"/>
 
     <Button
@@ -25,6 +27,8 @@
         android:layout_height="match_parent"
         android:text="@string/load_events_widget_btn"
         style="?android:attr/borderlessButtonStyle"
+        android:textColor="@color/textColor"
+
         android:layout_centerInParent="true"/>
 
     <TextView
@@ -33,6 +37,7 @@
         android:layout_height="wrap_content"
         android:text="@string/no_scheduled_events"
         android:layout_centerInParent="true"
+        android:textColor="@color/textColor"
         android:visibility="gone"/>
 
     <ListView
@@ -41,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/appwidget_title"
         android:visibility="gone"
+        android:layout_marginTop="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"/>
 

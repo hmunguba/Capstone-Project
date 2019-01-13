@@ -290,7 +290,6 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
         return commonAreas;
     }
 
-    //TODO: Verify if all fields are filled
     private void writeNewCondominium(final String condId, String name, String profilePic, String location,
                                      String number, String zipCode, String state, String city,
                                      CommonAreas commonAreas) {
