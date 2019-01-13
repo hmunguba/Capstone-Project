@@ -17,12 +17,12 @@
         android:layout_alignParentTop="true"
         android:text="@string/appwidget_text"
         android:textColor="#ffffff"
-        android:textSize="24sp"/>
+        android:textSize="18sp"/>
 
     <Button
         android:id="@+id/load_events_widget_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:text="@string/load_events_widget_btn"
         style="?android:attr/borderlessButtonStyle"
         android:layout_centerInParent="true"/>
@@ -40,6 +40,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/appwidget_title"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"/>
 
 </RelativeLayout>

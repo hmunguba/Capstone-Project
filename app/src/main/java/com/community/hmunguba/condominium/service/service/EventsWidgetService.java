@@ -9,7 +9,7 @@ import android.widget.RemoteViewsService;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.Event;
-
+import com.community.hmunguba.condominium.service.utils.Utils;
 import java.util.ArrayList;
 
 public class EventsWidgetService extends RemoteViewsService {
@@ -41,7 +41,6 @@ public class EventsWidgetService extends RemoteViewsService {
         @Override
         public void onDataSetChanged() {
             Log.d(TAG, "onDataSetChanged");
-            //TODO: verify here
         }
 
         @Override
@@ -58,9 +57,22 @@ public class EventsWidgetService extends RemoteViewsService {
 
         @Override
         public RemoteViews getViewAt(int i) {
+            int iconResource = Utils.getCorrectEventIcon(mEvents.get(i));
+
             RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.event_item_widget);
             views.setTextViewText(R.id.item_event_date, mEvents.get(i).getSimpleDate());
             views.setTextViewText(R.id.item_event_name, mEvents.get(i).getTitle());
+            views.setImageViewResource(R.id.item_event_icon, iconResource);
+
+            Intent intent = new Intent();
+            Bundle arguments = new Bundle();
+            arguments.putString(getString(R.string.bundle_event_date_key), mEvents.get(i).getSimpleDate());
+            arguments.putParcelable(getString(R.string.bundle_event_key), mEvents.get(i));
+
+            intent.putExtras(arguments);
+
+            views.setOnClickFillInIntent(R.id.item_event_name, intent);
+
             return views;
         }
 

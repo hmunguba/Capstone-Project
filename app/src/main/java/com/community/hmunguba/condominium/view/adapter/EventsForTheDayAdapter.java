@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.Event;
+import com.community.hmunguba.condominium.service.utils.Utils;
 
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class EventsForTheDayAdapter extends RecyclerView.Adapter<EventsForTheDay
 
     @Override
     public void onBindViewHolder(@NonNull EventsViewHolder holder, int position) {
-        int iconResource = getCorrectEventIcon(mEvents.get(position));
+        int iconResource = Utils.getCorrectEventIcon(mEvents.get(position));
         holder.eventItemIcon.setBackgroundResource(iconResource);
         holder.eventItemDate.setText(mEvents.get(position).getSimpleDate());
         holder.eventItemName.setText(mEvents.get(position).getTitle());
@@ -65,22 +66,6 @@ public class EventsForTheDayAdapter extends RecyclerView.Adapter<EventsForTheDay
             return 0;
         }
         return mEvents.size();
-    }
-
-    private int getCorrectEventIcon(Event event) {
-        if (event.getReservedArea().isHasGourmetArea()) {
-            return R.drawable.ic_gourmet;
-        } else if (event.getReservedArea().isHasPoolArea()) {
-            return R.drawable.ic_pool;
-        } else if (event.getReservedArea().isHasBarbecueArea()) {
-            return R.drawable.ic_barbecue;
-        } else if (event.getReservedArea().isHasMoviesArea()) {
-            return R.drawable.ic_movies;
-        } else if (event.getReservedArea().isHasPartyRoomArea()) {
-            return R.drawable.ic_partyroom;
-        } else {
-            return R.drawable.ic_sports;
-        }
     }
 
     @NonNull

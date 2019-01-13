@@ -14,6 +14,7 @@ import com.community.hmunguba.condominium.R;
 import com.community.hmunguba.condominium.service.model.Event;
 import com.community.hmunguba.condominium.service.service.EventsWidgetService;
 import com.community.hmunguba.condominium.service.service.LoadEventsService;
+import com.community.hmunguba.condominium.view.ui.event.DayEventDetailActivity;
 import com.community.hmunguba.condominium.view.ui.event.EventActivity;
 
 import java.util.ArrayList;
@@ -31,14 +32,17 @@ public class CondominiumWidgetProvider extends AppWidgetProvider {
 
         Log.d(TAG, "updating widget");
 
-        Intent intent = new Intent(context, EventActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        Intent calendarIntent = new Intent(context, EventActivity.class);
+        PendingIntent btnPendingIntent = PendingIntent.getActivity(context, 0, calendarIntent, 0);
+        Intent eventsDetailIntent = new Intent(context, DayEventDetailActivity.class);
+        PendingIntent eventsDetailPendingIntent = PendingIntent.getActivity(context, 0, eventsDetailIntent, 0);
 
         CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.condominium_widget_provider);
         views.setTextViewText(R.id.appwidget_title, widgetText);
-        views.setOnClickPendingIntent(R.id.app_widget_container, pendingIntent);
+        views.setOnClickPendingIntent(R.id.load_events_widget_btn, btnPendingIntent);
+        views.setPendingIntentTemplate(R.id.widget_events_lv, eventsDetailPendingIntent);
 
         mEvents = events;
 

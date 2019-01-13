@@ -160,4 +160,20 @@ public class Utils {
         }
         return false;
     }
+
+    public static int getCorrectEventIcon(Event event) {
+        if (event.getReservedArea().isHasGourmetArea()) {
+            return R.drawable.ic_gourmet;
+        } else if (event.getReservedArea().isHasPoolArea()) {
+            return R.drawable.ic_pool;
+        } else if (event.getReservedArea().isHasBarbecueArea()) {
+            return R.drawable.ic_barbecue;
+        } else if (event.getReservedArea().isHasMoviesArea()) {
+            return R.drawable.ic_movies;
+        } else if (event.getReservedArea().isHasPartyRoomArea()) {
+            return R.drawable.ic_partyroom;
+        } else {
+            return R.drawable.ic_sports;
+        }
+    }
 }
