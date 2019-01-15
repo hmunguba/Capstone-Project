@@ -405,7 +405,7 @@ public class DayEventDetailActivity extends AppCompatActivity implements View.On
                             Toast.makeText(getApplicationContext(), R.string.event_deleted_with_success,
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            Log.e(TAG, "Error in deleting event");
+                            Log.e(TAG, getString(R.string.event_delete_error));
                             Toast.makeText(getApplicationContext(), R.string.event_delete_error,
                                     Toast.LENGTH_SHORT).show();
                         }

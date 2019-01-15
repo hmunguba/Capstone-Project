@@ -255,14 +255,14 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         city = cityInput.getEditText().getText().toString();
 
         if (city == null || city.isEmpty()) {
-            Toast.makeText(getContext(), "Please input a city name", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.no_city_name_toast), Toast.LENGTH_SHORT).show();
         } else {
             condInfoLl.setVisibility(View.VISIBLE);
             ArrayList<String> condList = getCondsNameForCity();
             if (condList != null && condList.size() > 0) {
                 populateCondSpinner(condList);
             } else {
-                Toast.makeText(getContext(), "No condominium found for this city", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.no_condominium_for_city_toast), Toast.LENGTH_SHORT).show();
                 populateCondSpinner(new ArrayList<String>());
             }
         }

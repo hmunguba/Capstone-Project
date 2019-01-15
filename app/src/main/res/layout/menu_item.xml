@@ -26,7 +26,8 @@
                 android:layout_width="110dp"
                 android:layout_height="90dp"
                 android:layout_margin="8dp"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/accessibility_menu_item"/>
 
             <TextView
                 android:id="@+id/menu_item_text"

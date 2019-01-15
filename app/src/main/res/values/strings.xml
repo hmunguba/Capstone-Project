@@ -37,6 +37,8 @@
     <string name="personal_info_title">Personal Info</string>
     <string name="residence_info_title">Residence Info</string>
     <string name="load_available_conds">Search</string>
+    <string name="no_city_name_toast">Please input a city name</string>
+    <string name="no_condominium_for_city_toast">No condominium found for this city</string>
 
     <!-- Related with condominium profile -->
     <string name="condominium_name">Name: </string>
@@ -163,12 +165,14 @@
     <!-- accessibility -->
     <string name="accessibility_cond_image">Condominium image</string>
     <string name="accessibility_resident_image">Resident image</string>
+    <string name="accessibility_building_main_icon">building main image</string>
     <string name="accessibility_building_icon">building icon</string>
     <string name="accessibility_location_icon">location icon</string>
     <string name="accessibility_date_icon">date icon</string>
     <string name="accessibility_event_name_icon">event name icon</string>
     <string name="accessibility_number_of_participants_icon">number of participants icon</string>
     <string name="accessibility_phone_icon">phone icon</string>
+    <string name="accessibility_message_icon">message icon</string>
     <string name="accessibility_mail_icon">mail icon</string>
     <string name="accessibility_person_icon">person icon</string>
     <string name="accessibility_clock_icon">clock icon</string>
@@ -182,6 +186,7 @@
     <string name="accessibility_resident_profile_type">resident profile type</string>
     <string name="accessibility_cond_profile_type">condominium profile type</string>
     <string name="accessibility_appwidget_text">Condominium next events</string>
+    <string name="accessibility_menu_item">Menu item</string>
 
     <!-- widget -->
     <string name="appwidget_text">Condominium next events</string>

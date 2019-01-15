@@ -52,7 +52,8 @@
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_phone"/>
+                    android:src="@drawable/ic_phone"
+                    android:contentDescription="@string/accessibility_phone_icon"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -82,7 +83,8 @@
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_message"/>
+                    android:src="@drawable/ic_message"
+                    android:contentDescription="@string/accessibility_message_icon"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -131,7 +133,8 @@
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_phone"/>
+                    android:src="@drawable/ic_phone"
+                    android:contentDescription="@string/accessibility_phone_icon"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -162,7 +165,8 @@
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_message"/>
+                    android:src="@drawable/ic_message"
+                    android:contentDescription="@string/accessibility_message_icon"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -192,7 +196,8 @@
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_mail"/>
+                    android:src="@drawable/ic_mail"
+                    android:contentDescription="@string/accessibility_mail_icon"/>
 
                 <TextView
                     android:layout_width="wrap_content"
