@@ -14,15 +14,9 @@
     <string name="action_login">Login</string>
     <string name="action_create_account">Don\'t have an account? Register here</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="sign_out_toast_message">Signed out</string>
-    <string name="authentication_fail_toast_message">Authentication failed.\u0020</string>
     <string name="required">Required</string>
     <string name="check_internet_connection_toast">Please, check your internet connection</string>
 
@@ -97,9 +91,6 @@
         <item>TO</item>
     </string-array>
 
-    <string name="user">User</string>
-    <string name="cond">Cond</string>
-
     <!-- Related with events -->
     <string name="no_scheduled_events">No scheduled events</string>
     <string name="scheduled_events">Scheduled events</string>
@@ -107,7 +98,6 @@
     <string name="general_info">General Info</string>
     <string name="time">Time</string>
     <string name="event_name">Event Name:</string>
-    <string name="event_date">Event Date:</string>
     <string name="event_reserved_area">Reserved area</string>
     <string name="event_amount_of_people">Amount of people</string>
     <string name="event_begin_time">Begin: </string>
@@ -116,13 +106,12 @@
     <string name="event_created_fail">Failed create event.</string>
     <string name="my_events">My events</string>
     <string name="all_events">All events</string>
-    <string name="create_event">Create event</string>
     <string name="cond_has_no_common_area">Condominium have no common areas</string>
     <string name="event_same_day_same_place">There is another event already reserved at the same day and same please.</string>
     <string name="event_deleted_with_success">Event deleted with success!</string>
     <string name="event_delete_error">Error in deleting event</string>
     <string name="no_internet_for_loading_events_toast">Events cannot be loaded because you have no internet connection</string>
-    <string name="loading_events_toast">Loading events...</string>
+    <string name="loading_events_toast">Loading events…</string>
 
     <!-- related profile Activity -->
     <string name="chose_a_profile_title">Chose a Profile</string>
@@ -130,7 +119,6 @@
     <string name="profile_type_condominium">Condominium</string>
 
     <!-- related with Services Activity -->
-    <string name="cond_services_info">Services Info</string>
     <string name="lobby_info">Lobby Info</string>
     <string name="lobby">Lobby</string>
     <string name="syndic_info">Syndic Info</string>
@@ -158,7 +146,6 @@
     <string name="cond_id_pref">cond_id_pref</string>
 
     <!-- Menu actions -->
-    <string name="action_delete_profile">Delete Profile</string>
     <string name="action_sign_out">Sign out</string>
     <string name="action_delete_event">Delete event</string>
 
@@ -190,6 +177,5 @@
 
     <!-- widget -->
     <string name="appwidget_text">Condominium next events</string>
-    <string name="add_widget">Add widget</string>
     <string name="load_events_widget_btn">Tap to load events</string>
 </resources>

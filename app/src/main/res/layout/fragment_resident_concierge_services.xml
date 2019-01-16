@@ -40,7 +40,7 @@
             card_view:cardElevation="8dp"
             card_view:cardCornerRadius="8dp"
             card_view:cardBackgroundColor="@color/whiteDark2"
-            android:layout_marginRight="36dp"
+            android:layout_marginEnd="36dp"
             android:contentDescription="@string/accessibility_call_lobby">
 
             <LinearLayout
@@ -121,7 +121,7 @@
             card_view:cardElevation="8dp"
             card_view:cardCornerRadius="8dp"
             card_view:cardBackgroundColor="@color/whiteDark2"
-            android:layout_marginRight="36dp"
+            android:layout_marginEnd="36dp"
             android:contentDescription="@string/accessibility_call_syndic">
 
             <LinearLayout
@@ -153,7 +153,7 @@
             card_view:cardElevation="8dp"
             card_view:cardCornerRadius="8dp"
             card_view:cardBackgroundColor="@color/whiteDark2"
-            android:layout_marginRight="36dp"
+            android:layout_marginEnd="36dp"
             android:contentDescription="@string/accessibility_message_syndic">
 
             <LinearLayout

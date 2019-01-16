@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <TextView
@@ -23,7 +22,8 @@
             android:layout_height="32dp"
             android:src="@drawable/ic_phone"
             android:layout_marginTop="16dp"
-            android:paddingRight="8dp"
+            android:paddingEnd="8dp"
+            android:paddingLeft="8dp"
             android:contentDescription="@string/accessibility_phone_icon"/>
 
         <android.support.design.widget.TextInputLayout
@@ -58,7 +58,8 @@
             android:layout_height="32dp"
             android:src="@drawable/ic_person"
             android:layout_marginTop="16dp"
-            android:paddingRight="8dp"
+            android:paddingEnd="8dp"
+            android:paddingLeft="8dp"
             android:contentDescription="@string/accessibility_person_icon"/>
 
         <android.support.design.widget.TextInputLayout
@@ -86,7 +87,8 @@
             android:layout_height="32dp"
             android:src="@drawable/ic_phone"
             android:layout_marginTop="16dp"
-            android:paddingRight="8dp"
+            android:paddingEnd="8dp"
+            android:paddingLeft="8dp"
             android:contentDescription="@string/accessibility_phone_icon"/>
 
         <android.support.design.widget.TextInputLayout
@@ -114,7 +116,8 @@
             android:layout_height="32dp"
             android:src="@drawable/ic_mail"
             android:layout_marginTop="16dp"
-            android:paddingRight="8dp"
+            android:paddingEnd="8dp"
+            android:paddingLeft="8dp"
             android:contentDescription="@string/accessibility_mail_icon"/>
 
         <android.support.design.widget.TextInputLayout

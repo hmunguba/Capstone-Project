@@ -11,7 +11,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/event_detail_general_info_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -29,7 +28,8 @@
                 android:layout_height="32dp"
                 android:src="@drawable/ic_date_range"
                 android:layout_marginTop="16dp"
-                android:paddingRight="8dp"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
                 android:contentDescription="@string/accessibility_date_icon"
                 />
 
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
-                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
                 android:layout_marginBottom="2dp"
                 android:textSize="18sp"
                 android:layout_gravity="center_vertical"/>
@@ -56,7 +56,8 @@
                 android:layout_height="32dp"
                 android:src="@drawable/ic_partyroom"
                 android:layout_marginTop="16dp"
-                android:paddingRight="8dp"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
                 android:contentDescription="@string/accessibility_event_name_icon"/>
 
             <android.support.design.widget.TextInputLayout
@@ -84,7 +85,8 @@
                 android:layout_height="32dp"
                 android:src="@drawable/ic_people"
                 android:layout_marginTop="16dp"
-                android:paddingRight="8dp"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
                 android:contentDescription="@string/accessibility_number_of_participants_icon"/>
 
             <android.support.design.widget.TextInputLayout
@@ -102,7 +104,6 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/event_detail_reserved_area_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -125,7 +126,6 @@
                 android:text="@string/gourmet_area"/>
 
             <RadioButton
-                android:id="@+id/event_details_pool_area_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
@@ -178,7 +178,6 @@
             style="@style/Base.TextAppearance.AppCompat.Medium"/>
 
         <LinearLayout
-            android:id="@+id/event_detail_time_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/event_detail_time_title"
@@ -187,7 +186,8 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:paddingRight="8dp"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/ic_time"
                 android:contentDescription="@string/accessibility_clock_icon"/>

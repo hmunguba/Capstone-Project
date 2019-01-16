@@ -12,7 +12,6 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/resident_profile_image"
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_marginEnd="8dp"
@@ -39,7 +38,8 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:paddingRight="8dp"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/ic_person"
                 android:contentDescription="@string/accessibility_person_icon"/>
@@ -90,7 +90,8 @@
                 android:layout_height="32dp"
                 android:src="@drawable/ic_phone"
                 android:layout_marginTop="16dp"
-                android:paddingRight="8dp"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
                 android:contentDescription="@string/accessibility_phone_icon"/>
 
             <android.support.design.widget.TextInputLayout
@@ -118,7 +119,8 @@
                 android:layout_height="32dp"
                 android:src="@drawable/ic_location"
                 android:layout_marginTop="16dp"
-                android:paddingRight="8dp"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
                 android:contentDescription="@string/accessibility_city_icon"/>
 
             <android.support.design.widget.TextInputLayout
@@ -167,7 +169,8 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:paddingRight="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingLeft="8dp"
                     android:layout_marginTop="12dp"
                     android:src="@drawable/ic_building"
                     android:contentDescription="@string/accessibility_building_icon"/>
@@ -227,7 +230,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/cond_not_found"
-                    android:layout_marginRight="12dp"/>
+                    android:layout_marginEnd="12dp"/>
 
                 <Button
                     android:id="@+id/resident_ok_btn"
