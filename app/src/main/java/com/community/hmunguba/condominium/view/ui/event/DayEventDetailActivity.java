@@ -69,6 +69,17 @@ public class DayEventDetailActivity extends AppCompatActivity implements View.On
     private String startTime;
     private String endTime;
 
+    private static final String STATE_EVENT_NAME = "eventName";
+    private static final String STATE_PARTICIPANTS = "participants";
+    private static final String STATE_BEGIN_TIME = "beginTime";
+    private static final String STATE_END_TIME = "endTime";
+    private static final String STATE_GOURMET_AREA = "gourmetArea";
+    private static final String STATE_POOL_AREA = "poolArea";
+    private static final String STATE_BARBECUE_AREA = "barbecueArea";
+    private static final String STATE_MOVIES_AREA = "moviesArea";
+    private static final String STATE_PARTY_ROOM = "partyRoomArea";
+    private static final String STATE_SPORTS_AREA = "sportsArea";
+
     public DayEventDetailActivity() { }
 
     @Override
@@ -163,6 +174,40 @@ public class DayEventDetailActivity extends AppCompatActivity implements View.On
 
         if (eventIsSetup) {
             updateUi();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(STATE_EVENT_NAME, eventNameInput.getEditText().getText().toString());
+        outState.putInt(STATE_PARTICIPANTS, Integer.parseInt(amountOfPeopleInput.getEditText().getText().toString()));
+        outState.putString(STATE_BEGIN_TIME, startTimeInput.getEditText().getText().toString());
+        outState.putString(STATE_END_TIME, endTimeInput.getEditText().getText().toString());
+        outState.putBoolean(STATE_GOURMET_AREA, gourmetAreaRb.isChecked());
+        outState.putBoolean(STATE_POOL_AREA, poolAreaRb.isChecked());
+        outState.putBoolean(STATE_BARBECUE_AREA, barbecueAreaRb.isChecked());
+        outState.putBoolean(STATE_MOVIES_AREA, moviesAreaRb.isChecked());
+        outState.putBoolean(STATE_PARTY_ROOM, partyRoomAreaRb.isChecked());
+        outState.putBoolean(STATE_SPORTS_AREA, sportsAreaRb.isChecked());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            eventNameInput.getEditText().setText(savedInstanceState.getString(STATE_EVENT_NAME));
+            amountOfPeopleInput.getEditText().setText(String.valueOf(savedInstanceState.getInt(STATE_PARTICIPANTS)));
+            startTimeInput.getEditText().setText(savedInstanceState.getString(STATE_BEGIN_TIME));
+            endTimeInput.getEditText().setText(savedInstanceState.getString(STATE_END_TIME));
+            gourmetAreaRb.setChecked(savedInstanceState.getBoolean(STATE_GOURMET_AREA));
+            poolAreaRb.setChecked(savedInstanceState.getBoolean(STATE_POOL_AREA));
+            barbecueAreaRb.setChecked(savedInstanceState.getBoolean(STATE_BARBECUE_AREA));
+            moviesAreaRb.setChecked(savedInstanceState.getBoolean(STATE_MOVIES_AREA));
+            partyRoomAreaRb.setChecked(savedInstanceState.getBoolean(STATE_PARTY_ROOM));
+            sportsAreaRb.setChecked(savedInstanceState.getBoolean(STATE_SPORTS_AREA));
         }
     }
 

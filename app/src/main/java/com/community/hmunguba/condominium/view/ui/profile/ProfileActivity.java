@@ -30,19 +30,20 @@ public class ProfileActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        String profileType = Utils.getProfileTypePreference(getApplicationContext());
+        if (savedInstanceState == null) {
+            String profileType = Utils.getProfileTypePreference(getApplicationContext());
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-
-        if (profileType.equals("condominium")) {
-            CondominiumProfileFragment condominiumProfileFragment = new CondominiumProfileFragment();
-            ft.replace(R.id.profile_container, condominiumProfileFragment);
-            ft.commit();
-        } else {
-            ResidentProfileFragment residentProfileFragment = new ResidentProfileFragment();
-            ft.replace(R.id.profile_container, residentProfileFragment);
-            ft.commit();
+            if (profileType.equals("condominium")) {
+                CondominiumProfileFragment condominiumProfileFragment = new CondominiumProfileFragment();
+                ft.replace(R.id.profile_container, condominiumProfileFragment);
+                ft.commit();
+            } else {
+                ResidentProfileFragment residentProfileFragment = new ResidentProfileFragment();
+                ft.replace(R.id.profile_container, residentProfileFragment);
+                ft.commit();
+            }
         }
     }
 

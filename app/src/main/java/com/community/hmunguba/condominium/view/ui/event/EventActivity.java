@@ -22,12 +22,15 @@ public class EventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction ft = fragmentManager.beginTransaction();
 
-        EventFragment eventFragment = new EventFragment();
-        ft.add(R.id.event_container, eventFragment);
-        ft.commit();
+        if (savedInstanceState == null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+
+            EventFragment eventFragment = new EventFragment();
+            ft.add(R.id.event_container, eventFragment);
+            ft.commit();
+        }
     }
 
     @Override

@@ -22,19 +22,21 @@ public class ConciergeActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        String profileType = Utils.getProfileTypePreference(getApplicationContext());
+        if (savedInstanceState == null) {
+            String profileType = Utils.getProfileTypePreference(getApplicationContext());
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
 
-        if (profileType.equals("condominium")) {
-            ConciergeCondServicesFragment condServicesFragment = new ConciergeCondServicesFragment();
-            ft.replace(R.id.services_container, condServicesFragment);
-            ft.commit();
-        } else {
-            ConciergeResidentServicesFragment residentServicesFragment = new ConciergeResidentServicesFragment();
-            ft.replace(R.id.services_container, residentServicesFragment);
-            ft.commit();
+            if (profileType.equals("condominium")) {
+                ConciergeCondServicesFragment condServicesFragment = new ConciergeCondServicesFragment();
+                ft.replace(R.id.services_container, condServicesFragment);
+                ft.commit();
+            } else {
+                ConciergeResidentServicesFragment residentServicesFragment = new ConciergeResidentServicesFragment();
+                ft.replace(R.id.services_container, residentServicesFragment);
+                ft.commit();
+            }
         }
     }
 

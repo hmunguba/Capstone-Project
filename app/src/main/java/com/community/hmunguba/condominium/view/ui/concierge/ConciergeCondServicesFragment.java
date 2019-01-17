@@ -41,6 +41,11 @@ public class ConciergeCondServicesFragment extends Fragment implements View.OnCl
     private String syndicPhone;
     private String syndicEmail;
 
+    private static final String STATE_LOBBY_PHONE = "lobbyPhone";
+    private static final String STATE_SYNDIC_NAME = "syndicName";
+    private static final String STATE_SYNDIC_PHONE = "syndicPhone";
+    private static final String STATE_SYNDIC_EMAIL = "syndicMail";
+
     private CondominiumViewModel condominiumViewModel;
 
     public ConciergeCondServicesFragment() {
@@ -110,6 +115,26 @@ public class ConciergeCondServicesFragment extends Fragment implements View.OnCl
         checkConnection();
 
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(STATE_LOBBY_PHONE, conciergePhoneNumberInput.getEditText().getText().toString());
+        outState.putString(STATE_SYNDIC_NAME, syndicNameInput.getEditText().getText().toString());
+        outState.putString(STATE_SYNDIC_PHONE, syndicPhoneInput.getEditText().getText().toString());
+        outState.putString(STATE_SYNDIC_EMAIL, syndicEmailInput.getEditText().getText().toString());
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            conciergePhoneNumberInput.getEditText().setText(savedInstanceState.getString(STATE_LOBBY_PHONE));
+            syndicNameInput.getEditText().setText(savedInstanceState.getString(STATE_SYNDIC_NAME));
+            syndicPhoneInput.getEditText().setText(savedInstanceState.getString(STATE_SYNDIC_PHONE));
+            syndicEmailInput.getEditText().setText(savedInstanceState.getString(STATE_SYNDIC_EMAIL));
+        }
     }
 
     @Override

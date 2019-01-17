@@ -70,6 +70,19 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
     private CondominiumViewModel condViewModel;
     private boolean isAlreadyChecked = false;
 
+    private static final String STATE_COND_NAME = "condName";
+    private static final String STATE_COND_ADDRESS = "address";
+    private static final String STATE_COND_NUMBER = "number";
+    private static final String STATE_COND_STATE = "state";
+    private static final String STATE_COND_ZIPCODE = "zipCode";
+    private static final String STATE_COND_CITY = "city";
+    private static final String STATE_GOURMET_AREA = "gourmetArea";
+    private static final String STATE_POOL_AREA = "poolArea";
+    private static final String STATE_BARBECUE_AREA = "barbecueArea";
+    private static final String STATE_MOVIES_AREA = "moviesArea";
+    private static final String STATE_PARTY_ROOM = "partyRoomArea";
+    private static final String STATE_SPORTS_AREA = "sportsArea";
+
     public CondominiumProfileFragment() {}
 
     @Override
@@ -130,6 +143,40 @@ public class CondominiumProfileFragment extends Fragment implements View.OnClick
         checkConnection();
 
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(STATE_COND_NAME, nameInput.getEditText().getText().toString());
+        outState.putString(STATE_COND_ADDRESS, addressInput.getEditText().getText().toString());
+        outState.putString(STATE_COND_NUMBER, numberInput.getEditText().getText().toString());
+        outState.putString(STATE_COND_ZIPCODE, zipCodeInput.getEditText().getText().toString());
+        outState.putString(STATE_COND_CITY, cityInput.getEditText().getText().toString());
+        outState.putBoolean(STATE_GOURMET_AREA, gourmetAreaCb.isChecked());
+        outState.putBoolean(STATE_POOL_AREA, poolAreaCb.isChecked());
+        outState.putBoolean(STATE_BARBECUE_AREA, barbecueAreaCb.isChecked());
+        outState.putBoolean(STATE_MOVIES_AREA, moviesAreaCb.isChecked());
+        outState.putBoolean(STATE_PARTY_ROOM, partyRoomAreaCb.isChecked());
+        outState.putBoolean(STATE_SPORTS_AREA, sportsCourtAreaCb.isChecked());
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            nameInput.getEditText().setText(savedInstanceState.getString(STATE_COND_NAME));
+            addressInput.getEditText().setText(savedInstanceState.getString(STATE_COND_ADDRESS));
+            numberInput.getEditText().setText(savedInstanceState.getString(STATE_COND_NUMBER));
+            zipCodeInput.getEditText().setText(savedInstanceState.getString(STATE_COND_ZIPCODE));
+            cityInput.getEditText().setText(savedInstanceState.getString(STATE_COND_CITY));
+            gourmetAreaCb.setChecked(savedInstanceState.getBoolean(STATE_GOURMET_AREA));
+            poolAreaCb.setChecked(savedInstanceState.getBoolean(STATE_POOL_AREA));
+            barbecueAreaCb.setChecked(savedInstanceState.getBoolean(STATE_BARBECUE_AREA));
+            moviesAreaCb.setChecked(savedInstanceState.getBoolean(STATE_MOVIES_AREA));
+            partyRoomAreaCb.setChecked(savedInstanceState.getBoolean(STATE_PARTY_ROOM));
+            sportsCourtAreaCb.setChecked(savedInstanceState.getBoolean(STATE_SPORTS_AREA));
+        }
     }
 
     @Override

@@ -46,7 +46,7 @@ import java.util.List;
 public class ResidentProfileFragment extends Fragment implements View.OnClickListener,
         ConnectionReceiver.ConnectionReceiverListener {
 
-    private static final String TAG = ResidentProfileFragment.class.getSimpleName();
+    public static final String TAG = ResidentProfileFragment.class.getSimpleName();
     private Context mContext;
 
     private TextInputLayout firstNameInput;
@@ -71,7 +71,17 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
     private String selectedCond;
 
     private ResidentViewModel residentViewModel;
-    private ArrayList<Condominium> loadedConds;
+    private ArrayList<String> condNames;
+    private boolean condInfoAlreadyVisible = false;
+
+    private static final String STATE_FIRST_NAME = "firstName";
+    private static final String STATE_LAST_NAME = "lastName";
+    private static final String STATE_PHONE = "phone";
+    private static final String STATE_CITY = "city";
+    private static final String STATE_COND = "cond";
+    private static final String STATE_HOUSE_NUMBER = "houseNumber";
+    private static final String STATE_COND_NAMES = "condNames";
+    private static final String STATE_COND_LAYOUT_VISIBILITY = "layoutVisibility";
 
     public ResidentProfileFragment() {}
 
@@ -80,11 +90,9 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         super.onCreate(savedInstanceState);
 
         residentViewModel = ViewModelProviders.of(this).get(ResidentViewModel.class);
-        loadedConds = new ArrayList<>();
         mContext = getActivity();
 
         profileViewModelSetup();
-        setupCondsNamesViewModel();
     }
 
     @Nullable
@@ -156,6 +164,41 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
         });
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putCharSequence(STATE_FIRST_NAME, firstNameInput.getEditText().getText().toString());
+        outState.putString(STATE_LAST_NAME,lastNameInput.getEditText().getText().toString());
+        outState.putString(STATE_PHONE, phoneNumberInput.getEditText().getText().toString());
+        outState.putString(STATE_CITY, cityInput.getEditText().getText().toString());
+        outState.putString(STATE_HOUSE_NUMBER, houseNumberInput.getEditText().getText().toString());
+        outState.putInt(STATE_COND, condOptionsSp.getSelectedItemPosition());
+        outState.putInt(STATE_COND_LAYOUT_VISIBILITY, condInfoLl.getVisibility());
+        outState.putStringArrayList(STATE_COND_NAMES, condNames);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        Log.d(TAG, "onViewStateRestored");
+
+        if (savedInstanceState != null) {
+            firstNameInput.getEditText().setText(savedInstanceState.getCharSequence(STATE_FIRST_NAME));
+            lastNameInput.getEditText().setText(savedInstanceState.getString(STATE_LAST_NAME));
+            phoneNumberInput.getEditText().setText(savedInstanceState.getString(STATE_PHONE));
+            cityInput.getEditText().setText(savedInstanceState.getString(STATE_CITY));
+            houseNumberInput.getEditText().setText(savedInstanceState.getString(STATE_HOUSE_NUMBER));
+            condInfoLl.setVisibility(savedInstanceState.getInt(STATE_COND_LAYOUT_VISIBILITY));
+            condNames = savedInstanceState.getStringArrayList(STATE_COND_NAMES);
+            condOptionsSp.setSelection(savedInstanceState.getInt(STATE_COND));
+
+            if (condInfoLl.getVisibility() == View.VISIBLE) {
+                condInfoAlreadyVisible = true;
+                checkCityName();
+            }
+        }
+    }
+
     public void checkUserSetup() {
         email = FirebaseUserAuthentication.getInstance().getUserEmail();
         residentId = Utils.removeSpecialCharacters(email);
@@ -193,7 +236,7 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
                     condNameInput.getEditText().setFocusable(false);
                     condNameInput.getEditText().setInputType(InputType.TYPE_NULL);
                     condNameInput.getEditText().setTextColor(ContextCompat.getColor(getContext(), R.color.colorDisabled));
-                } else {
+                } else if (!condInfoAlreadyVisible){
                     // Load conds only after knowing the city name
                     condInfoLl.setVisibility(View.GONE);
                 }
@@ -203,31 +246,30 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
 
     public void setupCondsNamesViewModel() {
         Log.d(TAG, "setupCondsNamesViewModel");
+        condNames = new ArrayList<>();
 
         CondominiumViewModel condViewModel = ViewModelProviders.of(this).get(CondominiumViewModel.class);
         condViewModel.getCondsNameList().observe(this, new Observer<List<Condominium>>() {
             @Override
             public void onChanged(@Nullable List<Condominium> conds) {
                 for (Condominium c : conds) {
-                    loadedConds.add(c);
+                    if (c.getCity().equals(city)) {
+                        condNames.add(c.getName());
+                    }
+                }
+
+                if (condNames != null && condNames.size() > 0) {
+                    populateCondSpinner(condNames);
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.no_condominium_for_city_toast), Toast.LENGTH_SHORT).show();
+                    populateCondSpinner(new ArrayList<String>());
                 }
             }
         });
     }
 
-    public ArrayList<String> getCondsNameForCity() {
-        ArrayList<String> condNames = new ArrayList<>();
-
-        for (int i = 0; i < loadedConds.size(); i++) {
-            if (loadedConds.get(i).getCity().equals(city)){
-                condNames.add(loadedConds.get(i).getName());
-            }
-        }
-        return condNames;
-    }
-
     public void populateCondSpinner(List<String> condsNames) {
-        Log.e(TAG, "populateCondSpinner");
+        Log.d(TAG, "populateCondSpinner");
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mContext,
                 android.R.layout.simple_spinner_item, condsNames);
@@ -258,13 +300,7 @@ public class ResidentProfileFragment extends Fragment implements View.OnClickLis
             Toast.makeText(getContext(), getString(R.string.no_city_name_toast), Toast.LENGTH_SHORT).show();
         } else {
             condInfoLl.setVisibility(View.VISIBLE);
-            ArrayList<String> condList = getCondsNameForCity();
-            if (condList != null && condList.size() > 0) {
-                populateCondSpinner(condList);
-            } else {
-                Toast.makeText(getContext(), getString(R.string.no_condominium_for_city_toast), Toast.LENGTH_SHORT).show();
-                populateCondSpinner(new ArrayList<String>());
-            }
+            setupCondsNamesViewModel();
         }
     }
 
